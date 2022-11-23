@@ -1,8 +1,8 @@
 public class Server
 {
 
-    public int ID { get; set; }
-    public int OwnerID { get; set; }
+    public int Id { get; set; }
+    public int OwnerId { get; set; }
     public DateTime? CreationDate { get; set; }
     public bool IsActive { get; set; }
 

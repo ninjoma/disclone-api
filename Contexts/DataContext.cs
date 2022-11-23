@@ -9,7 +9,7 @@ namespace disclone_api
         {
 
         }
-        public DbSet<Student> Students {get; set;}
+        public DbSet<Role> Role { get; set; }
     }
 
 }

@@ -5,5 +5,5 @@ public class Student
     public DateTime? DateOfBirth { get; set; }
     public decimal Height { get; set; }
     public float Weight { get; set; }
-    
+
 }

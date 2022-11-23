@@ -7,7 +7,6 @@ namespace disclone_api
     {
         public DataContext(DbContextOptions<DataContext> options): base(options)
         {
-
         }
         public DbSet<Student> Students {get; set;}
     }

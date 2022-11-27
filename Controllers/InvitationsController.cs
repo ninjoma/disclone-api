@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using disclone_api.Entities;
 
 namespace disclone_api.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class InvitationsController : ControllerBase
 {
-    #region Propiedades Privadas y Constructor
     private readonly DataContext _context;
     private readonly ILogger<StudentsController> _logger;
     public InvitationsController(DataContext context, ILogger<StudentsController> logger)
@@ -13,29 +13,26 @@ public class InvitationsController : ControllerBase
         _context = context;
         _logger = logger;
     }
-    #endregion
 
-    #region Get
-    [HttpGet("GetById/{id}")]
-    public ActionResult GetById()
-    {
-        throw new NotImplementedException();
+    [HttpGet("{id}")]
+    public Invitation? GetById(int id)
+    {  
+        return _context.Invitation.Find(id);
     }
-    #endregion
 
-    #region Set
-    [HttpPost("AddEditAsync")]
-    public ActionResult AddEditAsync()
+    [HttpPost("create/")]
+    public void Create(int serverId, int Receiver, string url)
     {
-        throw new NotImplementedException();
-    }
-    #endregion
+        Invitation invitation = new Invitation() {
+            ServerId = serverId,
+            Receiver = Receiver,
+            Url = url,
+            CreationDate = DateTime.Now.ToUniversalTime(),
+            IsActive = true,
+        };
 
-    #region Delete
-    [HttpDelete("Delete")]
-    public ActionResult Delete()
-    {
-        throw new NotImplementedException();
+        _context.Invitation.Add(invitation);
+        _context.SaveChanges();
     }
-    #endregion
+
 }

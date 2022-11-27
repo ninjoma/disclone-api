@@ -1,5 +1,5 @@
-
 using Microsoft.EntityFrameworkCore;
+using disclone_api.Entities;
 
 namespace disclone_api
 {
@@ -7,9 +7,11 @@ namespace disclone_api
     {
         public DataContext(DbContextOptions<DataContext> options): base(options)
         {
-
         }
         public DbSet<Role> Role { get; set; }
+        public DbSet<User> User {get; set;}
+        public DbSet<Member> Member {get; set;}
+        public DbSet<Invitation> Invitation {get; set;}
     }
 
 }

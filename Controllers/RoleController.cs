@@ -16,7 +16,7 @@ namespace disclone_api.Controllers {
         private readonly ILogger<RoleController> _logger;
 
         [HttpGet("{id}")]
-        public Role Get(int id)
+        public Role? Get(int id)
         {
             return _context.Role.Find(id);
         }

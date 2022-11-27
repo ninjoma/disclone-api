@@ -7,8 +7,8 @@ namespace disclone_api.Controllers;
 public class InvitationsController : ControllerBase
 {
     private readonly DataContext _context;
-    private readonly ILogger<StudentsController> _logger;
-    public InvitationsController(DataContext context, ILogger<StudentsController> logger)
+    private readonly ILogger<InvitationsController> _logger;
+    public InvitationsController(DataContext context, ILogger<InvitationsController> logger)
     {
         _context = context;
         _logger = logger;

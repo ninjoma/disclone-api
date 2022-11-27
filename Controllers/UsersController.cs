@@ -6,8 +6,8 @@ namespace disclone_api.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly DataContext _context;
-    private readonly ILogger<StudentsController> _logger;
-    public UsersController(DataContext context, ILogger<StudentsController> logger)
+    private readonly ILogger<UsersController> _logger;
+    public UsersController(DataContext context, ILogger<UsersController> logger)
     {
         _context = context;
         _logger = logger;

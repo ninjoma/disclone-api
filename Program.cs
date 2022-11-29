@@ -1,3 +1,5 @@
+using disclone_api.Services;
+using disclone_api.Services.UserServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace disclone_api
@@ -11,9 +13,11 @@ namespace disclone_api
             // Add services to the container.
 
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.RegisterServices();
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("local")));
 
             var app = builder.Build();

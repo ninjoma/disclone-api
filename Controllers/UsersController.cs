@@ -19,4 +19,10 @@ public class UsersController : ControllerBase
         throw new NotImplementedException();
     }
 
+    [HttpPost("AddEditAsync")]
+    public ActionResult AddEditAsync()
+    {
+        throw new NotImplementedException();
+    }
+
 }

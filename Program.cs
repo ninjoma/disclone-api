@@ -1,3 +1,5 @@
+using AutoMapper;
+using disclone_api.DTOs;
 using disclone_api.Services;
 using disclone_api.Services.UserServices;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,15 @@ namespace disclone_api
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("local")));
 
             var app = builder.Build();
+
+            //Mapper
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            builder.Services.AddSingleton(mapper);
+            builder.Services.AddMvc();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

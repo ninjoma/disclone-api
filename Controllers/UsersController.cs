@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using disclone_api.Entities;
+using disclone_api.Services.UserServices;
+using Microsoft.AspNetCore.Mvc;
 
 namespace disclone_api.Controllers;
 [ApiController]
@@ -7,10 +9,12 @@ public class UsersController : ControllerBase
 {
     private readonly DataContext _context;
     private readonly ILogger<UsersController> _logger;
-    public UsersController(DataContext context, ILogger<UsersController> logger)
+    private readonly IUserService _UserSv;
+    public UsersController(DataContext context, ILogger<UsersController> logger, IUserService UserSv)
     {
         _context = context;
         _logger = logger;
+        _UserSv = UserSv;
     }
 
     [HttpGet("GetById/{id}")]
@@ -20,9 +24,16 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("AddEditAsync")]
-    public ActionResult AddEditAsync()
+    public async Task<ActionResult> AddEditAsync(User newUser)
     {
-        throw new NotImplementedException();
+        var result = await this._UserSv.AddEditAsync(newUser);
+        if (result != null)
+        {
+            return Ok(result);
+        } else
+        {
+            return BadRequest();
+        }
     }
 
 }

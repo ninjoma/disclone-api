@@ -11,9 +11,18 @@ namespace disclone_api
         static void Main(string[] args)
         {
      
+
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
 
+            //Mapper
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            builder.Services.AddSingleton(mapper);
+            builder.Services.AddMvc();
             builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,14 +33,7 @@ namespace disclone_api
 
             var app = builder.Build();
 
-            //Mapper
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-            IMapper mapper = mapperConfig.CreateMapper();
-            builder.Services.AddSingleton(mapper);
-            builder.Services.AddMvc();
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

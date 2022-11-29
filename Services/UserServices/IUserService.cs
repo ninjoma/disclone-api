@@ -1,6 +1,10 @@
-﻿namespace disclone_api.Services.UserServices
+﻿using disclone_api.Entities;
+
+namespace disclone_api.Services.UserServices
 {
-    public interface Interface
+    public interface IUserService
     {
+        Task<User> AddEditAsync(User user);
+
     }
 }

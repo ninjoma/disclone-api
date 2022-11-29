@@ -1,4 +1,5 @@
-﻿using disclone_api.Entities;
+﻿using disclone_api.DTOs.UserDTOs;
+using disclone_api.Entities;
 using disclone_api.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("AddEditAsync")]
-    public async Task<ActionResult> AddEditAsync(User newUser)
+    public async Task<ActionResult> AddEditAsync(UserDTO newUser)
     {
         var result = await this._UserSv.AddEditAsync(newUser);
         if (result != null)

@@ -8,7 +8,7 @@ namespace disclone_api.DTOs
     {
         public MappingProfile()
         {
-            CreateMap<User, UserDTO>();
+            CreateMap<User, UserDTO>().ReverseMap();
         }
     }
 }

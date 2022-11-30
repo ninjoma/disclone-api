@@ -7,6 +7,8 @@ namespace disclone_api.Services.UserServices
 {
     public class UserService : IUserService
     {
+
+        #region Constructor
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         public UserService(DataContext context, IMapper mapper)
@@ -14,7 +16,9 @@ namespace disclone_api.Services.UserServices
             _context = context;
             _mapper = mapper;
         }
+        #endregion
 
+        #region Set
         /// <summary>
         /// Creacion o Edicion de Usuarios
         /// </summary>
@@ -22,9 +26,11 @@ namespace disclone_api.Services.UserServices
         /// <returns>Devuelve el ususario editado o creado</returns>
         public async Task<UserDTO> AddEditAsync(UserDTO user)
         {
-            if (user.Id != 0){
+            if (user.Id != 0)
+            {
                 return await UpdateUserAsync(user);
-            } else
+            }
+            else
             {
                 return await CreateUserAsync(user);
             }
@@ -54,6 +60,38 @@ namespace disclone_api.Services.UserServices
             await _context.SaveChangesAsync();
             return user;
         }
+        #endregion
+
+        #region Get
+        public async Task<UserDTO> GetById(int id)
+        {
+            return _mapper.Map<UserDTO>(await _context.User
+                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive != false));
+        }
+
+        public async Task<List<UserDTO>> ListByName(string name)
+        {
+            return _mapper.Map<List<UserDTO>>(await _context.User
+                .Where(x => x.Username.Contains(name) && x.IsActive != false)
+                .ToListAsync());
+        }
+        #endregion
+
+        #region Delete
+        public async Task<UserDTO> ToggleInactiveById(int id)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            if (user.IsActive)
+            {
+                user.IsActive = false;
+            } else
+            {
+                user.IsActive = true;
+            }
+            await _context.SaveChangesAsync();
+            return _mapper.Map<UserDTO>(user);
+        } 
+        #endregion
 
     }
 }

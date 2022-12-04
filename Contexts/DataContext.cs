@@ -8,10 +8,14 @@ namespace disclone_api
         public DataContext(DbContextOptions<DataContext> options): base(options)
         {
         }
-        public DbSet<Role> Role { get; set; }
-        public DbSet<User> User {get; set;}
-        public DbSet<Member> Member {get; set;}
+        public DbSet<Channel> Channel { get; set;}
         public DbSet<Invitation> Invitation {get; set;}
+        public DbSet<Member> Member {get; set;}
+        public DbSet<Message> Message { get; set;}
+        public DbSet<Role> Role { get; set; }
+        public DbSet<RoleLine> RoleLines { get; set;}
+        public DbSet<Server> Server { get; set;}
+        public DbSet<User> User {get; set;}
     }
 
 }

@@ -7,7 +7,7 @@ namespace disclone_api.Services.ServerServices
     {
         Task<ServerDTO> GetById(int id);
         Task<List<ServerDTO>> ListByName(string name);
-        Task<ServerDTO> AddEditAsync(ServerDTO user);
+        Task<ServerDTO> AddEditAsync(ServerDTO server);
         Task<ServerDTO> ToggleInactiveById(int id);
     }
 }

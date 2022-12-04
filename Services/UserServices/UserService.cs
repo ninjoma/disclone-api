@@ -66,14 +66,14 @@ namespace disclone_api.Services.UserServices
         public async Task<UserDTO> GetById(int id)
         {
             return _mapper.Map<UserDTO>(await _context.User
-                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive != false));
+                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == true));
         }
 
         public async Task<List<UserDTO>> ListByName(string name)
         {
             name ??= "";
             return _mapper.Map<List<UserDTO>>(await _context.User
-                .Where(x => x.Username.Contains(name) && x.IsActive != false)
+                .Where(x => x.Username.Contains(name) && x.IsActive == true)
                 .ToListAsync());
         }
         #endregion

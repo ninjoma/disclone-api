@@ -25,8 +25,5 @@ namespace disclone_api.Entities
 
         [ForeignKey("OwnerID")]
         public virtual ICollection<Server>? Servers { get; set; }
-
-
-
     }
 }

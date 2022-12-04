@@ -1,6 +1,6 @@
 ﻿namespace disclone_api.Controllers
 {
-    public class Class
+    public class MemberController
     {
     }
 }

@@ -8,7 +8,6 @@ namespace disclone_api.Controllers;
 [Route("[controller]")]
 public class UsersController : ControllerBase
 {
-
     #region Constructor
     private readonly DataContext _context;
     private readonly ILogger<UsersController> _logger;
@@ -80,5 +79,4 @@ public class UsersController : ControllerBase
         }
     }
     #endregion
-
 }

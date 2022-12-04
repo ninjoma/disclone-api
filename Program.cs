@@ -32,7 +32,6 @@ namespace disclone_api
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("local")));
 
             Settings = builder.Configuration;
-            DEncrypt.Encrypt("aaaaaaaaaaaaaaaa", "a");
 
             var app = builder.Build();
 

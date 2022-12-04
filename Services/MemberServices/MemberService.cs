@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using disclone_api.DTOs.MemberDTOs;
+using disclone_api.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace disclone_api.Services.MemberServices
 {
@@ -16,34 +18,70 @@ namespace disclone_api.Services.MemberServices
 
         #endregion
 
-        public Task<MemberDTO> AddEditAsync(MemberDTO server)
+        #region Set
+        public async Task<MemberDTO> AddEditAsync(MemberDTO member)
         {
-            throw new NotImplementedException();
+            if (member.Id != 0)
+            {
+                return await UpdateMemberAsync(member);
+            }
+            else
+            {
+                return await CreateMemberAsync(member);
+            }
+        }
+        public async Task<MemberDTO> CreateMemberAsync(MemberDTO member)
+        {
+            await _context.Member.AddAsync(_mapper.Map<Member>(member));
+            await _context.SaveChangesAsync();
+            return member;
+        }
+        public async Task<MemberDTO> UpdateMemberAsync(MemberDTO member)
+        {
+            var oldMember = await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(member.Id));
+            oldMember = _mapper.Map<Member>(member);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<MemberDTO>(oldMember);
+        }
+        #endregion
+
+        #region Get
+        public async Task<MemberDTO> GetById(int id)
+        {
+            return _mapper.Map<MemberDTO>(await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == true));
         }
 
-        public Task<MemberDTO> GetById(int id)
+        public async Task<MemberDTO> GetByServerIdAndByUserId(int userId, int serverId)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<MemberDTO>(await _context.Member.FirstOrDefaultAsync(x => x.UserId.Equals(userId) && x.ServerId.Equals(serverId) && x.IsActive == true));
         }
 
-        public Task<MemberDTO> GetByServerIdAndByUserId(int userId, int serverId)
+        public async Task<List<MemberDTO>> ListByServerId(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<MemberDTO>>(await _context.Member.Where(x => x.ServerId.Equals(id) && x.IsActive == true).ToListAsync());
         }
 
-        public Task<MemberDTO> ListByServerId(int id)
+        public async Task<List<MemberDTO>> ListByUserId(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<MemberDTO>>(await _context.Member.Where(x => x.UserId.Equals(id) && x.IsActive == true).ToListAsync());
         }
+        #endregion
 
-        public Task<MemberDTO> ListByUserId(int id)
+        #region Delete
+        public async Task<MemberDTO> ToggleInactiveById(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<MemberDTO> ToggleInactiveById(int id)
-        {
-            throw new NotImplementedException();
-        }
+            var member = await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            if (member.IsActive)
+            {
+                member.IsActive = false;
+            }
+            else
+            {
+                member.IsActive = true;
+            }
+            await _context.SaveChangesAsync();
+            return _mapper.Map<MemberDTO>(member);
+        } 
+        #endregion
     }
 }

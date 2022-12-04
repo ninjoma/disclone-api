@@ -1,7 +1,7 @@
 using AutoMapper;
 using disclone_api.DTOs;
 using disclone_api.Services;
-using disclone_api.Services.UserServices;
+using disclone_api.utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace disclone_api
@@ -31,6 +31,9 @@ namespace disclone_api
             builder.Services.RegisterServices();
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("local")));
 
+            Settings = builder.Configuration;
+            DEncrypt.Encrypt("aaaaaaaaaaaaaaaa", "a");
+
             var app = builder.Build();
 
             
@@ -52,6 +55,9 @@ namespace disclone_api
             app.Run();
 
         }
+        
+
+        public static IConfiguration Settings { get; private set; }
     }
 }
 

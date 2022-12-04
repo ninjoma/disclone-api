@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using disclone_api.DTOs.UserDTOs;
 using disclone_api.Entities;
+using disclone_api.utils;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace disclone_api.Services.UserServices
 {
@@ -26,6 +28,8 @@ namespace disclone_api.Services.UserServices
         /// <returns>Devuelve el ususario editado o creado</returns>
         public async Task<UserDTO> AddEditAsync(UserDTO user)
         {
+            user.Password = DCrypt.Encrypt(user.Password);
+
             if (user.Id != 0)
             {
                 return await UpdateUserAsync(user);

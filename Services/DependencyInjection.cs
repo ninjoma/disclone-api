@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using disclone_api.DTOs;
+using disclone_api.Services.InvitationServices;
 using disclone_api.Services.MemberServices;
 using disclone_api.Services.ServerServices;
 using disclone_api.Services.UserServices;
@@ -13,6 +14,7 @@ namespace disclone_api.Services
             collection.AddTransient<IUserService, UserService>();
             collection.AddTransient<IServerService, ServerService>();
             collection.AddTransient<IMemberService, MemberService>();
+            collection.AddTransient<IInvitationService, InvitationService>();
         }
     }
 }

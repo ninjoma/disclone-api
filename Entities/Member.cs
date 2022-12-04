@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace disclone_api.Entities
 {
@@ -13,5 +14,8 @@ namespace disclone_api.Entities
         public bool IsActive { get; set; }
         public virtual User? User { get; set; }
         public virtual Server? Server { get; set; }
+
+        [ForeignKey("MemberId")]
+        public ICollection<RoleLine>? RoleLines { get; set; }
     }
 }

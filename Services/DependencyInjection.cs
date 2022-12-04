@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using disclone_api.DTOs;
+using disclone_api.Services.ServerServices;
 using disclone_api.Services.UserServices;
 namespace disclone_api.Services
 {
@@ -9,6 +10,7 @@ namespace disclone_api.Services
         public static void RegisterServices(this IServiceCollection collection)
         {
             collection.AddTransient<IUserService, UserService>();
+            collection.AddTransient<IServerService, ServerService>();
         }
     }
 }

@@ -5,8 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Server
 {
     [Key]
-    public int ID { get; set; }
-    public int OwnerID { get; set; }
+    public int Id { get; set; }
+    public int OwnerId { get; set; }
+    public string Name { get; set; }
     public DateTime? CreationDate { get; set; }
     public bool IsActive { get; set; }
 

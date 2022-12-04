@@ -71,6 +71,7 @@ namespace disclone_api.Services.UserServices
 
         public async Task<List<UserDTO>> ListByName(string name)
         {
+            name ??= "";
             return _mapper.Map<List<UserDTO>>(await _context.User
                 .Where(x => x.Username.Contains(name) && x.IsActive != false)
                 .ToListAsync());

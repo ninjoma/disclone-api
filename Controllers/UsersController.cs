@@ -8,6 +8,8 @@ namespace disclone_api.Controllers;
 [Route("[controller]")]
 public class UsersController : ControllerBase
 {
+
+    #region Constructor
     private readonly DataContext _context;
     private readonly ILogger<UsersController> _logger;
     private readonly IUserService _UserSv;
@@ -17,17 +19,27 @@ public class UsersController : ControllerBase
         _logger = logger;
         _UserSv = UserSv;
     }
+    #endregion
 
+    #region Get
     [HttpGet("GetById/{id}")]
-    public ActionResult GetById(int id)
+    public async Task<ActionResult> GetById(int id)
     {
-        throw new NotImplementedException();
+        var result = await _UserSv.GetById(id);
+        if (result != null)
+        {
+            return Ok(result);
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
-    [HttpPost("AddEditAsync")]
-    public async Task<ActionResult> AddEditAsync(UserDTO newUser)
+    [HttpGet("ListByName")]
+    public async Task<ActionResult> ListByName(string name)
     {
-        var result = await this._UserSv.AddEditAsync(newUser);
+        var result = await _UserSv.ListByName(name);
         if (result != null)
         {
             return Ok(result);
@@ -36,5 +48,37 @@ public class UsersController : ControllerBase
             return BadRequest();
         }
     }
+    #endregion
+
+    #region Set
+    [HttpPost("AddEditAsync")]
+    public async Task<ActionResult> AddEditAsync(UserDTO newUser)
+    {
+        var result = await this._UserSv.AddEditAsync(newUser);
+        if (result != null)
+        {
+            return Ok(result);
+        }
+        else
+        {
+            return BadRequest();
+        }
+    }
+    #endregion
+
+    #region Delete
+    [HttpDelete("ToggleInactiveById/{id}")]
+    public async Task<ActionResult> ToggleInactiveById(int id)
+    {
+        var result = await this._UserSv.ToggleInactiveById(id);
+        if (result != null)
+        {
+            return Ok(result);
+        } else
+        {
+            return BadRequest();
+        }
+    }
+    #endregion
 
 }

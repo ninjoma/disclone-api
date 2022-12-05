@@ -2,6 +2,7 @@ using AutoMapper;
 using disclone_api.DTOs;
 using disclone_api.Services;
 using disclone_api.utils;
+using Npgsql;
 using Microsoft.EntityFrameworkCore;
 
 namespace disclone_api
@@ -29,13 +30,13 @@ namespace disclone_api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.RegisterServices();
-            builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("local")));
+            var conStrBuilder = new NpgsqlConnectionStringBuilder(builder.Configuration.GetConnectionString("local"));
+            conStrBuilder.Password = builder.Configuration["DBPassword"];
+            builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conStrBuilder.ConnectionString));
 
             Settings = builder.Configuration;
 
             var app = builder.Build();
-
-            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -45,7 +46,6 @@ namespace disclone_api
             }
 
             app.UseHttpsRedirection();
-
 
             app.UseAuthorization();
 

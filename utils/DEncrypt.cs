@@ -33,7 +33,7 @@ namespace disclone_api.utils
             return Convert.ToBase64String(array);  
         }  
 
-        public static string Decrypt( string cipherText)  
+        public static string Decrypt(string cipherText)  
         {  
             byte[] iv = new byte[16];  
             byte[] buffer = Convert.FromBase64String(cipherText);  

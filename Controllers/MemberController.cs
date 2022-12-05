@@ -1,6 +1,10 @@
 ﻿using disclone_api.DTOs.MemberDTOs;
 using disclone_api.Services.MemberServices;
+using disclone_api.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace disclone_api.Controllers
 {
@@ -12,13 +16,27 @@ namespace disclone_api.Controllers
         private readonly DataContext _context;
         private readonly ILogger<MemberController> _logger;
         private readonly IMemberService _MemberSv;
-        public MemberController(DataContext context, ILogger<MemberController> logger, IMemberService MemberSv)
+        private readonly IUserService _UserSv;
+        public MemberController(DataContext context, ILogger<MemberController> logger, IMemberService MemberSv, IUserService UserSv)
         {
             _context = context;
             _logger = logger;
             _MemberSv = MemberSv;
+            _UserSv = UserSv;
         }
         #endregion
+
+
+        [HttpGet("fetchServers")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async void fetchServers()
+        {
+            
+
+
+        }
+
+
 
         #region Get
         [HttpGet("GetById/{id}")]
@@ -59,6 +77,7 @@ namespace disclone_api.Controllers
                 return BadRequest();
             }
         }
+
 
         [HttpGet("ListByUserId/{id}")]
         public async Task<ActionResult> ListByUserId(int id)

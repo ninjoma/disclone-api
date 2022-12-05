@@ -3,9 +3,8 @@ using disclone_api.DTOs.UserDTOs;
 using disclone_api.Entities;
 using disclone_api.utils;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace disclone_api.Services.UserServices
 {
@@ -23,6 +22,7 @@ namespace disclone_api.Services.UserServices
             _mapper = mapper;
         }
         #endregion
+
 
         #region Set
         /// <summary>
@@ -102,6 +102,7 @@ namespace disclone_api.Services.UserServices
             return _mapper.Map<UserDTO>(user);
         } 
         #endregion
+
 
         
     }

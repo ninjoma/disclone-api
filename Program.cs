@@ -53,9 +53,9 @@ namespace disclone_api
                     ClockSkew = TimeSpan.Zero,
                     ValidateIssuerSigningKey = true
                 };
+                
             });
 
-            builder.Services.AddAuthentication();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

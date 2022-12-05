@@ -4,6 +4,10 @@ using disclone_api.Services;
 using disclone_api.utils;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace disclone_api
 {
@@ -25,7 +29,33 @@ namespace disclone_api
 
             builder.Services.AddSingleton(mapper);
             builder.Services.AddMvc();
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options => 
+                {
+                    options.JsonSerializerOptions.WriteIndented = true;
+                });
+
+            builder.Services.AddAuthentication(x => 
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x => 
+            {
+                x.RequireHttpsMetadata = true;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["EncryptionKey"])),
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateLifetime = false,
+                    RequireExpirationTime = false,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidateIssuerSigningKey = true
+                };
+            });
+
+            builder.Services.AddAuthentication();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -43,7 +73,7 @@ namespace disclone_api
                         policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
                     });
             });
-
+            builder.Services.AddScoped<ITokenBuilder, TokenBuilder>();
 
             Settings = builder.Configuration;
 
@@ -60,8 +90,8 @@ namespace disclone_api
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
 
+            app.UseAuthorization();
             app.MapControllers();
 
             app.Run();

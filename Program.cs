@@ -22,6 +22,7 @@ namespace disclone_api
                 mc.AddProfile(new MappingProfile());
             });
             IMapper mapper = mapperConfig.CreateMapper();
+
             builder.Services.AddSingleton(mapper);
             builder.Services.AddMvc();
             builder.Services.AddControllers();
@@ -34,6 +35,16 @@ namespace disclone_api
             conStrBuilder.Password = builder.Configuration["DBPassword"];
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conStrBuilder.ConnectionString));
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "frontendOrigin",
+                    policy  =>
+                    {
+                        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+                    });
+            });
+
+
             Settings = builder.Configuration;
 
             var app = builder.Build();
@@ -44,6 +55,8 @@ namespace disclone_api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("frontendOrigin");
 
             app.UseHttpsRedirection();
 

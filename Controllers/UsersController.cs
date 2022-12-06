@@ -4,6 +4,7 @@ using disclone_api.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using disclone_api.utils;
 
 namespace disclone_api.Controllers;
@@ -86,6 +87,30 @@ public class UsersController : ControllerBase
         else
         {
             return BadRequest();
+        }
+    }
+
+    [HttpGet("UserNameExist/{username}")]
+    public async Task<ActionResult> UserNameExist(string username)
+    {
+        if (await _context.User.FirstOrDefaultAsync(x => x.Username.Equals(username) && x.IsActive == true) != null)
+        {
+            return Ok(true);
+        } else
+        {
+            return Ok(false);
+        }
+    }
+
+    [HttpGet("EmailExist/{email}")]
+    public async Task<ActionResult> EmailExist(string email)
+    {
+        if (await _context.User.FirstOrDefaultAsync(x => x.Email.Equals(email) && x.IsActive == true) != null)
+        {
+            return Ok(true);
+        } else
+        {
+            return Ok(false);
         }
     }
 

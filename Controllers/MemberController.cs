@@ -1,6 +1,6 @@
 ﻿using disclone_api.DTOs.MemberDTOs;
 using disclone_api.Services.MemberServices;
-using disclone_api.Services.UserServices;
+using disclone_api.Services.AuthServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,27 +16,30 @@ namespace disclone_api.Controllers
         private readonly DataContext _context;
         private readonly ILogger<MemberController> _logger;
         private readonly IMemberService _MemberSv;
-        private readonly IUserService _UserSv;
-        public MemberController(DataContext context, ILogger<MemberController> logger, IMemberService MemberSv, IUserService UserSv)
+        private readonly IAuthService _AuthSv;
+        
+
+        public MemberController(DataContext context, ILogger<MemberController> logger, IMemberService MemberSv, IAuthService AuthSv)
         {
             _context = context;
             _logger = logger;
             _MemberSv = MemberSv;
-            _UserSv = UserSv;
+            _AuthSv = AuthSv;
         }
         #endregion
 
 
         [HttpGet("fetchServers")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async void fetchServers()
+        public async Task<ActionResult> fetchServers()
         {
-            
-
-
+            var loggedUser = await _AuthSv.GetUserByClaim(User.Claims.SingleOrDefault().Value);
+            var ServerList = await _MemberSv.ListByUserId(loggedUser.Id);
+            if(ServerList != null){
+                return Ok(ServerList);
+            }
+            return BadRequest();
         }
-
-
 
         #region Get
         [HttpGet("GetById/{id}")]

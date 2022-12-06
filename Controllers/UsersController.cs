@@ -29,6 +29,7 @@ public class UsersController : ControllerBase
 
     #region Auth
     [HttpPost("login")]
+    [AllowAnonymous]
     public IActionResult Login(UserDTO user)
     {
         var dbUser = _context.User.SingleOrDefault(u => u.Username == user.UserName);
@@ -54,9 +55,11 @@ public class UsersController : ControllerBase
     [HttpGet("verify")]
     public IActionResult VerifyToken()
     {
+
         var username = User
             .Claims
             .SingleOrDefault();
+
 
         if (username == null)
         {

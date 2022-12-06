@@ -4,6 +4,8 @@ using disclone_api.Entities;
 using disclone_api.Services.ServerServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace disclone_api.Controllers
 {

@@ -2,6 +2,7 @@ using disclone_api.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+// TODO: Implementar el enum en un archivo aparte
 [Flags]
 public enum Permissions
 {

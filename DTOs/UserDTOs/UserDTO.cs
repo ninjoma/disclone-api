@@ -11,5 +11,6 @@
         public DateTime CreationDate { get; set; }
         public bool IsActive { get; set; }
 
+        // TODO: Implementar en el DTO los dtos de sus relaciones
     }
 }

@@ -4,6 +4,7 @@ namespace disclone_api.Services.MemberServices
 {
     public interface IMemberService
     {
+        // TODO: Implementar la busqueda por inactivos
         Task<MemberDTO> GetById(int id);
         Task<List<MemberDTO>> ListByUserId(int id);
         Task<MemberDTO> GetByServerIdAndByUserId(int userId, int serverId);

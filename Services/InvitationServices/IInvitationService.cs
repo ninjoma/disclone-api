@@ -5,6 +5,7 @@ namespace disclone_api.Services.InvitationServices
 {
     public interface IInvitationService
     {
+        // TODO: Implementar la busqueda por inactivos
         Task<InvitationDTO> GetById(int id);
         Task<List<InvitationDTO>> ListByUserId(int id);
         Task<InvitationDTO> GetByServerIdAndByUserId(int userId, int serverId);

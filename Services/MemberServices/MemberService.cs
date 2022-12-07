@@ -32,6 +32,7 @@ namespace disclone_api.Services.MemberServices
         }
         public async Task<MemberDTO> CreateMemberAsync(MemberDTO member)
         {
+            // TODO: Hacer que devuelva el objeto creado
             await _context.Member.AddAsync(_mapper.Map<Member>(member));
             await _context.SaveChangesAsync();
             return member;

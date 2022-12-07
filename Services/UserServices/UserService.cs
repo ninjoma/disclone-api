@@ -23,7 +23,6 @@ namespace disclone_api.Services.UserServices
         }
         #endregion
 
-
         #region Set
         /// <summary>
         /// Creacion o Edicion de Usuarios
@@ -51,6 +50,7 @@ namespace disclone_api.Services.UserServices
         /// <returns>Devuelve el usuario creado</returns>
         public async Task<UserDTO> CreateUserAsync(UserDTO user)
         {
+            // TODO: Hacer que devuelva el objeto creado
             await _context.User.AddAsync(_mapper.Map<User>(user));
             await _context.SaveChangesAsync();
             return user;

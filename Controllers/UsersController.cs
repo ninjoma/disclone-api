@@ -77,7 +77,6 @@ public class UsersController : ControllerBase
     }
     #endregion
 
-
     #region Get
     [HttpGet("GetById/{id}")]
     public async Task<ActionResult> GetById(int id)

@@ -1,4 +1,9 @@
-﻿namespace disclone_api.DTOs.UserDTOs
+﻿using disclone_api.DTOs.InvitationDTOs;
+using disclone_api.DTOs.MemberDTOs;
+using disclone_api.DTOs.MessageDTOs;
+using disclone_api.DTOs.ServerDTOs;
+
+namespace disclone_api.DTOs.UserDTOs
 {
     public class UserDTO
     {
@@ -10,7 +15,9 @@
         public  string? Image { get; set; }
         public DateTime CreationDate { get; set; }
         public bool IsActive { get; set; }
-
-        // TODO: Implementar en el DTO los dtos de sus relaciones
+        public virtual ICollection<MemberDTO>? Members { get; set; }
+        public virtual ICollection<InvitationDTO>? Invitations { get; set; }
+        public virtual ICollection<MessageDTO>? Messages { get; set; }
+        public virtual ICollection<ServerDTO>? Servers { get; set; }
     }
 }

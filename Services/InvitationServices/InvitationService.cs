@@ -42,10 +42,10 @@ namespace disclone_api.Services.InvitationServices
 
         public async Task<InvitationDTO> CreateInvitationAsync(InvitationDTO invitation)
         {
-            // TODO: Hacer que devuelva el objeto creado
-            await _context.Invitation.AddAsync(_mapper.Map<Invitation>(invitation));
+            var newInvitation = _mapper.Map<Invitation>(invitation);
+            await _context.Invitation.AddAsync(newInvitation);
             await _context.SaveChangesAsync();
-            return invitation;
+            return _mapper.Map<InvitationDTO>(newInvitation);
         }
         #endregion
 

@@ -30,10 +30,10 @@ namespace disclone_api.Services.ServerServices
         }
         public async Task<ServerDTO> CreateServerAsync(ServerDTO server)
         {
-            // TODO: Hacer que devuelva el objeto creado
-            await _context.Server.AddAsync(_mapper.Map<Server>(server));
+            var newServer = _mapper.Map<Server>(server);
+            await _context.Server.AddAsync(newServer);
             await _context.SaveChangesAsync();
-            return server;
+            return _mapper.Map<ServerDTO>(newServer);
         }
 
         public async Task<ServerDTO> UpdateServerAsync(ServerDTO server)

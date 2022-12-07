@@ -50,10 +50,10 @@ namespace disclone_api.Services.UserServices
         /// <returns>Devuelve el usuario creado</returns>
         public async Task<UserDTO> CreateUserAsync(UserDTO user)
         {
-            // TODO: Hacer que devuelva el objeto creado
-            await _context.User.AddAsync(_mapper.Map<User>(user));
+            var newUser = _mapper.Map<User>(user);
+            await _context.User.AddAsync(newUser);
             await _context.SaveChangesAsync();
-            return user;
+            return _mapper.Map<UserDTO>(newUser);
         }
 
         /// <summary>

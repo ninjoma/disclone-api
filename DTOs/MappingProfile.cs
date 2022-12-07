@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using disclone_api.DTOs.ChannelDTOs;
 using disclone_api.DTOs.InvitationDTOs;
 using disclone_api.DTOs.MemberDTOs;
 using disclone_api.DTOs.ServerDTOs;
@@ -29,6 +30,11 @@ namespace disclone_api.DTOs
 
             #region Invitation
             CreateMap<Invitation, InvitationDTO>()
+                .ReverseMap();
+            #endregion
+
+            #region Channel
+            CreateMap<Channel, ChannelDTO>()
                 .ReverseMap();
             #endregion
         }

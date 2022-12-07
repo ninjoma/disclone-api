@@ -5,9 +5,8 @@ namespace disclone_api.Services.UserServices
 {
     public interface IUserService
     {
-        // TODO: Implementar la busqueda por inactivos
-        Task<UserDTO> GetById(int id);
-        Task<List<UserDTO>> ListByName(string name);
+        Task<UserDTO> GetById(int id, bool isActive = true);
+        Task<List<UserDTO>> ListByName(string name, bool isActive = true);
         Task<UserDTO> AddEditAsync(UserDTO user);
         Task<UserDTO> ToggleInactiveById(int id);
 

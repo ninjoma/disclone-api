@@ -4,9 +4,8 @@ namespace disclone_api.Services.ChannelServices
 {
     public interface IChannelService
     {
-        // TODO: Implementar la busqueda por inactivos
-        public Task<ChannelDTO> GetByIdAsync(int id);
-        public Task<List<ChannelDTO>> ListByServer(int channelId);
+        public Task<ChannelDTO> GetByIdAsync(int id, bool isActive = true);
+        public Task<List<ChannelDTO>> ListByServer(int channelId, bool isActive = true);
         Task<ChannelDTO> AddEditAsync(ChannelDTO channel);
         Task<ChannelDTO> ToggleInactiveById(int id);
 

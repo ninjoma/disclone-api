@@ -47,20 +47,20 @@ namespace disclone_api.Services.ChannelServices
         #endregion
 
         #region Get
-        public async Task<ChannelDTO> GetByIdAsync(int id)
+        public async Task<ChannelDTO> GetByIdAsync(int id, bool isActive = true)
         {
             return _mapper.Map<ChannelDTO>(await _context.Channel
                 .Include(x => x.Server)
                 .Include(x => x.Messages)
-                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == true));
+                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<List<ChannelDTO>> ListByServer(int channelId)
+        public async Task<List<ChannelDTO>> ListByServer(int channelId, bool isActive = true)
         {
             return _mapper.Map<List<ChannelDTO>>(await _context.Channel
                 .Include(x => x.Server)
                 .Include(x => x.Messages)
-                .Where(x => x.ServerId.Equals(channelId) && x.IsActive == true)
+                .Where(x => x.ServerId.Equals(channelId) && x.IsActive == isActive)
                 .ToListAsync());
         }
         #endregion

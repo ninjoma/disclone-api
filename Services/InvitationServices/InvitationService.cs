@@ -50,24 +50,33 @@ namespace disclone_api.Services.InvitationServices
         #endregion
 
         #region Get
-        public async Task<InvitationDTO> GetById(int id)
+        public async Task<InvitationDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<InvitationDTO>(await _context.Invitation.FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == true));
+            return _mapper.Map<InvitationDTO>(await _context.Invitation
+                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<InvitationDTO> GetByServerIdAndByUserId(int userId, int serverId)
+        public async Task<InvitationDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
         {
-            return _mapper.Map<InvitationDTO>(await _context.Invitation.FirstOrDefaultAsync(x => x.Receiver.Equals(userId) && x.ServerId.Equals(serverId) && x.IsActive == true));
+            return _mapper.Map<InvitationDTO>(await _context.Invitation
+                .FirstOrDefaultAsync(x => x.Receiver.Equals(userId) 
+                && x.ServerId.Equals(serverId) && x.IsActive == isActive));
         }
 
-        public async Task<List<InvitationDTO>> ListByServerId(int id)
+        public async Task<List<InvitationDTO>> ListByServerId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<InvitationDTO>>(await _context.Invitation.Where(x => x.ServerId.Equals(id) && x.IsActive == true).ToListAsync());
+            return _mapper.Map<List<InvitationDTO>>(await _context.Invitation
+                .Where(x => x.ServerId.Equals(id) 
+                && x.IsActive == isActive)
+                .ToListAsync());
         }
 
-        public async Task<List<InvitationDTO>> ListByUserId(int id)
+        public async Task<List<InvitationDTO>> ListByUserId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<InvitationDTO>>(await _context.Invitation.Where(x => x.Receiver.Equals(id) && x.IsActive == true).ToListAsync());
+            return _mapper.Map<List<InvitationDTO>>(await _context.Invitation
+                .Where(x => x.Receiver.Equals(id) 
+                && x.IsActive == isActive)
+                .ToListAsync());
         }
         #endregion
 

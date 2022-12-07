@@ -47,37 +47,37 @@ namespace disclone_api.Services.MemberServices
         #endregion
 
         #region Get
-        public async Task<MemberDTO> GetById(int id)
+        public async Task<MemberDTO> GetById(int id, bool isActive = true)
         {
             return _mapper.Map<MemberDTO>(await _context.Member
                 .Include(x => x.User)
                 .Include(x => x.Server)
-                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == true));
+                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<MemberDTO> GetByServerIdAndByUserId(int userId, int serverId)
+        public async Task<MemberDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
         {
             return _mapper.Map<MemberDTO>(await _context.Member
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .FirstOrDefaultAsync(x => x.UserId.Equals(userId) 
                 && x.ServerId.Equals(serverId) 
-                && x.IsActive == true));
+                && x.IsActive == isActive));
         }
 
-        public async Task<List<MemberDTO>> ListByServerId(int id)
+        public async Task<List<MemberDTO>> ListByServerId(int id, bool isActive = true)
         {
             return _mapper.Map<List<MemberDTO>>(await _context.Member
-                .Where(x => x.ServerId.Equals(id) && x.IsActive == true)
+                .Where(x => x.ServerId.Equals(id) && x.IsActive == isActive)
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .ToListAsync());
         }
 
-        public async Task<List<MemberDTO>> ListByUserId(int id)
+        public async Task<List<MemberDTO>> ListByUserId(int id, bool isActive = true)
         {
             return _mapper.Map<List<MemberDTO>>(await _context.Member
-                .Where(x => x.UserId.Equals(id) && x.IsActive == true)
+                .Where(x => x.UserId.Equals(id) && x.IsActive == isActive)
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .ToListAsync());

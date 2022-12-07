@@ -15,7 +15,4 @@ public class Server
     public virtual ICollection<Invitation>? Invitations { get; set; }
     [ForeignKey("ServerId")]
     public virtual ICollection<Member>? Members { get; set; }
-
-
-
 }

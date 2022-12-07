@@ -48,22 +48,38 @@ namespace disclone_api.Services.MemberServices
         #region Get
         public async Task<MemberDTO> GetById(int id)
         {
-            return _mapper.Map<MemberDTO>(await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == true));
+            return _mapper.Map<MemberDTO>(await _context.Member
+                .Include(x => x.User)
+                .Include(x => x.Server)
+                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == true));
         }
 
         public async Task<MemberDTO> GetByServerIdAndByUserId(int userId, int serverId)
         {
-            return _mapper.Map<MemberDTO>(await _context.Member.FirstOrDefaultAsync(x => x.UserId.Equals(userId) && x.ServerId.Equals(serverId) && x.IsActive == true));
+            return _mapper.Map<MemberDTO>(await _context.Member
+                .Include(x => x.User)
+                .Include(x => x.Server)
+                .FirstOrDefaultAsync(x => x.UserId.Equals(userId) 
+                && x.ServerId.Equals(serverId) 
+                && x.IsActive == true));
         }
 
         public async Task<List<MemberDTO>> ListByServerId(int id)
         {
-            return _mapper.Map<List<MemberDTO>>(await _context.Member.Where(x => x.ServerId.Equals(id) && x.IsActive == true).ToListAsync());
+            return _mapper.Map<List<MemberDTO>>(await _context.Member
+                .Where(x => x.ServerId.Equals(id) && x.IsActive == true)
+                .Include(x => x.User)
+                .Include(x => x.Server)
+                .ToListAsync());
         }
 
         public async Task<List<MemberDTO>> ListByUserId(int id)
         {
-            return _mapper.Map<List<MemberDTO>>(await _context.Member.Where(x => x.UserId.Equals(id) && x.IsActive == true).ToListAsync());
+            return _mapper.Map<List<MemberDTO>>(await _context.Member
+                .Where(x => x.UserId.Equals(id) && x.IsActive == true)
+                .Include(x => x.User)
+                .Include(x => x.Server)
+                .ToListAsync());
         }
         #endregion
 

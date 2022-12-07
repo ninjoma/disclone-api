@@ -1,10 +1,15 @@
 ﻿using AutoMapper;
 using disclone_api.DTOs.UserDTOs;
 using disclone_api.Entities;
+using disclone_api.utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace disclone_api.Services.UserServices
 {
+    
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserService : IUserService
     {
 
@@ -18,6 +23,7 @@ namespace disclone_api.Services.UserServices
         }
         #endregion
 
+
         #region Set
         /// <summary>
         /// Creacion o Edicion de Usuarios
@@ -26,7 +32,9 @@ namespace disclone_api.Services.UserServices
         /// <returns>Devuelve el ususario editado o creado</returns>
         public async Task<UserDTO> AddEditAsync(UserDTO user)
         {
-            if (user.Id != 0)
+            user.Password = DCrypt.Encrypt(user.Password);
+
+                if (user.Id != 0)
             {
                 return await UpdateUserAsync(user);
             }
@@ -79,6 +87,7 @@ namespace disclone_api.Services.UserServices
         #endregion
 
         #region Delete
+
         public async Task<UserDTO> ToggleInactiveById(int id)
         {
             var user = await _context.User.FirstOrDefaultAsync(x => x.Id.Equals(id));
@@ -94,5 +103,7 @@ namespace disclone_api.Services.UserServices
         } 
         #endregion
 
+
+        
     }
 }

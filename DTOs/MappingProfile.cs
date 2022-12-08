@@ -2,6 +2,7 @@
 using disclone_api.DTOs.ChannelDTOs;
 using disclone_api.DTOs.InvitationDTOs;
 using disclone_api.DTOs.MemberDTOs;
+using disclone_api.DTOs.MessageDTOs;
 using disclone_api.DTOs.ServerDTOs;
 using disclone_api.DTOs.UserDTOs;
 using disclone_api.Entities;
@@ -50,6 +51,13 @@ namespace disclone_api.DTOs
                 .ReverseMap();
 
             CreateMap<Channel, ChannelGridDTO>()
+                .ReverseMap();
+            #endregion
+
+            #region Message
+            CreateMap<Message, MessageDTO>()
+                .ReverseMap();
+            CreateMap<Message, MessageGridDTO>()
                 .ReverseMap();
             #endregion
         }

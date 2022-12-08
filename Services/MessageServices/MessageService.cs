@@ -1,40 +1,88 @@
-﻿using disclone_api.DTOs.MessageDTOs;
+﻿using AutoMapper;
+using disclone_api.DTOs.MessageDTOs;
+using disclone_api.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace disclone_api.Services.MessageServices
 {
     public class MessageService : IMessageService
     {
-        public Task<MessageDTO> AddEditAsync(MessageDTO message)
+        #region Constructor
+        private readonly DataContext _context;
+        private readonly IMapper _mapper;
+        public MessageService(DataContext context, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _mapper = mapper;
         }
-        public Task<MessageDTO> CreateMessageAsync(MessageDTO message)
+        #endregion
+
+        #region Set
+        public async Task<MessageDTO> AddEditAsync(MessageDTO message)
         {
-            throw new NotImplementedException();
-        }
-        public Task<MessageDTO> UpdateMessageAsync(MessageDTO message)
-        {
-            throw new NotImplementedException();
+            if (message.Id != 0)
+            {
+                return await UpdateMessageAsync(message);
+            }
+            else
+            {
+                return await CreateMessageAsync(message);
+            }
         }
 
-        public Task<MessageDTO> GetById(int id, bool isActive)
+        public async Task<MessageDTO> CreateMessageAsync(MessageDTO message)
         {
-            throw new NotImplementedException();
+            var result = _mapper.Map<Message>(message);
+            await _context.Message.AddAsync(result);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<MessageDTO>(result);
+        }
+        public async Task<MessageDTO> UpdateMessageAsync(MessageDTO message)
+        {
+            var oldMessage = await _context.Message.FirstOrDefaultAsync(x => x.Id.Equals(message.Id) && x.IsActive == true);
+            oldMessage = _mapper.Map<Message>(message);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<MessageDTO>(oldMessage);
+        }
+        #endregion
+
+        #region Get
+        public async Task<MessageGridDTO> GetById(int id, bool isActive = true)
+        {
+            return _mapper.Map<MessageGridDTO>(await _context.Message
+                .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public Task<List<MessageDTO>> ListByChannelId(int channelId, bool isActive)
+        public async Task<List<MessageGridDTO>> ListByChannelId(int channelId, bool isActive)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<MessageGridDTO>>(await _context.Message
+                .Where(x => x.ChannelId.Equals(channelId) && x.IsActive == isActive)
+                .ToListAsync());
         }
 
-        public Task<List<MessageDTO>> ListByUserId(int userId, bool isActive)
+        public async Task<List<MessageGridDTO>> ListByUserId(int userId, bool isActive)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<MessageGridDTO>>(await _context.Message
+                .Where(x => x.UserId.Equals(userId) && isActive == true)
+                .ToListAsync());
         }
+        #endregion
 
-        public Task<MessageDTO> ToggleInactiveById(int id)
+        #region Delete
+        public async Task<MessageDTO> ToggleInactiveById(int id)
         {
-            throw new NotImplementedException();
-        }
+            var message = await _context.Message.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            if (message.IsActive)
+            {
+                message.IsActive = false;
+            }
+            else
+            {
+                message.IsActive = true;
+            }
+            await _context.SaveChangesAsync();
+            return _mapper.Map<MessageDTO>(message);
+        } 
+        #endregion
     }
 }

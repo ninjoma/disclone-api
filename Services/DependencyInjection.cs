@@ -6,6 +6,8 @@ using disclone_api.Services.MemberServices;
 using disclone_api.Services.ServerServices;
 using disclone_api.Services.UserServices;
 using disclone_api.Services.AuthServices;
+using disclone_api.Services.MessageServices;
+
 namespace disclone_api.Services
 {
     public static class DependencyInjection
@@ -19,6 +21,7 @@ namespace disclone_api.Services
             collection.AddTransient<IInvitationService, InvitationService>();
             collection.AddTransient<IChannelService, ChannelService>();
             collection.AddTransient<IAuthService, AuthService>();
+            collection.AddTransient<IMessageService, MessageService>();
         }
     }
 }

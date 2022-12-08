@@ -1,4 +1,4 @@
 public interface ITokenBuilder
 {
-    string BuildToken(string username);
+    string BuildToken(int id);
 }

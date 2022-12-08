@@ -19,9 +19,7 @@ namespace disclone_api.Services.AuthServices
 
         public async Task<UserDTO> GetUserByClaim(ClaimsPrincipal clp)
         {
-            Console.WriteLine(clp);
             var userclaim = Int32.Parse(clp.FindFirstValue(JwtRegisteredClaimNames.Sub));
-            Console.WriteLine(userclaim);
             return _mapper.Map<UserDTO>(await _context.User
                 .FirstOrDefaultAsync(u => u.Id == userclaim));
         }

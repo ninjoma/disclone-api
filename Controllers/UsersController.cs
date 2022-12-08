@@ -54,17 +54,17 @@ public class UsersController : ControllerBase
     public IActionResult VerifyToken()
     {
 
-        var username = User
+        var userid = User
             .Claims
             .SingleOrDefault();
 
 
-        if (username == null)
+        if (userid == null)
         {
             return Unauthorized();
         }
 
-        var userExists = _context.User.Any(u => u.Username == username.Value);
+        var userExists = _context.User.Any(u => u.Id == Int32.Parse(userid.Value));
 
         if (!userExists)
         {

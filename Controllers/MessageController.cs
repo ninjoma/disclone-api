@@ -3,6 +3,8 @@ using disclone_api.Services.AuthServices;
 using disclone_api.Services.MemberServices;
 using disclone_api.Services.MessageServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace disclone_api.Controllers
 {
@@ -24,6 +26,17 @@ namespace disclone_api.Controllers
             _AuthSv = AuthSv;
         }
         #endregion
+
+        [HttpPost("sendMessage")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult> sendMessage(MessageDTO message)
+        {
+            var loggedUser = await _AuthSv.GetUserByClaim(User);
+            var ownmessage = message;
+            ownmessage.UserId = loggedUser.Id;
+            await _MessageSv.AddEditAsync(ownmessage);
+            return Ok();
+        }
 
         #region Set
         [HttpPost("AddEditAsync")]

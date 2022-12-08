@@ -32,6 +32,7 @@ namespace disclone_api.Services.MessageServices
 
         public async Task<MessageDTO> CreateMessageAsync(MessageDTO message)
         {
+            message.CreationDate = DateTime.UtcNow;
             var result = _mapper.Map<Message>(message);
             await _context.Message.AddAsync(result);
             await _context.SaveChangesAsync();

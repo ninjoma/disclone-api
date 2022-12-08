@@ -13,6 +13,6 @@ namespace disclone_api.DTOs.ChannelDTOs
         public DateTime CreationDate { get; set; }
         public bool IsActive { get; set; }
         public virtual ServerDTO? Server { get; set; }
-        public virtual ICollection<MessageDTO>? Messages { get; set; }
+        public virtual List<MessageDTO>? Messages { get; set; }
     }
 }

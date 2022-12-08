@@ -1,3 +1,4 @@
+using disclone_api.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -22,7 +23,7 @@ namespace disclone_api.Controllers {
         }
 
         [HttpPost("create/")]
-        public void Create(string name, string color, Permissions permissions)
+        public void Create(string name, string color, RolePermissionsEnum permissions)
         {
 
             Role newRole = new Role() {

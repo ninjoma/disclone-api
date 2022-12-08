@@ -15,9 +15,9 @@ namespace disclone_api.DTOs.UserDTOs
         public  string? Image { get; set; }
         public DateTime CreationDate { get; set; }
         public bool IsActive { get; set; }
-        public virtual ICollection<MemberDTO>? Members { get; set; }
-        public virtual ICollection<InvitationDTO>? Invitations { get; set; }
-        public virtual ICollection<MessageDTO>? Messages { get; set; }
-        public virtual ICollection<ServerDTO>? Servers { get; set; }
+        public virtual List<MemberDTO>? Members { get; set; }
+        public virtual List<InvitationDTO>? Invitations { get; set; }
+        public virtual List<MessageDTO>? Messages { get; set; }
+        public virtual List<ServerDTO>? Servers { get; set; }
     }
 }

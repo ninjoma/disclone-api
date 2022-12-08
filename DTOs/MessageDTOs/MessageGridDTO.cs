@@ -3,7 +3,7 @@ using disclone_api.DTOs.UserDTOs;
 
 namespace disclone_api.DTOs.MessageDTOs
 {
-    public class MessageDTO
+    public class MessageGridDTO
     {
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -11,5 +11,7 @@ namespace disclone_api.DTOs.MessageDTOs
         public string? Content { get; set; }
         public DateTime CreationDate { get; set; }
         public bool IsActive { get; set; }
+        public virtual UserDTO? User { get; set; }
+        public virtual ChannelDTO? Channel { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using disclone_api.Enums;
 
 namespace disclone_api.DTOs.ChannelDTOs
 {
-    public class ChannelDTO
+    public class ChannelGridDTO
     {
         public int Id { get; set; }
         public int ServerId { get; set; }
@@ -12,5 +12,7 @@ namespace disclone_api.DTOs.ChannelDTOs
         public ChannelTypeEnum Type { get; set; }
         public DateTime CreationDate { get; set; }
         public bool IsActive { get; set; }
+        public virtual ServerDTO? Server { get; set; }
+        public virtual List<MessageDTO>? Messages { get; set; }
     }
 }

@@ -71,16 +71,16 @@ namespace disclone_api.Services.UserServices
         #endregion
 
         #region Get
-        public async Task<UserDTO> GetById(int id, bool isActive = true)
+        public async Task<UserGridDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<UserDTO>(await _context.User
+            return _mapper.Map<UserGridDTO>(await _context.User
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<List<UserDTO>> ListByName(string name, bool isActive = true)
+        public async Task<List<UserGridDTO>> ListByName(string name, bool isActive = true)
         {
             name ??= "";
-            return _mapper.Map<List<UserDTO>>(await _context.User
+            return _mapper.Map<List<UserGridDTO>>(await _context.User
                 .Where(x => x.Username.Contains(name) && x.IsActive == isActive)
                 .ToListAsync());
         }

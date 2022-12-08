@@ -9,7 +9,7 @@ public class Role
     public int Id { get; set; }
     public string? Name { get; set; }
     public string? Color { get; set; }
-    public RolePermissions Permits { get; set; }
+    public RolePermissionsEnum Permits { get; set; }
     public DateTime CreationDate {get; set; }
     public bool isActive {get; set; }
     public virtual Server? Server { get; set; }

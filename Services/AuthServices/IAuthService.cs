@@ -5,6 +5,6 @@ namespace disclone_api.Services.AuthServices
 {
     public interface IAuthService
     {
-        Task<UserDTO> GetUserByClaim(string claim);
+        Task<UserDTO> GetUserByClaim(ClaimsPrincipal clp);
     }
 }

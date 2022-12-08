@@ -101,7 +101,6 @@ namespace disclone_api
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -112,7 +111,8 @@ namespace disclone_api
 
             app.UseHttpsRedirection();
 
-
+            // Microsoft Things: https://stackoverflow.com/questions/57998262/why-is-claimtypes-nameidentifier-not-mapping-to-sub
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseAuthorization();
             app.MapControllers();
 

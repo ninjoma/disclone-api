@@ -16,10 +16,11 @@ namespace disclone_api.Services.AuthServices
             _mapper = mapper;
         }
 
-        public async Task<UserDTO> GetUserByClaim(string claim)
+        public async Task<UserDTO> GetUserByClaim(ClaimsPrincipal clp)
         {
+            var userclaim = clp.FindFirst(claim => claim.Type == "sub");
             return _mapper.Map<UserDTO>(await _context.User
-                .FirstOrDefaultAsync(u => u.Username == claim));
+                .FirstOrDefaultAsync(u => u.Id == Int32.Parse(userclaim.Value)));
         }
     }
 

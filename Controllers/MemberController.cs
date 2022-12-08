@@ -33,7 +33,7 @@ namespace disclone_api.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> fetchServers()
         {
-            var loggedUser = await _AuthSv.GetUserByClaim(User.Claims.SingleOrDefault().Value);
+            var loggedUser = await _AuthSv.GetUserByClaim(User);
             var ServerList = await _MemberSv.ListByUserId(loggedUser.Id);
             if(ServerList != null){
                 return Ok(ServerList);

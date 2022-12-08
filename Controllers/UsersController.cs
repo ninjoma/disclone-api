@@ -39,15 +39,13 @@ public class UsersController : ControllerBase
             return NotFound("User not found.");
         }
 
-        // This is just an example, made for simplicity; do not store plain passwords in the database
-        // Always hash and salt your passwords
         var isValid = dbUser.Password == DCrypt.Encrypt(user.Password);
         if (!isValid)
         {
             return BadRequest("Could not authenticate user.");
         }
-                
-        var token = _tokenBuilder.BuildToken(user.UserName);
+    
+        var token = _tokenBuilder.BuildToken(dbUser.Id);
 
         return Ok(token);
     }

@@ -1,6 +1,7 @@
 ﻿using disclone_api.DTOs.UserDTOs;
 using disclone_api.Entities;
 using disclone_api.Services.UserServices;
+using disclone_api.Services.AuthServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -11,21 +12,30 @@ namespace disclone_api.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class UsersController : ControllerBase
+public class UserController : ControllerBase
 {
     #region Constructor
     private readonly DataContext _context;
-    private readonly ILogger<UsersController> _logger;
+    private readonly ILogger<UserController> _logger;
     private readonly IUserService _UserSv;
     private readonly ITokenBuilder _tokenBuilder;
-    public UsersController(DataContext context, ILogger<UsersController> logger, IUserService UserSv, ITokenBuilder tokenBuilder)
+    private readonly IAuthService _AuthSv;
+    public UserController(DataContext context, ILogger<UserController> logger, IUserService UserSv, ITokenBuilder tokenBuilder, IAuthService AuthSv)
     {
         _context = context;
         _logger = logger;
         _UserSv = UserSv;
+        _AuthSv = AuthSv;
         _tokenBuilder = tokenBuilder;
     }
     #endregion
+
+    [HttpGet("getUserInfo")]
+    public async Task<ActionResult> GetUserInfo()
+    {
+        var loggedUser = await _AuthSv.GetUserByClaim(User);
+        return Ok(loggedUser);
+    }
 
     #region Auth
     [HttpPost("login")]

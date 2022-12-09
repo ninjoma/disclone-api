@@ -6,13 +6,13 @@ using disclone_api.DTOs.InvitationDTOs;
 namespace disclone_api.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class InvitationsController : ControllerBase
+public class InvitationController : ControllerBase
 {
     #region Constructor
     private readonly DataContext _context;
-    private readonly ILogger<InvitationsController> _logger;
+    private readonly ILogger<InvitationController> _logger;
     private readonly IInvitationService _InvitationSv;
-    public InvitationsController(DataContext context, ILogger<InvitationsController> logger, IInvitationService InvitationSv)
+    public InvitationController(DataContext context, ILogger<InvitationController> logger, IInvitationService InvitationSv)
     {
         _context = context;
         _logger = logger;

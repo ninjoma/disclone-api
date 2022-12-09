@@ -2,6 +2,8 @@
 using disclone_api.Services.AuthServices;
 using disclone_api.Services.MemberServices;
 using disclone_api.Services.MessageServices;
+using disclone_api.Services.ChannelServices;
+using disclone_api.Services.ServerServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -17,13 +19,17 @@ namespace disclone_api.Controllers
         private readonly ILogger<MessageController> _logger;
         private readonly IMessageService _MessageSv;
         private readonly IAuthService _AuthSv;
+        private readonly IChannelService _ChannelSv;
+        private readonly IServerService _ServerSv;
 
-        public MessageController(DataContext context, ILogger<MessageController> logger, IMessageService MessageSv, IAuthService AuthSv)
+        public MessageController(DataContext context, ILogger<MessageController> logger, IMessageService MessageSv, IAuthService AuthSv, IChannelService ChannelSv, IServerService ServerSv)
         {
             _context = context;
             _logger = logger;
             _MessageSv = MessageSv;
             _AuthSv = AuthSv;
+            _ChannelSv = ChannelSv;
+            _ServerSv = ServerSv;
         }
         #endregion
 
@@ -32,10 +38,29 @@ namespace disclone_api.Controllers
         public async Task<ActionResult> sendMessage(MessageDTO message)
         {
             var loggedUser = await _AuthSv.GetUserByClaim(User);
-            var ownmessage = message;
-            ownmessage.UserId = loggedUser.Id;
-            await _MessageSv.AddEditAsync(ownmessage);
+            message.UserId = loggedUser.Id;
+            message.IsActive = true;
+            await _MessageSv.AddEditAsync(message);
             return Ok();
+        }
+
+        [HttpGet("getMessagesFromChannel/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> getMessagesFromChannel(int id)
+        {
+            var loggedUser = await _AuthSv.GetUserByClaim(User);
+            var channel = await _ChannelSv.GetByIdAsync(id);
+            if(channel == null){
+                return BadRequest();
+            }
+            var server = await _ServerSv.GetById(channel.ServerId);
+            if(server == null){
+                return BadRequest();
+            }
+            if(server.Members.Any(current => current.UserId == loggedUser.Id)){
+                return Ok(await _MessageSv.ListByChannelId(id));
+            }
+            return BadRequest();
         }
 
         #region Set

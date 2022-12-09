@@ -48,7 +48,7 @@ namespace disclone_api.Services.ServerServices
         #region Get
         public async Task<ServerGridDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<ServerGridDTO>(await _context.Server.FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
+            return _mapper.Map<ServerGridDTO>(await _context.Server.Include(x => x.Members).FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
         public async Task<List<ServerGridDTO>> ListByName(string name, bool isActive = true)

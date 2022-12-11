@@ -77,6 +77,7 @@ namespace disclone_api.Services.ChannelServices
             {
                 channel.IsActive = true;
             }
+            await _context.SaveChangesAsync();
             return _mapper.Map<ChannelDTO>(channel);
         } 
         #endregion

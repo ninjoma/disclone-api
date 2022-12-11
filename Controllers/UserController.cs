@@ -141,7 +141,6 @@ public class UserController : ControllerBase
 
     #region Set
     [HttpPost("AddEditAsync")]
-    [AllowAnonymous]
     public async Task<ActionResult> AddEditAsync(UserDTO newUser)
     {
         var result = await this._UserSv.AddEditAsync(newUser);
@@ -154,6 +153,19 @@ public class UserController : ControllerBase
             return BadRequest();
         }
     }
+    [HttpPost("Register")]
+    public async Task<ActionResult> Register(UserDTO newUser)
+    {
+        var result = await this._UserSv.Register(newUser);
+        if (result != null)
+        {
+            return Ok(result);
+        } else
+        {
+            return BadRequest();
+        }
+    }
+
     #endregion
 
     #region Delete

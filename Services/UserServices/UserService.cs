@@ -68,6 +68,15 @@ namespace disclone_api.Services.UserServices
             await _context.SaveChangesAsync();
             return user;
         }
+
+        public async Task<UserDTO> Register(UserDTO user)
+        {
+            user.Password = DCrypt.Encrypt(user.Password);
+            var newUser = _mapper.Map<User>(user);
+            await _context.User.AddAsync(newUser);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<UserDTO>(newUser);
+        }
         #endregion
 
         #region Get
@@ -100,10 +109,10 @@ namespace disclone_api.Services.UserServices
             }
             await _context.SaveChangesAsync();
             return _mapper.Map<UserDTO>(user);
-        } 
+        }
         #endregion
 
 
-        
+
     }
 }

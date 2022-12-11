@@ -5,8 +5,9 @@ Disclone - api is the api used by the famous app DISCLONE to expose data
 ## Instalation
 
 run this command in a terminal
-``bash
+```bash
 dotnet run start
+```
 
 ## Usage
 

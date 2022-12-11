@@ -7,6 +7,7 @@ using disclone_api.Services.ServerServices;
 using disclone_api.Services.UserServices;
 using disclone_api.Services.AuthServices;
 using disclone_api.Services.MessageServices;
+using disclone_api.Services.LoggerServices;
 
 namespace disclone_api.Services
 {
@@ -22,6 +23,7 @@ namespace disclone_api.Services
             collection.AddTransient<IChannelService, ChannelService>();
             collection.AddTransient<IAuthService, AuthService>();
             collection.AddTransient<IMessageService, MessageService>();
+            collection.AddTransient<ILoggerService, LoggerService>();
         }
     }
 }

@@ -9,6 +9,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace disclone_api
 {
@@ -16,10 +18,15 @@ namespace disclone_api
     {
         static void Main(string[] args)
         {
-     
-
+            
             var builder = WebApplication.CreateBuilder(args);
-            // Add services to the container.
+            Settings = builder.Configuration;
+            if(Environment.GetEnvironmentVariable("ENCRYPTION_KEY") != null){
+                Settings["EncryptionKey"] = Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
+            }
+            if(Environment.GetEnvironmentVariable("DB_PASSWORD") != null){
+                Settings["DBPassword"] = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            }
 
             //Mapper
             var mapperConfig = new MapperConfiguration(mc =>
@@ -46,7 +53,7 @@ namespace disclone_api
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["EncryptionKey"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Settings["EncryptionKey"] )),
                     ValidateAudience = false,
                     ValidateIssuer = false,
                     ValidateLifetime = false,
@@ -84,8 +91,9 @@ namespace disclone_api
             });
             builder.Services.RegisterServices();
             var conStrBuilder = new NpgsqlConnectionStringBuilder(builder.Configuration.GetConnectionString("local"));
-            conStrBuilder.Password = builder.Configuration["DBPassword"];
+            conStrBuilder.Password = Settings["DBPassword"];
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conStrBuilder.ConnectionString));
+            
 
             builder.Services.AddCors(options =>
             {
@@ -97,7 +105,7 @@ namespace disclone_api
             });
             builder.Services.AddScoped<ITokenBuilder, TokenBuilder>();
 
-            Settings = builder.Configuration;
+            builder.Services.AddLogging(x => x.AddFile("logs/log.txt")).BuildServiceProvider();
 
             var app = builder.Build();
 
@@ -110,7 +118,6 @@ namespace disclone_api
             app.UseCors("frontendOrigin");
 
             app.UseHttpsRedirection();
-
             // Microsoft Things: https://stackoverflow.com/questions/57998262/why-is-claimtypes-nameidentifier-not-mapping-to-sub
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseAuthorization();

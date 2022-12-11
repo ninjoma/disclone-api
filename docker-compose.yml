@@ -1,0 +1,12 @@
+version: '1'
+services:
+  discloneapi:
+    build: .
+    image: a25610/disclone-api
+    ports:
+      - "5610:5610"
+    environment:
+      - ENCRYPTION_KEY=supermegasecret_
+      - DB_PASSWORD=supermegapassword
+    volumes:
+      - ./logs:/App/logs

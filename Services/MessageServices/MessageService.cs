@@ -58,6 +58,7 @@ namespace disclone_api.Services.MessageServices
         {
             return _mapper.Map<List<MessageGridDTO>>(await _context.Message
                 .Where(x => x.ChannelId.Equals(channelId) && x.IsActive == isActive)
+                .Include(x => x.User)
                 .ToListAsync());
         }
 
@@ -65,6 +66,7 @@ namespace disclone_api.Services.MessageServices
         {
             return _mapper.Map<List<MessageGridDTO>>(await _context.Message
                 .Where(x => x.UserId.Equals(userId) && isActive == true)
+                .Include(x => x.User)
                 .ToListAsync());
         }
         #endregion

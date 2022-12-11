@@ -42,7 +42,7 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     public IActionResult Login(UserDTO user)
     {
-        var dbUser = _context.User.SingleOrDefault(u => u.Username == user.UserName);
+        var dbUser = _context.User.FirstOrDefault(u => u.Username == user.UserName);
 
         if (dbUser == null)
         {
@@ -141,6 +141,7 @@ public class UserController : ControllerBase
 
     #region Set
     [HttpPost("AddEditAsync")]
+    [AllowAnonymous]
     public async Task<ActionResult> AddEditAsync(UserDTO newUser)
     {
         var result = await this._UserSv.AddEditAsync(newUser);

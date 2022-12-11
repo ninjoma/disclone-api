@@ -11,4 +11,5 @@ COPY --from=build-env /App/out .
 
 EXPOSE 5610
 ENV ASPNETCORE_URLS=http://+:5610
+VOLUME [ "./App/logs" ]
 ENTRYPOINT ["dotnet", "disclone-api.dll"]

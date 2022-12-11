@@ -103,6 +103,7 @@ namespace disclone_api
                         policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
                     });
             });
+            
             builder.Services.AddScoped<ITokenBuilder, TokenBuilder>();
 
             builder.Services.AddLogging(x => x.AddFile("logs/log.txt")).BuildServiceProvider();
@@ -114,15 +115,12 @@ namespace disclone_api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseCors("frontendOrigin");
-
-            app.UseHttpsRedirection();
             // Microsoft Things: https://stackoverflow.com/questions/57998262/why-is-claimtypes-nameidentifier-not-mapping-to-sub
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseAuthorization();
             app.MapControllers();
-
+            app.UseCors("frontendOrigin");
             app.Run();
 
         }

@@ -153,7 +153,9 @@ public class UserController : ControllerBase
             return BadRequest();
         }
     }
+
     [HttpPost("Register")]
+    [AllowAnonymous]
     public async Task<ActionResult> Register(UserDTO newUser)
     {
         var result = await this._UserSv.Register(newUser);

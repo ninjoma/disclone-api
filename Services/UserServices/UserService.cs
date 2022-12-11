@@ -71,6 +71,7 @@ namespace disclone_api.Services.UserServices
 
         public async Task<UserDTO> Register(UserDTO user)
         {
+            user.Password = DCrypt.Encrypt(user.Password);
             var newUser = _mapper.Map<User>(user);
             await _context.User.AddAsync(newUser);
             await _context.SaveChangesAsync();

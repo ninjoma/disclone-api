@@ -2,6 +2,7 @@
 using disclone_api.Entities;
 using disclone_api.Services.UserServices;
 using disclone_api.Services.AuthServices;
+using disclone_api.Services.LoggerServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,14 +17,14 @@ public class UserController : ControllerBase
 {
     #region Constructor
     private readonly DataContext _context;
-    private readonly ILogger<UserController> _logger;
     private readonly IUserService _UserSv;
     private readonly ITokenBuilder _tokenBuilder;
     private readonly IAuthService _AuthSv;
-    public UserController(DataContext context, ILogger<UserController> logger, IUserService UserSv, ITokenBuilder tokenBuilder, IAuthService AuthSv)
+    private readonly ILoggerService _loggerSv;
+    public UserController(DataContext context, ILoggerService loggerSv, IUserService UserSv, ITokenBuilder tokenBuilder, IAuthService AuthSv)
     {
         _context = context;
-        _logger = logger;
+        _loggerSv = loggerSv;
         _UserSv = UserSv;
         _AuthSv = AuthSv;
         _tokenBuilder = tokenBuilder;

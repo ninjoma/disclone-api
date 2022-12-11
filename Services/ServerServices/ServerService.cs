@@ -39,7 +39,7 @@ namespace disclone_api.Services.ServerServices
         public async Task<ServerDTO> UpdateServerAsync(ServerDTO server)
         {
             var oldServer = await _context.Server.FirstOrDefaultAsync(x => x.Id.Equals(server.Id));
-            oldServer = _mapper.Map<Server>(server);
+            _mapper.Map<ServerDTO, Server>(server, oldServer);
             await _context.SaveChangesAsync();
             return _mapper.Map<ServerDTO>(oldServer);
         }

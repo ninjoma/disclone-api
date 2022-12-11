@@ -41,7 +41,7 @@ namespace disclone_api.Services.MessageServices
         public async Task<MessageDTO> UpdateMessageAsync(MessageDTO message)
         {
             var oldMessage = await _context.Message.FirstOrDefaultAsync(x => x.Id.Equals(message.Id) && x.IsActive == true);
-            oldMessage = _mapper.Map<Message>(message);
+            _mapper.Map<MessageDTO, Message>(message, oldMessage);
             await _context.SaveChangesAsync();
             return _mapper.Map<MessageDTO>(oldMessage);
         }

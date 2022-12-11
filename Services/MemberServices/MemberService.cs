@@ -40,7 +40,7 @@ namespace disclone_api.Services.MemberServices
         public async Task<MemberDTO> UpdateMemberAsync(MemberDTO member)
         {
             var oldMember = await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(member.Id));
-            oldMember = _mapper.Map<Member>(member);
+            _mapper.Map<MemberDTO, Member>(member,oldMember);
             await _context.SaveChangesAsync();
             return _mapper.Map<MemberDTO>(oldMember);
         }

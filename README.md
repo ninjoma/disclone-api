@@ -9,6 +9,8 @@ run this command in a terminal
 dotnet run
 ```
 
+you must use the environment variables from the docker compose or the secret manager !important
+
 if you can't connect to the amazon rds database you must install the [postgreSQL](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 and you must run this commands
 ```bash

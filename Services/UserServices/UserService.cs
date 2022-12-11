@@ -32,7 +32,7 @@ namespace disclone_api.Services.UserServices
         public async Task<UserDTO> AddEditAsync(UserDTO user)
         {
             user.Password = DCrypt.Encrypt(user.Password);
-
+            user.IsActive= true;
                 if (user.Id != 0)
             {
                 return await UpdateUserAsync(user);
@@ -64,13 +64,14 @@ namespace disclone_api.Services.UserServices
         public async Task<UserDTO> UpdateUserAsync(UserDTO user)
         {
             var oldUser = await _context.User.FirstOrDefaultAsync(x => x.Id.Equals(user.Id));
-            oldUser = _mapper.Map<User>(user);
+            _mapper.Map<UserDTO,User>(user, oldUser);
             await _context.SaveChangesAsync();
-            return user;
+            return _mapper.Map<UserDTO>(oldUser);   
         }
 
         public async Task<UserDTO> Register(UserDTO user)
         {
+            user.IsActive = true;
             user.Password = DCrypt.Encrypt(user.Password);
             var newUser = _mapper.Map<User>(user);
             await _context.User.AddAsync(newUser);

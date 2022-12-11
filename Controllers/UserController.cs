@@ -96,7 +96,7 @@ public class UserController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return NotFound("Not found");
         }
     }
 
@@ -134,7 +134,7 @@ public class UserController : ControllerBase
             return Ok(result);
         } else
         {
-            return BadRequest();
+            return NotFound("Not found");
         }
     }
     #endregion
@@ -150,7 +150,7 @@ public class UserController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return BadRequest("Error when updating or creating the user");
         }
     }
 
@@ -164,7 +164,7 @@ public class UserController : ControllerBase
             return Ok(result);
         } else
         {
-            return BadRequest();
+            return BadRequest("Error when creating the user");
         }
     }
 

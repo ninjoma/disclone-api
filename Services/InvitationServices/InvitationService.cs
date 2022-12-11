@@ -35,7 +35,7 @@ namespace disclone_api.Services.InvitationServices
         public async Task<InvitationDTO> UpdateInvitationAsync(InvitationDTO invitation)
         {
             var oldInvitation = await _context.Invitation.FirstOrDefaultAsync(x => x.Id.Equals(invitation.Id));
-            oldInvitation = _mapper.Map<Invitation>(invitation);
+            _mapper.Map<InvitationDTO, Invitation>(invitation, oldInvitation);
             await _context.SaveChangesAsync();
             return _mapper.Map<InvitationDTO>(oldInvitation);
         }

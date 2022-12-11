@@ -40,7 +40,7 @@ namespace disclone_api.Services.ChannelServices
         public async Task<ChannelDTO> UpdateChannelAsync(ChannelDTO channel)
         {
             var oldChannel = await _context.Channel.FirstOrDefaultAsync(x => x.Id.Equals(channel.Id));
-            oldChannel = _mapper.Map<Channel>(channel);
+            _mapper.Map<ChannelDTO, Channel>(channel, oldChannel);
             await _context.SaveChangesAsync();
             return _mapper.Map<ChannelDTO>(oldChannel);
         }

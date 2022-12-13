@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using disclone_api.DTOs.ServerDTOs;
+using disclone_api.Services.MemberServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace disclone_api.Services.ServerServices
@@ -9,10 +10,14 @@ namespace disclone_api.Services.ServerServices
         #region Constructor
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public ServerService(DataContext context, IMapper mapper)
+
+        private readonly IMemberService _memberSv;
+
+        public ServerService(DataContext context, IMapper mapper, IMemberService memberSv)
         {
             _context = context;
             _mapper = mapper;
+            _memberSv = memberSv;
         }
         #endregion
 

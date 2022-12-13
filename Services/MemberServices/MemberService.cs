@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using disclone_api.DTOs.MemberDTOs;
+using disclone_api.DTOs.UserDTOs;
+using disclone_api.DTOs.ServerDTOs;
 using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
 

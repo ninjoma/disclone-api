@@ -1,5 +1,6 @@
 ﻿
 using disclone_api.DTOs.ServerDTOs;
+using disclone_api.DTOs.UserDTOs;
 
 namespace disclone_api.Services.ServerServices
 {

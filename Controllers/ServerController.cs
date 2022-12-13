@@ -1,7 +1,12 @@
 ﻿using disclone_api.DTOs.ServerDTOs;
 using disclone_api.DTOs.UserDTOs;
+using disclone_api.DTOs.MemberDTOs;
+using disclone_api.DTOs.ChannelDTOs;
 using disclone_api.Entities;
 using disclone_api.Services.ServerServices;
+using disclone_api.Services.AuthServices;
+using disclone_api.Services.MemberServices;
+using disclone_api.Services.ChannelServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,13 +22,51 @@ namespace disclone_api.Controllers
         private readonly DataContext _context;
         private readonly ILogger _logger;
         private readonly IServerService _ServerSv;
-        public ServerController(DataContext context, ILogger<ServerController> logger, IServerService ServerSv)
+        private readonly IAuthService _AuthSv;
+
+        private readonly IMemberService _MemberSv;
+
+        private readonly IChannelService _ChannelSv;
+
+
+        public ServerController(DataContext context, ILogger<ServerController> logger, IServerService ServerSv, IAuthService AuthSv, IMemberService MemberSv, IChannelService ChannelSv)
         {
             _context = context;
             _logger = logger;
             _ServerSv = ServerSv;
+            _AuthSv = AuthSv;
+            _MemberSv = MemberSv;
+            _ChannelSv = ChannelSv;
         }
         #endregion
+
+
+        [HttpPost("createServer")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult> createServer(ServerDTO newServer)
+        {
+            if(newServer != null && newServer.Name != null && newServer.Name != ""){
+                var loggedUser = await _AuthSv.GetUserByClaim(User);
+                newServer.OwnerId = loggedUser.Id;
+                newServer.IsActive = true;
+                var createdServer = await _ServerSv.AddEditAsync(newServer);
+
+                var memberDTO = new MemberDTO();
+                memberDTO.UserId = loggedUser.Id;
+                memberDTO.ServerId = createdServer.Id;
+                memberDTO.IsActive = true;
+                await _MemberSv.AddEditAsync(memberDTO);
+
+                var channelDTO = new ChannelDTO();
+                channelDTO.ServerId = createdServer.Id;
+                channelDTO.Name = "Default Channel";
+                channelDTO.IsActive = true;
+                await _ChannelSv.AddEditAsync(channelDTO);
+
+                return Ok(createdServer.Id);
+            }
+            return BadRequest();
+        }
 
         #region Get
         [HttpGet("GetById/{id}")]

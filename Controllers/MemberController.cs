@@ -1,6 +1,7 @@
 ﻿using disclone_api.DTOs.MemberDTOs;
 using disclone_api.Services.MemberServices;
 using disclone_api.Services.AuthServices;
+using disclone_api.DTOs.MemberDTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -38,6 +39,19 @@ namespace disclone_api.Controllers
             if(ServerList != null){
                 return Ok(ServerList);
             }
+            return BadRequest();
+        }
+
+        [HttpGet("joinServer/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult> joinServer(int serverid)
+        {
+            var loggedUser = await _AuthSv.GetUserByClaim(User);
+            var memberDTO = new MemberDTO();
+            memberDTO.UserId = loggedUser.Id;
+            memberDTO.ServerId = serverid;
+            memberDTO.IsActive = true;
+            await _MemberSv.AddEditAsync(memberDTO);
             return BadRequest();
         }
 

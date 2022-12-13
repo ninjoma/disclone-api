@@ -44,15 +44,18 @@ namespace disclone_api.Controllers
 
         [HttpGet("joinServer/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<ActionResult> joinServer(int serverid)
+        public async Task<ActionResult> joinServer(int id)
         {
             var loggedUser = await _AuthSv.GetUserByClaim(User);
+            if((await _MemberSv.ListByServerId(id)).Count < 1){
+                return BadRequest();
+            }
             var memberDTO = new MemberDTO();
             memberDTO.UserId = loggedUser.Id;
-            memberDTO.ServerId = serverid;
+            memberDTO.ServerId = id;
             memberDTO.IsActive = true;
             await _MemberSv.AddEditAsync(memberDTO);
-            return BadRequest();
+            return Ok();
         }
 
         #region Get

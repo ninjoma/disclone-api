@@ -58,7 +58,7 @@ namespace disclone_api.Services.MessageServices
         {
             return _mapper.Map<List<MessageGridDTO>>(await _context.Message
                 .Where(x => x.ChannelId.Equals(channelId) && x.IsActive == isActive)
-                .Include(x => x.User)
+                .Include(x => x.User).OrderBy(x => x.CreationDate)
                 .ToListAsync());
         }
 

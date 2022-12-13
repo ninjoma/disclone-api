@@ -2,7 +2,7 @@ version: '1'
 services:
   discloneapi:
     build: .
-    image: a25610/disclone-api
+    image: a25610/disclone-api:reloaded
     ports:
       - "5610:5610"
     environment:

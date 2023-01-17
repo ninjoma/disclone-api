@@ -22,18 +22,18 @@ namespace disclone_api.Services.ServerServices
         #endregion
 
         #region Set
-        public async Task<ServerDTO> AddEditAsync(ServerDTO server)
+        public async Task<ServerDTO> AddEdit(ServerDTO server)
         {
             if (server.Id != 0)
             {
-                return await UpdateServerAsync(server);
+                return await UpdateServer(server);
             }
             else
             {
-                return await CreateServerAsync(server);
+                return await CreateServer(server);
             }
         }
-        public async Task<ServerDTO> CreateServerAsync(ServerDTO server)
+        public async Task<ServerDTO> CreateServer(ServerDTO server)
         {
             var newServer = _mapper.Map<Server>(server);
             await _context.Server.AddAsync(newServer);
@@ -41,7 +41,7 @@ namespace disclone_api.Services.ServerServices
             return _mapper.Map<ServerDTO>(newServer);
         }
 
-        public async Task<ServerDTO> UpdateServerAsync(ServerDTO server)
+        public async Task<ServerDTO> UpdateServer(ServerDTO server)
         {
             var oldServer = await _context.Server.FirstOrDefaultAsync(x => x.Id.Equals(server.Id));
             _mapper.Map<ServerDTO, Server>(server, oldServer);
@@ -63,7 +63,7 @@ namespace disclone_api.Services.ServerServices
         #endregion
 
         #region Delete
-        public async Task<ServerDTO> ToggleInactiveById(int id)
+        public async Task<ServerDTO> Delete(int id)
         {
             var server = await _context.Server.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (server.IsActive)

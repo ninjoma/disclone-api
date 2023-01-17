@@ -7,7 +7,7 @@ namespace disclone_api.Services.MessageServices
         Task<MessageGridDTO> GetById(int id, bool isActive = true);
         Task<List<MessageGridDTO>> ListByChannelId(int channelId, bool isActive = true);
         Task<List<MessageGridDTO>> ListByUserId(int userId, bool isActive = true);
-        Task<MessageDTO> AddEditAsync(MessageDTO message);
-        Task<MessageDTO> ToggleInactiveById(int id);
+        Task<MessageDTO> AddEdit(MessageDTO message);
+        Task<MessageDTO> Delete(int id);
     }
 }

@@ -19,25 +19,25 @@ namespace disclone_api.Services.ChannelServices
         #endregion
 
         #region Set
-        public async Task<ChannelDTO> AddEditAsync(ChannelDTO channel)
+        public async Task<ChannelDTO> AddEdit(ChannelDTO channel)
         {
             if (channel.Id != 0)
             {
-                return await UpdateChannelAsync(channel);
+                return await UpdateChannel(channel);
             }
             else
             {
-                return await CreateChannelAsync(channel);
+                return await CreateChannel(channel);
             }
         }
-        public async Task<ChannelDTO> CreateChannelAsync(ChannelDTO channel)
+        public async Task<ChannelDTO> CreateChannel(ChannelDTO channel)
         {
             var newChannel = _mapper.Map<Channel>(channel);
             await _context.Channel.AddAsync(newChannel);
             await _context.SaveChangesAsync();
             return _mapper.Map<ChannelDTO>(newChannel);
         }
-        public async Task<ChannelDTO> UpdateChannelAsync(ChannelDTO channel)
+        public async Task<ChannelDTO> UpdateChannel(ChannelDTO channel)
         {
             var oldChannel = await _context.Channel.FirstOrDefaultAsync(x => x.Id.Equals(channel.Id));
             _mapper.Map<ChannelDTO, Channel>(channel, oldChannel);
@@ -47,7 +47,7 @@ namespace disclone_api.Services.ChannelServices
         #endregion
 
         #region Get
-        public async Task<ChannelGridDTO> GetByIdAsync(int id, bool isActive = true)
+        public async Task<ChannelGridDTO> GetById(int id, bool isActive = true)
         {
             return _mapper.Map<ChannelGridDTO>(await _context.Channel
                 .Include(x => x.Server)
@@ -66,7 +66,7 @@ namespace disclone_api.Services.ChannelServices
         #endregion
 
         #region Delete
-        public async Task<ChannelDTO> ToggleInactiveById(int id)
+        public async Task<ChannelDTO> DeleteById(int id)
         {
             var channel = await _context.Channel.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (channel.IsActive)

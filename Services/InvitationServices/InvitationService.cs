@@ -20,19 +20,19 @@ namespace disclone_api.Services.InvitationServices
         #endregion
 
         #region Set
-        public async Task<InvitationDTO> AddEditAsync(InvitationDTO invitation)
+        public async Task<InvitationDTO> AddEdit(InvitationDTO invitation)
         {
             if (invitation.Id != 0)
             {
-                return await UpdateInvitationAsync(invitation);
+                return await UpdateInvitation(invitation);
             }
             else
             {
-                return await CreateInvitationAsync(invitation);
+                return await CreateInvitation(invitation);
             }
 
         }
-        public async Task<InvitationDTO> UpdateInvitationAsync(InvitationDTO invitation)
+        public async Task<InvitationDTO> UpdateInvitation(InvitationDTO invitation)
         {
             var oldInvitation = await _context.Invitation.FirstOrDefaultAsync(x => x.Id.Equals(invitation.Id));
             _mapper.Map<InvitationDTO, Invitation>(invitation, oldInvitation);
@@ -40,7 +40,7 @@ namespace disclone_api.Services.InvitationServices
             return _mapper.Map<InvitationDTO>(oldInvitation);
         }
 
-        public async Task<InvitationDTO> CreateInvitationAsync(InvitationDTO invitation)
+        public async Task<InvitationDTO> CreateInvitation(InvitationDTO invitation)
         {
             var newInvitation = _mapper.Map<Invitation>(invitation);
             await _context.Invitation.AddAsync(newInvitation);
@@ -81,7 +81,7 @@ namespace disclone_api.Services.InvitationServices
         #endregion
 
         #region Delete
-        public async Task<InvitationDTO> ToggleInactiveById(int id)
+        public async Task<InvitationDTO> Delete(int id)
         {
             var invitation = await _context.Invitation.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (invitation.IsActive)

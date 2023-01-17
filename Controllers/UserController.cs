@@ -87,7 +87,7 @@ public class UserController : ControllerBase
     #endregion
 
     #region Get
-    [HttpGet("{id}/")]
+    [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
         var result = await _UserSv.GetById(id);
@@ -141,7 +141,7 @@ public class UserController : ControllerBase
     #endregion
 
     #region Set
-    [HttpPost("{id}/")]
+    [HttpPost("{id}")]
     public async Task<ActionResult> AddById(UserDTO newUser)
     {
         var result = await this._UserSv.AddById(newUser);
@@ -155,7 +155,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPut("{id}/")]
+    [HttpPut("{id}")]
 
     public async Task<ActionResult> EditById(UserDTO newUser)
     {
@@ -187,7 +187,7 @@ public class UserController : ControllerBase
     #endregion
 
     #region Delete
-    [HttpDelete("{id}/")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteById(int id)
     {
         var result = await this._UserSv.DeleteById(id);

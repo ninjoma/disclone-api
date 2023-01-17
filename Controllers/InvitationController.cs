@@ -21,11 +21,11 @@ public class InvitationController : ControllerBase
     #endregion
 
     #region Get
-    [HttpGet("{id}/")]
+    [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
         var result = await _InvitationSv.GetById(id);
-        if (result != null) 
+        if (result != null)
         {
             return Ok(result);
         } else
@@ -34,7 +34,7 @@ public class InvitationController : ControllerBase
         }
     }
 
-    [HttpGet("GetByServerIdAndByUserId/{userId}/{serverId}")]
+    [HttpGet("/user/{userId}/server/{serverId}")]
     public async Task<ActionResult> GetByServerIdAndByUserId(int userId, int serverId)
     {
         var result = await _InvitationSv.GetByServerIdAndByUserId(userId, serverId);
@@ -49,7 +49,7 @@ public class InvitationController : ControllerBase
     }
 
     [HttpGet("{id}/server")]
-    public async Task<ActionResult> ListByserverId(int id)
+    public async Task<ActionResult> ListByServerId(int id)
     {
         var result = await _InvitationSv.ListByServerId(id);
         if (result != null)
@@ -78,7 +78,7 @@ public class InvitationController : ControllerBase
     #endregion
 
     #region Set
-    [HttpPost("{id}/")]
+    [HttpPost("{id}")]
     public async Task<ActionResult> Add(InvitationDTO invitation)
     {
         var result = await _InvitationSv.Add(invitation);
@@ -91,7 +91,7 @@ public class InvitationController : ControllerBase
         }
     }
 
-    [HttpPut("{id}/")]
+    [HttpPut("{id}")]
     public async Task<ActionResult> EditById(InvitationDTO invitation)
     {
         var result = await _InvitationSv.EditById(invitation);
@@ -106,10 +106,10 @@ public class InvitationController : ControllerBase
     #endregion
 
     #region Delete
-    [HttpDelete("{id}/")]
-    public async Task<ActionResult> Delete(int id)
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteById(int id)
     {
-        var result = await _InvitationSv.Delete(id);
+        var result = await _InvitationSv.DeleteById(id);
         if (result != null)
         {
             return Ok(result);

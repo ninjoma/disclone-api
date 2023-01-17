@@ -41,7 +41,7 @@ namespace disclone_api.Controllers
         #endregion
 
 
-        [HttpPost("createServer")]
+        [HttpPost("/")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> createServer(ServerDTO newServer)
         {
@@ -69,7 +69,7 @@ namespace disclone_api.Controllers
         }
 
         #region Get
-        [HttpGet("{id}/")]
+        [HttpGet("{id}")]
         public async Task<ActionResult> GetById(int id)
         {
             var result = await _ServerSv.GetById(id);
@@ -99,7 +99,7 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Set
-        [HttpPost("{id}/")]
+        [HttpPost("{id}")]
         public async Task<ActionResult> AddById(ServerDTO newServer)
         {
             var result = await this._ServerSv.AddById(newServer);
@@ -113,7 +113,7 @@ namespace disclone_api.Controllers
             }
         }
 
-        [HttpPut("{id}/")]
+        [HttpPut("{id}")]
         public async Task<ActionResult> EditById(ServerDTO newServer)
         {
             var result = await this._ServerSv.EditById(newServer);

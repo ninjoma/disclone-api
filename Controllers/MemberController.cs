@@ -19,7 +19,6 @@ namespace disclone_api.Controllers
         private readonly IMemberService _MemberSv;
         private readonly IAuthService _AuthSv;
         
-
         public MemberController(DataContext context, ILogger<MemberController> logger, IMemberService MemberSv, IAuthService AuthSv)
         {
             _context = context;

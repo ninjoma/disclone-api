@@ -7,8 +7,8 @@ namespace disclone_api.Services.UserServices
     {
         Task<UserGridDTO> GetById(int id, bool isActive = true);
         Task<List<UserGridDTO>> ListByName(string name, bool isActive = true);
-        Task<UserDTO> AddEditAsync(UserDTO user);
-        Task<UserDTO> ToggleInactiveById(int id);
+        Task<UserDTO> AddEdit(UserDTO user);
+        Task<UserDTO> Delete(int id);
         Task<UserDTO> Register(UserDTO user);
     }
 }

@@ -29,17 +29,17 @@ namespace disclone_api.Services.UserServices
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Devuelve el ususario editado o creado</returns>
-        public async Task<UserDTO> AddEditAsync(UserDTO user)
+        public async Task<UserDTO> AddEdit(UserDTO user)
         {
             user.Password = DCrypt.Encrypt(user.Password);
             user.IsActive= true;
                 if (user.Id != 0)
             {
-                return await UpdateUserAsync(user);
+                return await UpdateUser(user);
             }
             else
             {
-                return await CreateUserAsync(user);
+                return await CreateUser(user);
             }
         }
 
@@ -48,7 +48,7 @@ namespace disclone_api.Services.UserServices
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Devuelve el usuario creado</returns>
-        public async Task<UserDTO> CreateUserAsync(UserDTO user)
+        public async Task<UserDTO> CreateUser(UserDTO user)
         {
             var newUser = _mapper.Map<User>(user);
             await _context.User.AddAsync(newUser);
@@ -61,7 +61,7 @@ namespace disclone_api.Services.UserServices
         /// </summary>
         /// <param name="user"></param>
         /// <returns>devuelve el objeto del usuario actualizado</returns>
-        public async Task<UserDTO> UpdateUserAsync(UserDTO user)
+        public async Task<UserDTO> UpdateUser(UserDTO user)
         {
             var oldUser = await _context.User.FirstOrDefaultAsync(x => x.Id.Equals(user.Id));
             _mapper.Map<UserDTO,User>(user, oldUser);
@@ -98,7 +98,7 @@ namespace disclone_api.Services.UserServices
 
         #region Delete
 
-        public async Task<UserDTO> ToggleInactiveById(int id)
+        public async Task<UserDTO> Delete(int id)
         {
             var user = await _context.User.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (user.IsActive)

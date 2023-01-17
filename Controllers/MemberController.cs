@@ -59,11 +59,11 @@ namespace disclone_api.Controllers
         }
 
         #region Get
-        [HttpGet("GetById/{id}")]
-        public async Task<ActionResult> GetById(int id)
+        [HttpGet("/{id}")]
+        public async Task<ActionResult> Get(int id)
         {
             var result = await _MemberSv.GetById(id);
-            if (result != null) 
+            if (result != null)
             {
                 return Ok(result);
             } else
@@ -114,10 +114,10 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Set
-        [HttpPost("AddEditAsync")]
-        public async Task<ActionResult> AddEditAsync(MemberDTO member)
+        [HttpPost("/{id}")]
+        public async Task<ActionResult> EditById(MemberDTO member)
         {
-            var result = await _MemberSv.AddEditAsync(member);
+            var result = await _MemberSv.EditById(member);
             if (result != null)
             {
                 return Ok(result);
@@ -129,10 +129,10 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
-        [HttpDelete("ToggleInactiveById/{id}")]
-        public async Task<ActionResult> ToggleInactiveById(int id)
+        [HttpDelete("/{id}")]
+        public async Task<ActionResult> DeleteById(int id)
         {
-            var result = await _MemberSv.ToggleInactiveById(id);
+            var result = await _MemberSv.DeleteById(id);
             if (result != null)
             {
                 return Ok(result);

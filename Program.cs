@@ -10,7 +10,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
+using System.Text.Json.Serialization;
+
 
 namespace disclone_api
 {
@@ -41,6 +42,7 @@ namespace disclone_api
                 .AddJsonOptions(options => 
                 {
                     options.JsonSerializerOptions.WriteIndented = true;
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
                 });
 
             builder.Services.AddAuthentication(x => 

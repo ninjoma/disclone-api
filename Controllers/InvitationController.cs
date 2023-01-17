@@ -21,7 +21,7 @@ public class InvitationController : ControllerBase
     #endregion
 
     #region Get
-    [HttpGet("GetById/{id}")]
+    [HttpGet("{id}/")]
     public async Task<ActionResult> GetById(int id)
     {
         var result = await _InvitationSv.GetById(id);
@@ -48,7 +48,7 @@ public class InvitationController : ControllerBase
         }
     }
 
-    [HttpGet("ListByserverId/{id}")]
+    [HttpGet("{id}/server")]
     public async Task<ActionResult> ListByserverId(int id)
     {
         var result = await _InvitationSv.ListByServerId(id);
@@ -62,7 +62,7 @@ public class InvitationController : ControllerBase
         }
     }
 
-    [HttpGet("ListByUserId/{id}")]
+    [HttpGet("{id}/user")]
     public async Task<ActionResult> ListByUserId(int id)
     {
         var result = await _InvitationSv.ListByUserId(id);
@@ -78,10 +78,23 @@ public class InvitationController : ControllerBase
     #endregion
 
     #region Set
-    [HttpPost("AddEditAsync")]
-    public async Task<ActionResult> AddEditAsync(InvitationDTO invitation)
+    [HttpPost("{id}/")]
+    public async Task<ActionResult> Add(InvitationDTO invitation)
     {
-        var result = await _InvitationSv.AddEditAsync(invitation);
+        var result = await _InvitationSv.Add(invitation);
+        if (result != null)
+        {
+            return Ok(result);
+        } else
+        {
+            return BadRequest();
+        }
+    }
+
+    [HttpPut("{id}/")]
+    public async Task<ActionResult> EditById(InvitationDTO invitation)
+    {
+        var result = await _InvitationSv.EditById(invitation);
         if (result != null)
         {
             return Ok(result);
@@ -93,10 +106,10 @@ public class InvitationController : ControllerBase
     #endregion
 
     #region Delete
-    [HttpDelete("ToggleInactiveById/{id}")]
-    public async Task<ActionResult> ToggleInactiveById(int id)
+    [HttpDelete("{id}/")]
+    public async Task<ActionResult> Delete(int id)
     {
-        var result = await _InvitationSv.ToggleInactiveById(id);
+        var result = await _InvitationSv.Delete(id);
         if (result != null)
         {
             return Ok(result);

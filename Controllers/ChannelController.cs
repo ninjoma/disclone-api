@@ -21,10 +21,10 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Get
-        [HttpGet("GetByIdAsync/{id}")]
-        public async Task<IActionResult> GetByIdAsync(int id)
+        [HttpGet("/{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            var result = await _ChannelSv.GetByIdAsync(id);
+            var result = await _ChannelSv.GetById(id);
             if (result != null)
             {
                 return Ok(result);
@@ -35,7 +35,7 @@ namespace disclone_api.Controllers
             }
         }
 
-        [HttpGet("ListByServer/{serverId}")]
+        [HttpGet("/{id}/server")]
         public async Task<IActionResult> ListByServer(int serverId)
         {
             var result = await _ChannelSv.ListByServer(serverId);
@@ -51,10 +51,10 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Set
-        [HttpPost("AddEditAsync")]
-        public async Task<IActionResult> AddEditAsync(ChannelDTO channel)
+        [HttpPut("/{id}")]
+        public async Task<IActionResult> EditById(ChannelDTO channel)
         {
-            var result = await _ChannelSv.AddEditAsync(channel);
+            var result = await _ChannelSv.EditById(channel);
             if (result != null)
             {
                 return Ok(result);
@@ -66,10 +66,10 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
-        [HttpDelete("ToggleInactiveById/{id}")]
-        public async Task<IActionResult> ToggleInactiveById(int id)
+        [HttpDelete("/{id}")]
+        public async Task<IActionResult> DeleteById(int id)
         {
-            var result = await _ChannelSv.ToggleInactiveById(id);
+            var result = await _ChannelSv.DeleteById(id);
             if (result != null)
             {
                 return Ok(result);

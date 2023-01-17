@@ -87,7 +87,7 @@ public class UserController : ControllerBase
     #endregion
 
     #region Get
-    [HttpGet("GetById/{id}")]
+    [HttpGet("{id}/")]
     public async Task<ActionResult> GetById(int id)
     {
         var result = await _UserSv.GetById(id);
@@ -141,10 +141,25 @@ public class UserController : ControllerBase
     #endregion
 
     #region Set
-    [HttpPost("AddEditAsync")]
-    public async Task<ActionResult> AddEditAsync(UserDTO newUser)
+    [HttpPost("{id}/")]
+    public async Task<ActionResult> AddById(UserDTO newUser)
     {
-        var result = await this._UserSv.AddEditAsync(newUser);
+        var result = await this._UserSv.AddById(newUser);
+        if (result != null)
+        {
+            return Ok(result);
+        }
+        else
+        {
+            return BadRequest("Error when updating or creating the user");
+        }
+    }
+
+    [HttpPut("{id}/")]
+
+    public async Task<ActionResult> EditById(UserDTO newUser)
+    {
+        var result = await this._UserSv.EditById(newUser);
         if (result != null)
         {
             return Ok(result);
@@ -172,10 +187,10 @@ public class UserController : ControllerBase
     #endregion
 
     #region Delete
-    [HttpDelete("ToggleInactiveById/{id}")]
-    public async Task<ActionResult> ToggleInactiveById(int id)
+    [HttpDelete("{id}/")]
+    public async Task<ActionResult> DeleteById(int id)
     {
-        var result = await this._UserSv.ToggleInactiveById(id);
+        var result = await this._UserSv.DeleteById(id);
         if (result != null)
         {
             return Ok(result);

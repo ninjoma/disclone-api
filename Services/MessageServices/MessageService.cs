@@ -18,19 +18,8 @@ namespace disclone_api.Services.MessageServices
         #endregion
 
         #region Set
-        public async Task<MessageDTO> AddEdit(MessageDTO message)
-        {
-            if (message.Id != 0)
-            {
-                return await UpdateMessage(message);
-            }
-            else
-            {
-                return await CreateMessage(message);
-            }
-        }
 
-        public async Task<MessageDTO> CreateMessage(MessageDTO message)
+        public async Task<MessageDTO> Add(MessageDTO message)
         {
             message.CreationDate = DateTime.UtcNow;
             var result = _mapper.Map<Message>(message);
@@ -38,7 +27,7 @@ namespace disclone_api.Services.MessageServices
             await _context.SaveChangesAsync();
             return _mapper.Map<MessageDTO>(result);
         }
-        public async Task<MessageDTO> UpdateMessage(MessageDTO message)
+        public async Task<MessageDTO> EditById(MessageDTO message)
         {
             var oldMessage = await _context.Message.FirstOrDefaultAsync(x => x.Id.Equals(message.Id) && x.IsActive == true);
             _mapper.Map<MessageDTO, Message>(message, oldMessage);

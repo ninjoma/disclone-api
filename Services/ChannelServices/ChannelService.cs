@@ -19,25 +19,14 @@ namespace disclone_api.Services.ChannelServices
         #endregion
 
         #region Set
-        public async Task<ChannelDTO> AddEdit(ChannelDTO channel)
-        {
-            if (channel.Id != 0)
-            {
-                return await UpdateChannel(channel);
-            }
-            else
-            {
-                return await CreateChannel(channel);
-            }
-        }
-        public async Task<ChannelDTO> CreateChannel(ChannelDTO channel)
+        public async Task<ChannelDTO> Add(ChannelDTO channel)
         {
             var newChannel = _mapper.Map<Channel>(channel);
             await _context.Channel.AddAsync(newChannel);
             await _context.SaveChangesAsync();
             return _mapper.Map<ChannelDTO>(newChannel);
         }
-        public async Task<ChannelDTO> UpdateChannel(ChannelDTO channel)
+        public async Task<ChannelDTO> EditById(ChannelDTO channel)
         {
             var oldChannel = await _context.Channel.FirstOrDefaultAsync(x => x.Id.Equals(channel.Id));
             _mapper.Map<ChannelDTO, Channel>(channel, oldChannel);

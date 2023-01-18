@@ -53,7 +53,7 @@ namespace disclone_api.Controllers
             memberDTO.UserId = loggedUser.Id;
             memberDTO.ServerId = id;
             memberDTO.IsActive = true;
-            await _MemberSv.AddEditAsync(memberDTO);
+            await _MemberSv.Add(memberDTO);
             return Ok();
         }
 

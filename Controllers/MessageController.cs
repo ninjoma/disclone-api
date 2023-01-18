@@ -40,7 +40,7 @@ namespace disclone_api.Controllers
             var loggedUser = await _AuthSv.GetUserByClaim(User);
             message.UserId = loggedUser.Id;
             message.IsActive = true;
-            await _MessageSv.AddEditAsync(message);
+            await _MessageSv.Add(message);
             return Ok();
         }
 
@@ -49,7 +49,7 @@ namespace disclone_api.Controllers
         public async Task<IActionResult> getMessagesFromChannel(int id)
         {
             var loggedUser = await _AuthSv.GetUserByClaim(User);
-            var channel = await _ChannelSv.GetByIdAsync(id);
+            var channel = await _ChannelSv.GetById(id);
             if(channel == null){
                 return BadRequest();
             }
@@ -67,7 +67,7 @@ namespace disclone_api.Controllers
         [HttpPost("AddEditAsync")]
         public async Task<IActionResult>AddEditAsync(MessageDTO message)
         {
-            var result = await _MessageSv.AddEditAsync(message);
+            var result = await _MessageSv.Add(message);
             if (result != null)
             {
                 return Ok(result);
@@ -123,7 +123,7 @@ namespace disclone_api.Controllers
         [HttpDelete("ToggleInactiveById/{id}")]
         public async Task<IActionResult> ToggleInactiveById(int id)
         {
-            var result = await _MessageSv.ToggleInactiveById(id);
+            var result = await _MessageSv.DeleteById(id);
             if (result != null)
             {
                 return Ok(result);

@@ -1,6 +1,6 @@
-﻿using disclone_api.DTOs.MemberDTOs;
+﻿using disclone_api.DTO;
 
-namespace disclone_api.Services.MemberServices
+namespace disclone_api.Services
 {
     public interface IMemberService
     {

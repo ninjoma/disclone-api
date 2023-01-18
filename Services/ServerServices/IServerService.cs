@@ -1,8 +1,7 @@
 ﻿
-using disclone_api.DTOs.ServerDTOs;
-using disclone_api.DTOs.UserDTOs;
+using disclone_api.DTO;
 
-namespace disclone_api.Services.ServerServices
+namespace disclone_api.Services
 {
     public interface IServerService
     {

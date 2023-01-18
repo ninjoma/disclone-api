@@ -1,7 +1,4 @@
-﻿using disclone_api.DTOs.InvitationDTOs;
-using disclone_api.DTOs.MemberDTOs;
-
-namespace disclone_api.DTOs.ServerDTOs
+﻿namespace disclone_api.DTO
 {
     public class ServerGridDTO
     {

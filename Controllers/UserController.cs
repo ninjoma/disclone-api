@@ -1,13 +1,12 @@
-﻿using disclone_api.DTOs.UserDTOs;
-using disclone_api.Entities;
-using disclone_api.Services.UserServices;
-using disclone_api.Services.AuthServices;
-using disclone_api.Services.LoggerServices;
+﻿using disclone_api.Entities;
+using disclone_api.Services;
+using disclone_api.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using disclone_api.utils;
+
 
 namespace disclone_api.Controllers;
 [ApiController]

@@ -1,7 +1,7 @@
-﻿using disclone_api.DTOs.UserDTOs;
+﻿using disclone_api.DTO;
 using disclone_api.Entities;
 
-namespace disclone_api.Services.UserServices
+namespace disclone_api.Services
 {
     public interface IUserService
     {

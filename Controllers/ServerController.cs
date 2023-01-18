@@ -1,12 +1,5 @@
-﻿using disclone_api.DTOs.ServerDTOs;
-using disclone_api.DTOs.UserDTOs;
-using disclone_api.DTOs.MemberDTOs;
-using disclone_api.DTOs.ChannelDTOs;
-using disclone_api.Entities;
-using disclone_api.Services.ServerServices;
-using disclone_api.Services.AuthServices;
-using disclone_api.Services.MemberServices;
-using disclone_api.Services.ChannelServices;
+using disclone_api.DTO;
+using disclone_api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -99,10 +92,24 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Set
-        [HttpPost("{id}")]
-        public async Task<ActionResult> AddById(ServerDTO newServer)
+        [HttpPost("")]
+        public async Task<ActionResult> Add(ServerDTO newServer)
         {
-            var result = await this._ServerSv.AddById(newServer);
+            var result = await this._ServerSv.Add(newServer);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("")]
+        public async Task<ActionResult> EditById(ServerDTO newServer)
+        {
+            var result = await this._ServerSv.EditById(newServer);
             if (result != null)
             {
                 return Ok(result);
@@ -130,7 +137,7 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
-        [HttpDelete("{id}/")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteById(int id)
         {
             var result = await this._ServerSv.DeleteById(id);
@@ -145,4 +152,5 @@ namespace disclone_api.Controllers
         }
         #endregion
     }
+    
 }

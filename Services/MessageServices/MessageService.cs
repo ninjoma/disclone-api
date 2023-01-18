@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.MessageDTOs;
+using disclone_api.DTO;
 using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace disclone_api.Services.MessageServices
+namespace disclone_api.Services
 {
     public class MessageService : IMessageService
     {

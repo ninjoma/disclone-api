@@ -1,7 +1,6 @@
-﻿using disclone_api.DTOs.InvitationDTOs;
-using disclone_api.DTOs.MemberDTOs;
+﻿using disclone_api.DTO;
 
-namespace disclone_api.Services.InvitationServices
+namespace disclone_api.Services
 {
     public interface IInvitationService
     {

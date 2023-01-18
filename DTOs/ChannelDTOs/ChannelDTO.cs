@@ -1,8 +1,6 @@
-﻿using disclone_api.DTOs.MessageDTOs;
-using disclone_api.DTOs.ServerDTOs;
-using disclone_api.Enums;
+﻿using disclone_api.Enums;
 
-namespace disclone_api.DTOs.ChannelDTOs
+namespace disclone_api.DTO
 {
     public class ChannelDTO
     {

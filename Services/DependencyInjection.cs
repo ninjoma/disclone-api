@@ -1,13 +1,5 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs;
-using disclone_api.Services.ChannelServices;
-using disclone_api.Services.InvitationServices;
-using disclone_api.Services.MemberServices;
-using disclone_api.Services.ServerServices;
-using disclone_api.Services.UserServices;
-using disclone_api.Services.AuthServices;
-using disclone_api.Services.MessageServices;
-using disclone_api.Services.LoggerServices;
+using disclone_api.DTO;
 
 namespace disclone_api.Services
 {

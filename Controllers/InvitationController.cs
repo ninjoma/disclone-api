@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using disclone_api.Entities;
-using disclone_api.Services.InvitationServices;
-using disclone_api.DTOs.InvitationDTOs;
+using disclone_api.Services;
+using disclone_api.DTO;
 
 namespace disclone_api.Controllers;
 [ApiController]
@@ -28,6 +28,7 @@ public class InvitationController : ControllerBase
         if (result != null)
         {
             return Ok(result);
+            
         } else
         {
             return BadRequest();
@@ -78,7 +79,7 @@ public class InvitationController : ControllerBase
     #endregion
 
     #region Set
-    [HttpPost("{id}")]
+    [HttpPost("")]
     public async Task<ActionResult> Add(InvitationDTO invitation)
     {
         var result = await _InvitationSv.Add(invitation);
@@ -91,7 +92,7 @@ public class InvitationController : ControllerBase
         }
     }
 
-    [HttpPut("{id}")]
+    [HttpPost("{id}")]
     public async Task<ActionResult> EditById(InvitationDTO invitation)
     {
         var result = await _InvitationSv.EditById(invitation);

@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.ServerDTOs;
-using disclone_api.Services.MemberServices;
+using disclone_api.DTO;
 using Microsoft.EntityFrameworkCore;
 
-namespace disclone_api.Services.ServerServices
+namespace disclone_api.Services
 {
     public class ServerService : IServerService
     {

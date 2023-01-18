@@ -1,9 +1,4 @@
-﻿using disclone_api.DTOs.InvitationDTOs;
-using disclone_api.DTOs.MemberDTOs;
-using disclone_api.DTOs.MessageDTOs;
-using disclone_api.DTOs.ServerDTOs;
-
-namespace disclone_api.DTOs.UserDTOs
+﻿namespace disclone_api.DTO
 {
     public class UserDTO
     {

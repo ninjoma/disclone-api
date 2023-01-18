@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace disclone_api.Services.LoggerServices
+namespace disclone_api.Services
 {
     public class LoggerService: ILoggerService
     {
@@ -12,8 +12,7 @@ namespace disclone_api.Services.LoggerServices
 
         public void LogMessage(string message)
         {
-            Console.WriteLine("a");
-            _logger.LogInformation(message);   
+            _logger.LogInformation(message);
         }
 
         public void LogMessage(Exception ex)

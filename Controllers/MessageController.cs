@@ -1,9 +1,5 @@
-﻿using disclone_api.DTOs.MessageDTOs;
-using disclone_api.Services.AuthServices;
-using disclone_api.Services.MemberServices;
-using disclone_api.Services.MessageServices;
-using disclone_api.Services.ChannelServices;
-using disclone_api.Services.ServerServices;
+﻿using disclone_api.DTO;
+using disclone_api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -33,17 +29,6 @@ namespace disclone_api.Controllers
         }
         #endregion
 
-        [HttpPost("sendMessage")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<ActionResult> sendMessage(MessageDTO message)
-        {
-            var loggedUser = await _AuthSv.GetUserByClaim(User);
-            message.UserId = loggedUser.Id;
-            message.IsActive = true;
-            await _MessageSv.AddEditAsync(message);
-            return Ok();
-        }
-
         [HttpGet("getMessagesFromChannel/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> getMessagesFromChannel(int id)
@@ -64,22 +49,25 @@ namespace disclone_api.Controllers
         }
 
         #region Set
-        [HttpPost("AddEditAsync")]
-        public async Task<IActionResult>AddEditAsync(MessageDTO message)
+        [HttpPost("")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult> sendMessage(MessageDTO message)
         {
+            var loggedUser = await _AuthSv.GetUserByClaim(User);
+            message.UserId = loggedUser.Id;
+            message.IsActive = true;
             var result = await _MessageSv.AddEditAsync(message);
-            if (result != null)
+            if(result != null)
             {
                 return Ok(result);
-            } else
-            {
+            } else {
                 return BadRequest();
             }
         }
         #endregion
 
         #region Get
-        [HttpGet("GetById/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _MessageSv.GetById(id);
@@ -120,10 +108,10 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
-        [HttpDelete("ToggleInactiveById/{id}")]
-        public async Task<IActionResult> ToggleInactiveById(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteById(int id)
         {
-            var result = await _MessageSv.ToggleInactiveById(id);
+            var result = await _MessageSv.DeleteById(id);
             if (result != null)
             {
                 return Ok(result);
@@ -133,5 +121,6 @@ namespace disclone_api.Controllers
             }
         }
         #endregion
+        
     }
 }

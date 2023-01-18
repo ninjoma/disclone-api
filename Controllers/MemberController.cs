@@ -1,10 +1,9 @@
-﻿using disclone_api.DTOs.MemberDTOs;
-using disclone_api.Services.MemberServices;
-using disclone_api.Services.AuthServices;
-using disclone_api.DTOs.MemberDTOs;
+using disclone_api.DTO;
+using disclone_api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+
 
 
 namespace disclone_api.Controllers

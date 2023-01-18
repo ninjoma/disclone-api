@@ -1,7 +1,4 @@
-﻿using disclone_api.DTOs.ChannelDTOs;
-using disclone_api.DTOs.UserDTOs;
-
-namespace disclone_api.DTOs.MessageDTOs
+﻿namespace disclone_api.DTO
 {
     public class MessageGridDTO
     {

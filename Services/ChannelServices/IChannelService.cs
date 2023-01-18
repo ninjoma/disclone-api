@@ -1,6 +1,6 @@
-﻿using disclone_api.DTOs.ChannelDTOs;
+﻿using disclone_api.DTO;
 
-namespace disclone_api.Services.ChannelServices
+namespace disclone_api.Services
 {
     public interface IChannelService
     {

@@ -1,6 +1,6 @@
-﻿using disclone_api.DTOs.MessageDTOs;
+﻿using disclone_api.DTO;
 
-namespace disclone_api.Services.MessageServices
+namespace disclone_api.Services
 {
     public interface IMessageService
     {

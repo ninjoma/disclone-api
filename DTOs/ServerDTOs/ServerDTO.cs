@@ -1,4 +1,4 @@
-﻿namespace disclone_api.DTOs.ServerDTOs
+﻿namespace disclone_api.DTO
 {
     public class ServerDTO
     {

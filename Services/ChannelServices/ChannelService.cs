@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.ChannelDTOs;
+using disclone_api.DTO;
 using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace disclone_api.Services.ChannelServices
+namespace disclone_api.Services
 {
     public class ChannelService : IChannelService
     {

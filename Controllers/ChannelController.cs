@@ -1,5 +1,5 @@
-﻿using disclone_api.DTOs.ChannelDTOs;
-using disclone_api.Services.ChannelServices;
+﻿using disclone_api.DTO;
+using disclone_api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace disclone_api.Controllers
@@ -11,12 +11,17 @@ namespace disclone_api.Controllers
         #region Constructor
         private readonly DataContext _context;
         private readonly ILogger<ChannelController> _logger;
-        private readonly IChannelService _ChannelSv;
-        public ChannelController(DataContext context, ILogger<ChannelController> logger, IChannelService UserSv)
+        private readonly ChannelService _ChannelSv;
+        private readonly ServerService _ServerSv;
+        private readonly MessageService _MessageSv;
+
+        public ChannelController(DataContext context, ILogger<ChannelController> logger, IChannelService ChannelSv, IServerService ServerSv, IMessageService MessageSv)
         {
             _context = context;
             _logger = logger;
-            _ChannelSv = UserSv;
+            _ChannelSv = ChannelSv;
+            _ServerSv = ServerSv;
+            _MessageSv = MessageSv;
         }
         #endregion
 
@@ -35,7 +40,26 @@ namespace disclone_api.Controllers
             }
         }
 
-        [HttpGet("/{id}/server")]
+        [HttpGet("{id}/message")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> getMessagesFromChannel(int id)
+        {
+            var loggedUser = await _AuthSv.GetUserByClaim(User);
+            var channel = await _ChannelSv.GetByIdAsync(id);
+            if(channel == null){
+                return BadRequest();
+            }
+            var server = await _ServerSv.GetById(channel.ServerId);
+            if(server == null){
+                return BadRequest();
+            }
+            if(server.Members.Any(current => current.UserId == loggedUser.Id)){
+                return Ok(await _MessageSv.ListByChannelId(id));
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("ListByServer/{serverId}")]
         public async Task<IActionResult> ListByServer(int serverId)
         {
             var result = await _ChannelSv.ListByServer(serverId);

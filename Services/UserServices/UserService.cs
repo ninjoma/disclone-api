@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.UserDTOs;
+using disclone_api.DTO;
 using disclone_api.Entities;
 using disclone_api.utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
-namespace disclone_api.Services.UserServices
+namespace disclone_api.Services
 {
     
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

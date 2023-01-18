@@ -1,7 +1,4 @@
-﻿using disclone_api.DTOs.ServerDTOs;
-using disclone_api.DTOs.UserDTOs;
-
-namespace disclone_api.DTOs.MemberDTOs
+﻿namespace disclone_api.DTO
 {
     public class MemberDTO
     {

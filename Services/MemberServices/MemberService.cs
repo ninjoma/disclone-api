@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.MemberDTOs;
-using disclone_api.DTOs.UserDTOs;
-using disclone_api.DTOs.ServerDTOs;
+using disclone_api.DTO;
 using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace disclone_api.Services.MemberServices
+namespace disclone_api.Services
 {
     public class MemberService : IMemberService
     {

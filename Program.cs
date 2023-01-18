@@ -10,8 +10,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
-using System.Text.Json.Serialization;
-
+using System.Reflection;
+using disclone_api.DTO;
 
 namespace disclone_api
 {
@@ -39,11 +39,11 @@ namespace disclone_api
             builder.Services.AddSingleton(mapper);
             builder.Services.AddMvc();
             builder.Services.AddControllers()
-                .AddJsonOptions(options => 
-                {
-                    options.JsonSerializerOptions.WriteIndented = true;
-                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                });
+            .AddJsonOptions(options => 
+            {
+                options.JsonSerializerOptions.WriteIndented = true;
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
 
             builder.Services.AddAuthentication(x => 
             {
@@ -53,9 +53,10 @@ namespace disclone_api
             {
                 x.RequireHttpsMetadata = true;
                 x.SaveToken = true;
+
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Settings["EncryptionKey"] )),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Settings["EncryptionKey"])),
                     ValidateAudience = false,
                     ValidateIssuer = false,
                     ValidateLifetime = false,
@@ -63,13 +64,13 @@ namespace disclone_api
                     ClockSkew = TimeSpan.Zero,
                     ValidateIssuerSigningKey = true
                 };
-                
             });
 
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options => {
+                // JWT Auth
                 var jwtSecurityScheme = new OpenApiSecurityScheme
                 {
                     BearerFormat = "JWT",

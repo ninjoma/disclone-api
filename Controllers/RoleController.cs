@@ -1,7 +1,5 @@
 using disclone_api.Enums;
 using Microsoft.AspNetCore.Mvc;
-using disclone_api.Enums;
-
 
 namespace disclone_api.Controllers {
 
@@ -23,7 +21,7 @@ namespace disclone_api.Controllers {
             return _context.Role.Find(id);
         }
 
-        [HttpPost("create/")]
+        [HttpPost("")]
         public void Create(string name, string color, RolePermissionsEnum permissions)
         {
 

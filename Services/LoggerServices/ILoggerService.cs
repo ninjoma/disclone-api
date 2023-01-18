@@ -1,6 +1,6 @@
 
 
-namespace disclone_api.Services.LoggerServices
+namespace disclone_api.Services
 {
     public interface ILoggerService
     {

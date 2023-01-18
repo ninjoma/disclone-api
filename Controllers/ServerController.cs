@@ -42,19 +42,19 @@ namespace disclone_api.Controllers
                 var loggedUser = await _AuthSv.GetUserByClaim(User);
                 newServer.OwnerId = loggedUser.Id;
                 newServer.IsActive = true;
-                var createdServer = await _ServerSv.AddEditAsync(newServer);
+                var createdServer = await _ServerSv.Add(newServer);
 
                 var memberDTO = new MemberDTO();
                 memberDTO.UserId = loggedUser.Id;
                 memberDTO.ServerId = createdServer.Id;
                 memberDTO.IsActive = true;
-                await _MemberSv.AddEditAsync(memberDTO);
+                await _MemberSv.Add(memberDTO);
 
                 var channelDTO = new ChannelDTO();
                 channelDTO.ServerId = createdServer.Id;
                 channelDTO.Name = "Default Channel";
                 channelDTO.IsActive = true;
-                await _ChannelSv.AddEditAsync(channelDTO);
+                await _ChannelSv.Add(channelDTO);
 
                 return Ok(createdServer.Id);
             }
@@ -92,24 +92,10 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Set
-        [HttpPost("")]
+        [HttpPost("{id}")]
         public async Task<ActionResult> Add(ServerDTO newServer)
         {
             var result = await this._ServerSv.Add(newServer);
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpPut("")]
-        public async Task<ActionResult> EditById(ServerDTO newServer)
-        {
-            var result = await this._ServerSv.EditById(newServer);
             if (result != null)
             {
                 return Ok(result);

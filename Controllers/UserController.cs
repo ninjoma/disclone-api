@@ -141,9 +141,9 @@ public class UserController : ControllerBase
 
     #region Set
     [HttpPost("{id}")]
-    public async Task<ActionResult> AddById(UserDTO newUser)
+    public async Task<ActionResult> Add(UserDTO newUser)
     {
-        var result = await this._UserSv.AddById(newUser);
+        var result = await this._UserSv.Add(newUser);
         if (result != null)
         {
             return Ok(result);

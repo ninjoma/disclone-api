@@ -19,25 +19,14 @@ namespace disclone_api.Services
         #endregion
 
         #region Set
-        public async Task<MemberDTO> AddEdit(MemberDTO member)
-        {
-            if (member.Id != 0)
-            {
-                return await UpdateMember(member);
-            }
-            else
-            {
-                return await CreateMember(member);
-            }
-        }
-        public async Task<MemberDTO> CreateMember(MemberDTO member)
+        public async Task<MemberDTO> Add(MemberDTO member)
         {
             var newMember = _mapper.Map<Member>(member);
             await _context.Member.AddAsync(newMember);
             await _context.SaveChangesAsync();
             return _mapper.Map<MemberDTO>(newMember);
         }
-        public async Task<MemberDTO> UpdateMember(MemberDTO member)
+        public async Task<MemberDTO> EditById(MemberDTO member)
         {
             var oldMember = await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(member.Id));
             _mapper.Map<MemberDTO, Member>(member,oldMember);
@@ -85,7 +74,7 @@ namespace disclone_api.Services
         #endregion
 
         #region Delete
-        public async Task<MemberDTO> Delete(int id)
+        public async Task<MemberDTO> DeleteById(int id)
         {
             var member = await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (member.IsActive)

@@ -7,7 +7,8 @@ namespace disclone_api.Services
     {
         Task<ServerGridDTO> GetById(int id, bool isActive = true);
         Task<List<ServerGridDTO>> ListByName(string name, bool isActive = true);
-        Task<ServerDTO> AddEdit(ServerDTO server);
-        Task<ServerDTO> Delete(int id);
+        Task<ServerDTO> Add(ServerDTO server);
+        Task<ServerDTO> EditById(ServerDTO server);
+        Task<ServerDTO> DeleteById(int id);
     }
 }

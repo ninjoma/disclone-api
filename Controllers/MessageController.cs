@@ -34,7 +34,7 @@ namespace disclone_api.Controllers
         public async Task<IActionResult> getMessagesFromChannel(int id)
         {
             var loggedUser = await _AuthSv.GetUserByClaim(User);
-            var channel = await _ChannelSv.GetByIdAsync(id);
+            var channel = await _ChannelSv.GetById(id);
             if(channel == null){
                 return BadRequest();
             }

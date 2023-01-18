@@ -62,7 +62,7 @@ namespace disclone_api.Services.MessageServices
         
 
         #region Delete
-        public async Task<MessageDTO> Delete(int id)
+        public async Task<MessageDTO> DeleteById(int id)
         {
             var message = await _context.Message.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (message.IsActive)

@@ -52,7 +52,7 @@ namespace disclone_api.Services.ServerServices
         #endregion
 
         #region Delete
-        public async Task<ServerDTO> Delete(int id)
+        public async Task<ServerDTO> DeleteById(int id)
         {
             var server = await _context.Server.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (server.IsActive)

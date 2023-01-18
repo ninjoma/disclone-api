@@ -9,7 +9,7 @@ namespace disclone_api.Services.UserServices
         Task<List<UserGridDTO>> ListByName(string name, bool isActive = true);
         Task<UserDTO> Add(UserDTO user);
         Task<UserDTO> EditById(UserDTO user);
-        Task<UserDTO> Delete(int id);
+        Task<UserDTO> DeleteById(int id);
         Task<UserDTO> Register(UserDTO user);
     }
 }

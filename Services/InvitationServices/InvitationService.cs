@@ -69,7 +69,7 @@ namespace disclone_api.Services.InvitationServices
         #endregion
 
         #region Delete
-        public async Task<InvitationDTO> Delete(int id)
+        public async Task<InvitationDTO> DeleteById(int id)
         {
             var invitation = await _context.Invitation.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (invitation.IsActive)

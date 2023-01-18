@@ -76,7 +76,7 @@ namespace disclone_api.Services.MemberServices
         #endregion
 
         #region Delete
-        public async Task<MemberDTO> Delete(int id)
+        public async Task<MemberDTO> DeleteById(int id)
         {
             var member = await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (member.IsActive)

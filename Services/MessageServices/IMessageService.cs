@@ -9,6 +9,6 @@ namespace disclone_api.Services.MessageServices
         Task<List<MessageGridDTO>> ListByUserId(int userId, bool isActive = true);
         Task<MessageDTO> Add(MessageDTO message);
         Task<MessageDTO> EditById(MessageDTO message);
-        Task<MessageDTO> Delete(int id);
+        Task<MessageDTO> DeleteById(int id);
     }
 }

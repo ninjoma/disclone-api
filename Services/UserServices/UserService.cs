@@ -80,7 +80,7 @@ namespace disclone_api.Services.UserServices
 
         #region Delete
 
-        public async Task<UserDTO> Delete(int id)
+        public async Task<UserDTO> DeleteById(int id)
         {
             var user = await _context.User.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (user.IsActive)

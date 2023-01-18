@@ -10,6 +10,6 @@ namespace disclone_api.Services.MemberServices
         Task<List<MemberGridDTO>> ListByServerId(int id, bool isActive = true);
         Task<MemberDTO> Add(MemberDTO member);
         Task<MemberDTO> EditById(MemberDTO member);
-        Task<MemberDTO> Delete(int id);
+        Task<MemberDTO> DeleteById(int id);
     }
 }

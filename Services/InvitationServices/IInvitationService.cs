@@ -11,6 +11,6 @@ namespace disclone_api.Services.InvitationServices
         Task<List<InvitationGridDTO>> ListByServerId(int id, bool isActive = true);
         Task<InvitationDTO> EditById(InvitationDTO invitation);
         Task<InvitationDTO> Add(InvitationDTO invitation);
-        Task<InvitationDTO> Delete(int id);
+        Task<InvitationDTO> DeleteById(int id);
     }
 }

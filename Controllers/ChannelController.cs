@@ -31,6 +31,11 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Get
+        /// <summary>
+        /// Recupera un canal de chat o texto
+        /// </summary>
+        /// <response code="200">Los datos del canal con el ID especificado</response>
+        /// <response code="400">El canal no existe</response>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -45,6 +50,11 @@ namespace disclone_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Recupera los mensajes y sus datos a partir de la id de un canal
+        /// </summary>
+        /// <response code="200">Una lista de mensajes de un canal.</response>
+        /// <response code="400">El servidor o el canal no existe.</response>
         [HttpGet("{id}/message")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> getMessagesFromChannel(int id)
@@ -66,6 +76,11 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Set
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <response code="200">Una lista de mensajes de un canal.</response>
+        /// <response code="400">El servidor o el canal no existe.</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> EditById(ChannelDTO channel)
         {

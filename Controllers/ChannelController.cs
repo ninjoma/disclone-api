@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace disclone_api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]s")]
     public class ChannelController : ControllerBase
     {
         #region Constructor

@@ -34,7 +34,7 @@ namespace disclone_api.Controllers
         #endregion
 
 
-        [HttpPost("/")]
+        [HttpPost("/me")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> createServer(ServerDTO newServer)
         {
@@ -71,6 +71,33 @@ namespace disclone_api.Controllers
                 return Ok(result);
             }
             else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{serverId}/channel")]
+        public async Task<IActionResult> ListByServer(int serverId)
+        {
+            var result = await _ChannelSv.ListByServer(serverId);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{serverId}/member")]
+        public async Task<ActionResult> ListByserverId(int serverId)
+        {
+            var result = await _MemberSv.ListByServerId(serverId);
+            if (result != null)
+            {
+                return Ok(result);
+            } else
             {
                 return BadRequest();
             }

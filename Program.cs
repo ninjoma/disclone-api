@@ -1,5 +1,4 @@
 using AutoMapper;
-using disclone_api.DTOs;
 using disclone_api.Services;
 using disclone_api.utils;
 using Npgsql;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using disclone_api.DTO;
+using System.Text.Json.Serialization;
 
 namespace disclone_api
 {
@@ -25,6 +25,7 @@ namespace disclone_api
             if(Environment.GetEnvironmentVariable("ENCRYPTION_KEY") != null){
                 Settings["EncryptionKey"] = Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
             }
+            
             if(Environment.GetEnvironmentVariable("DB_PASSWORD") != null){
                 Settings["DBPassword"] = Environment.GetEnvironmentVariable("DB_PASSWORD");
             }
@@ -65,11 +66,13 @@ namespace disclone_api
                     ValidateIssuerSigningKey = true
                 };
             });
-
+            builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options => {
+
+
                 // JWT Auth
                 var jwtSecurityScheme = new OpenApiSecurityScheme
                 {
@@ -91,6 +94,16 @@ namespace disclone_api
                 {
                     {jwtSecurityScheme , Array.Empty<String>() }
                 });
+
+                // Documentation (Swagger Docs)
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Disclone API",
+                    Description = "Backend del mejor clon de discord, Disclone"
+                });
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "disclone-api.xml");
+                options.IncludeXmlComments(filePath);
             });
             builder.Services.RegisterServices();
             var conStrBuilder = new NpgsqlConnectionStringBuilder(builder.Configuration.GetConnectionString("local"));

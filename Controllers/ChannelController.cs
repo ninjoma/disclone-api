@@ -1,6 +1,9 @@
 ﻿using disclone_api.DTO;
 using disclone_api.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace disclone_api.Controllers
 {
@@ -11,22 +14,24 @@ namespace disclone_api.Controllers
         #region Constructor
         private readonly DataContext _context;
         private readonly ILogger<ChannelController> _logger;
-        private readonly ChannelService _ChannelSv;
-        private readonly ServerService _ServerSv;
-        private readonly MessageService _MessageSv;
+        private readonly IChannelService _ChannelSv;
+        private readonly IServerService _ServerSv;
+        private readonly IMessageService _MessageSv;
+        private readonly IAuthService _AuthSv;
 
-        public ChannelController(DataContext context, ILogger<ChannelController> logger, IChannelService ChannelSv, IServerService ServerSv, IMessageService MessageSv)
+        public ChannelController(DataContext context, ILogger<ChannelController> logger, IChannelService ChannelSv, IServerService ServerSv, IMessageService MessageSv, IAuthService AuthSv)
         {
             _context = context;
             _logger = logger;
             _ChannelSv = ChannelSv;
             _ServerSv = ServerSv;
             _MessageSv = MessageSv;
+            _AuthSv = AuthSv;
         }
         #endregion
 
         #region Get
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _ChannelSv.GetById(id);
@@ -45,7 +50,7 @@ namespace disclone_api.Controllers
         public async Task<IActionResult> getMessagesFromChannel(int id)
         {
             var loggedUser = await _AuthSv.GetUserByClaim(User);
-            var channel = await _ChannelSv.GetByIdAsync(id);
+            var channel = await _ChannelSv.GetById(id);
             if(channel == null){
                 return BadRequest();
             }
@@ -58,24 +63,10 @@ namespace disclone_api.Controllers
             }
             return BadRequest();
         }
-
-        [HttpGet("ListByServer/{serverId}")]
-        public async Task<IActionResult> ListByServer(int serverId)
-        {
-            var result = await _ChannelSv.ListByServer(serverId);
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
         #endregion
 
         #region Set
-        [HttpPut("/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditById(ChannelDTO channel)
         {
             var result = await _ChannelSv.EditById(channel);
@@ -90,7 +81,7 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(int id)
         {
             var result = await _ChannelSv.DeleteById(id);

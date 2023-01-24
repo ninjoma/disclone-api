@@ -29,7 +29,7 @@ namespace disclone_api.Controllers
         }
         #endregion
 
-        [HttpGet("getMessagesFromChannel/{id}")]
+        [HttpGet("{id}/channel")] // getMessagesFromChannel/{id}
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> getMessagesFromChannel(int id)
         {
@@ -56,7 +56,7 @@ namespace disclone_api.Controllers
             var loggedUser = await _AuthSv.GetUserByClaim(User);
             message.UserId = loggedUser.Id;
             message.IsActive = true;
-            var result = await _MessageSv.AddEditAsync(message);
+            var result = await _MessageSv.Add(message);
             if(result != null)
             {
                 return Ok(result);
@@ -80,7 +80,7 @@ namespace disclone_api.Controllers
             }
         }
 
-        [HttpGet("ListByChannelId/{id}")]
+        [HttpGet("")]
         public async Task<IActionResult> ListByChannelId(int id)
         {
             var result = await _MessageSv.ListByChannelId(id);
@@ -93,7 +93,7 @@ namespace disclone_api.Controllers
             }
         }
 
-        [HttpGet("ListByUserId/{id}")]
+        [HttpGet("user/{id}/message")]
         public async Task<IActionResult> ListByUserId(int id)
         {
             var result = await _MessageSv.ListByUserId(id);
@@ -108,7 +108,7 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
-        [HttpDelete("{id}")]
+        [HttpDelete("message/{id}")]
         public async Task<IActionResult> DeleteById(int id)
         {
             var result = await _MessageSv.DeleteById(id);

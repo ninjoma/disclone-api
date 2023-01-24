@@ -24,12 +24,7 @@ namespace disclone_api.Services
         #endregion
 
         #region Set
-
-        /// <summary>
-        /// Crea un usuario
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns>Devuelve el usuario creado</returns>
+        
         public async Task<UserDTO> Add(UserDTO user)
         {
             var newUser = _mapper.Map<User>(user);
@@ -38,11 +33,6 @@ namespace disclone_api.Services
             return _mapper.Map<UserDTO>(newUser);
         }
 
-        /// <summary>
-        /// Actualiza un usuario ya existente
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns>devuelve el objeto del usuario actualizado</returns>
         public async Task<UserDTO> EditById(UserDTO user)
         {
             var oldUser = await _context.User.FirstOrDefaultAsync(x => x.Id.Equals(user.Id));

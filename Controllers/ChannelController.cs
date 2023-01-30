@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace disclone_api.Controllers
 {
     [ApiController]
-    [Route("[controller]s")]
+    [Route("[controller]")]
     public class ChannelController : ControllerBase
     {
         #region Constructor

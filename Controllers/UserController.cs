@@ -40,18 +40,45 @@ public class UserController : ControllerBase
     }
 
     #region Get
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var result = await _UserSv.GetById(id);
-        if (result != null)
+        if(id != null)
         {
-            return Ok(result);
+            var userbyid = await _UserSv.GetById(id);
+            if (userbyid != null)
+            {
+                return Ok(userbyid);
+            }
         }
-        else
+        return NotFound("Not found");
+    }
+
+    [HttpGet("{username}")]
+    public async Task<ActionResult> GetByName(string username)
+    {
+        if(username != null)
         {
-            return NotFound("Not found");
+            var userbyname = await _UserSv.ListByName(username);
+            if(userbyname != null)
+            {
+                return Ok(userbyname);
+            }
         }
+        return NotFound("Not found");
+    }
+
+    [HttpGet("{email}")]
+    public async Task<ActionResult> GetByEmail(string email)
+    {
+        if(email != null)
+        {
+            var userbymail = await _context.User.FirstOrDefaultAsync(x => x.Email.Equals(email) && x.IsActive == true);
+            if(userbymail != null){
+                return Ok(userbymail);
+            }
+        }
+        return NotFound("Not found");
     }
 
     [HttpGet("{id}/member")]
@@ -64,44 +91,6 @@ public class UserController : ControllerBase
         } else
         {
             return BadRequest();
-        }
-    }
-
-    [HttpGet("UserNameExist/{username}")]
-    public async Task<ActionResult> UserNameExist(string username)
-    {
-        if (await _context.User.FirstOrDefaultAsync(x => x.Username.Equals(username) && x.IsActive == true) != null)
-        {
-            return Ok(true);
-        } else
-        {
-            return Ok(false);
-        }
-    }
-
-    [HttpGet("EmailExist/{email}")]
-    public async Task<ActionResult> EmailExist(string email)
-    {
-        if (await _context.User.FirstOrDefaultAsync(x => x.Email.Equals(email) && x.IsActive == true) != null)
-        {
-            return Ok(true);
-        } else
-        {
-            return Ok(false);
-        }
-    }
-
-    [HttpGet("ListByName")]
-    
-    public async Task<ActionResult> ListByName(string name)
-    {
-        var result = await _UserSv.ListByName(name);
-        if (result != null)
-        {
-            return Ok(result);
-        } else
-        {
-            return NotFound("Not found");
         }
     }
     #endregion

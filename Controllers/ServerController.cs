@@ -34,7 +34,7 @@ namespace disclone_api.Controllers
         #endregion
 
 
-        [HttpPost("/me")]
+        [HttpPost("me")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> createServer(ServerDTO newServer)
         {

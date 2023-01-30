@@ -69,19 +69,6 @@ namespace disclone_api.Controllers
                 return BadRequest();
             }
         }
-
-        [HttpGet("GetByServerIdAndByUserId/{userId}/{serverId}")]
-        public async Task<ActionResult> GetByServerIdAndByUserId(int userId, int serverId)
-        {
-            var result = await _MemberSv.GetByServerIdAndByUserId(userId, serverId);
-            if (result != null)
-            {
-                return Ok(result);
-            } else
-            {
-                return BadRequest();
-            }
-        }
         #endregion
 
         #region Set

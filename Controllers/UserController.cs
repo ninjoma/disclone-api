@@ -93,6 +93,19 @@ public class UserController : ControllerBase
             return BadRequest();
         }
     }
+
+    [HttpGet("{userId}/server/{serverId}/member")]
+    public async Task<ActionResult> GetByServerIdAndByUserId(int userId, int serverId)
+    {
+        var result = await _MemberSv.GetByServerIdAndByUserId(userId, serverId);
+        if (result != null)
+        {
+            return Ok(result);
+        } else
+        {
+            return BadRequest();
+        }
+    }
     #endregion
 
     #region Set

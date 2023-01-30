@@ -39,33 +39,56 @@ namespace disclone_api.Controllers
         public async Task<ActionResult> createServer(ServerDTO newServer)
         {
             if(newServer != null && newServer.Name != null && newServer.Name != ""){
+                
+                // Assign User Ownership
                 var loggedUser = await _AuthSv.GetUserByClaim(User);
                 newServer.OwnerId = loggedUser.Id;
                 newServer.IsActive = true;
+
+                // Create Server
                 var createdServer = await _ServerSv.Add(newServer);
 
+                // Joins User to Server
                 var memberDTO = new MemberDTO();
                 memberDTO.UserId = loggedUser.Id;
                 memberDTO.ServerId = createdServer.Id;
                 memberDTO.IsActive = true;
                 await _MemberSv.Add(memberDTO);
 
+                // Creates Default Channel
                 var channelDTO = new ChannelDTO();
                 channelDTO.ServerId = createdServer.Id;
                 channelDTO.Name = "Default Channel";
                 channelDTO.IsActive = true;
                 await _ChannelSv.Add(channelDTO);
 
+                // Returns Channel Id
                 return Ok(createdServer.Id);
             }
             return BadRequest();
         }
 
         #region Get
-        [HttpGet("{id}")]
+        [HttpGet("/server/{id:int}")]
         public async Task<ActionResult> GetById(int id)
         {
+            Console.WriteLine("GetById");
             var result = await _ServerSv.GetById(id);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("")]
+        public async Task<ActionResult> ListByName(string name)
+        {
+            Console.WriteLine(name);
+            var result = await _ServerSv.ListByName(name);
             if (result != null)
             {
                 return Ok(result);
@@ -102,24 +125,10 @@ namespace disclone_api.Controllers
                 return BadRequest();
             }
         }
-
-        [HttpGet("ListByName")]
-        public async Task<ActionResult> ListByName(string name)
-        {
-            var result = await _ServerSv.ListByName(name);
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
         #endregion
 
         #region Set
-        [HttpPost("{id}")]
+        [HttpPost("")]
         public async Task<ActionResult> Add(ServerDTO newServer)
         {
             var result = await this._ServerSv.Add(newServer);

@@ -77,10 +77,10 @@ namespace disclone_api.Controllers
 
         #region Set
         /// <summary>
-        /// 
+        /// Edita un canal por su id
         /// </summary>
-        /// <response code="200">Una lista de mensajes de un canal.</response>
-        /// <response code="400">El servidor o el canal no existe.</response>
+        /// <response code="200">El canal ha sido editado satifactoriamente.</response>
+        /// <response code="400">El canal no existe.</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> EditById(ChannelDTO channel)
         {
@@ -96,6 +96,12 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
+
+        /// <summary>
+        /// Eliminar un canal por su id
+        /// </summary>
+        /// <response code="200">El canal ha sido eliminado satfactoriamente.<i/response>
+        /// <response code="400">El canal no existe.</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(int id)
         {

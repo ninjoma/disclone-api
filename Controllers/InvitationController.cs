@@ -35,7 +35,7 @@ public class InvitationController : ControllerBase
         }
     }
 
-    [HttpGet("/user/{userId}/server/{serverId}")]
+    /*[HttpGet("/user/{userId}/server/{serverId}")]
     public async Task<ActionResult> GetByServerIdAndByUserId(int userId, int serverId)
     {
         var result = await _InvitationSv.GetByServerIdAndByUserId(userId, serverId);
@@ -47,7 +47,7 @@ public class InvitationController : ControllerBase
         {
             return BadRequest();
         }
-    }
+    }*/
 
     [HttpGet("{id}/server")]
     public async Task<ActionResult> ListByServerId(int id)

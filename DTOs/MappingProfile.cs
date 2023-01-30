@@ -20,38 +20,28 @@ namespace disclone_api.DTO
             CreateMap<Server, ServerDTO>()
                 .ReverseMap();
 
-            CreateMap<Server, ServerGridDTO>()
-                .ReverseMap();
             #endregion
 
             #region Member
             CreateMap<Member, MemberDTO>()
                 .ReverseMap();
 
-            CreateMap<Member, MemberGridDTO>()
-                .ReverseMap();
             #endregion
 
             #region Invitation
             CreateMap<Invitation, InvitationDTO>()
                 .ReverseMap();
 
-            CreateMap<Invitation, MemberGridDTO>()
-                .ReverseMap();
             #endregion
 
             #region Channel
             CreateMap<Channel, ChannelDTO>()
                 .ReverseMap();
 
-            CreateMap<Channel, ChannelGridDTO>()
-                .ReverseMap();
             #endregion
 
             #region Message
             CreateMap<Message, MessageDTO>()
-                .ReverseMap();
-            CreateMap<Message, MessageGridDTO>()
                 .ReverseMap();
             #endregion
         }

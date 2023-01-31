@@ -11,15 +11,11 @@ namespace disclone_api.DTO
             CreateMap<User, UserDTO>()
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
                 .ReverseMap();
-
-            CreateMap<User, UserGridDTO>()
-                .ReverseMap();
             #endregion
 
             #region Server
             CreateMap<Server, ServerDTO>()
                 .ReverseMap();
-
             #endregion
 
             #region Member

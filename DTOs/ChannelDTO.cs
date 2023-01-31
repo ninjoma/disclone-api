@@ -10,5 +10,7 @@ namespace disclone_api.DTO
         public ChannelTypeEnum Type { get; set; }
         public DateTime CreationDate { get; set; }
         public bool IsActive { get; set; }
+        public virtual ServerDTO? Server { get; set; }
+        public virtual List<MessageDTO>? Messages { get; set; }
     }
 }

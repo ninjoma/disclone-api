@@ -1,6 +1,6 @@
 ﻿namespace disclone_api.DTO
 {
-    public class MessageGridDTO
+    public class MessageDTO
     {
         public int Id { get; set; }
         public int UserId { get; set; }

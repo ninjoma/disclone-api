@@ -44,24 +44,24 @@ namespace disclone_api.Services
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<InvitationGridDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
+        public async Task<InvitationDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
         {
-            return _mapper.Map<InvitationGridDTO>(await _context.Invitation
+            return _mapper.Map<InvitationDTO>(await _context.Invitation
                 .FirstOrDefaultAsync(x => x.Receiver.Equals(userId) 
                 && x.ServerId.Equals(serverId) && x.IsActive == isActive));
         }
 
-        public async Task<List<InvitationGridDTO>> ListByServerId(int id, bool isActive = true)
+        public async Task<List<InvitationDTO>> ListByServerId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<InvitationGridDTO>>(await _context.Invitation
+            return _mapper.Map<List<InvitationDTO>>(await _context.Invitation
                 .Where(x => x.ServerId.Equals(id) 
                 && x.IsActive == isActive)
                 .ToListAsync());
         }
 
-        public async Task<List<InvitationGridDTO>> ListByUserId(int id, bool isActive = true)
+        public async Task<List<InvitationDTO>> ListByUserId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<InvitationGridDTO>>(await _context.Invitation
+            return _mapper.Map<List<InvitationDTO>>(await _context.Invitation
                 .Where(x => x.Receiver.Equals(id) 
                 && x.IsActive == isActive)
                 .ToListAsync());

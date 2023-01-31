@@ -32,7 +32,6 @@ namespace disclone_api
 
             Settings = builder.Configuration;
 
-
             // Load Encryption Key and Password from Environment. (Docker Configuration)
             if(Environment.GetEnvironmentVariable("ENCRYPTION_KEY") != null){
                 Settings["EncryptionKey"] = Environment.GetEnvironmentVariable("ENCRYPTION_KEY");

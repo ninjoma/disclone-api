@@ -36,7 +36,7 @@ namespace disclone_api.Controllers
             }
             else
             {
-                return BadRequest();
+                return NotFound();
             }
         }
 

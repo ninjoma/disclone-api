@@ -1,6 +1,6 @@
 namespace disclone_api.Repositories
 {
-    public interface IMainRepository<T> : IDisposable where T : class
+    public interface IRepository<T> : IDisposable where T : class
     {
         Task<IEnumerable<T>> List();
         Task<T> GetById(int id);

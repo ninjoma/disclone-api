@@ -63,7 +63,7 @@ namespace disclone_api.Repositories
 
         public async Task<T> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<T>(await dbSet.FindAsync(id));
+            return _mapper.Map<T>(await dbSet.FirstOrDefaultAsync(x => x.Id.Equals(id)));
         }
 
         public async Task<IEnumerable<T>> List(bool isActive = true)

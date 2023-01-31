@@ -35,7 +35,6 @@ public class AuthController : ControllerBase
     /// <summary>
     /// Crea un usuario
     /// </summary>
-    /// <param name="newUser">El usuario representado por el modelo de datos UserDTO.</param>
     /// <returns>Devuelve 200 si sale bien, 400 si la petición está mal formada.</returns>
     /// <response code="200">Usuario Creado</response>
     /// <response code="400">Consulta mal formada</response>
@@ -64,7 +63,7 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public IActionResult Login(UserDTO user)
     {
-        var dbUser = _context.User.FirstOrDefault(u => u.Username == user.UserName);
+        var dbUser = _context.User.FirstOrDefault(u => u.Username == user.Username);
 
         if (dbUser == null)
         {

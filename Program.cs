@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System.Reflection;
 using disclone_api.DTO;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace disclone_api
 {
@@ -32,7 +33,6 @@ namespace disclone_api
 
             Settings = builder.Configuration;
 
-
             // Load Encryption Key and Password from Environment. (Docker Configuration)
             if(Environment.GetEnvironmentVariable("ENCRYPTION_KEY") != null){
                 Settings["EncryptionKey"] = Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
@@ -52,10 +52,10 @@ namespace disclone_api
             builder.Services.AddSingleton(mapper);
             builder.Services.AddMvc();
             builder.Services.AddControllers()
-            .AddJsonOptions(options => 
-            {
-                options.JsonSerializerOptions.WriteIndented = true;
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            .AddNewtonsoftJson(options => {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
 
             builder.Services.AddAuthentication(x => 

@@ -9,7 +9,7 @@
         /// Nombre de Usuario
         /// </summary>
         /// <example>Ninjam</example>
-        public string? UserName { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
         /// Email del Usuario
@@ -40,5 +40,9 @@
         /// </summary>
         /// <example>true</example>
         public bool IsActive { get; set; }
+        public virtual List<MemberDTO>? Members { get; set; }
+        public virtual List<InvitationDTO>? Invitations { get; set; }
+        public virtual List<MessageDTO>? Messages { get; set; }
+        public virtual List<ServerDTO>? Servers { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace disclone_api.Repositories
 {
-    public class Repository<T, V> : IRepository<T> where T : class where V : Entity
+    public class Repository<T, V> : IRepository<T,V> where T : class where V : Entity
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;

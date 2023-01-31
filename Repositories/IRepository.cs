@@ -1,6 +1,6 @@
 namespace disclone_api.Repositories
 {
-    public interface IRepository<T> : IDisposable where T : class
+    public interface IRepository<T,V> : IDisposable where T : class
     {
         Task<IEnumerable<T>> List(bool isActive = true);
         Task<T> GetById(int id, bool isActive = true);

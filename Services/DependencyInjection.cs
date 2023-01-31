@@ -17,7 +17,7 @@ namespace disclone_api.Services
             collection.AddTransient<IAuthService, AuthService>();
             collection.AddTransient<IMessageService, MessageService>();
             collection.AddTransient<ILoggerService, LoggerService>();
-            collection.AddScoped(typeof(IRepository<>), typeof(Repository<,>));
+            collection.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
         }
     }
 }

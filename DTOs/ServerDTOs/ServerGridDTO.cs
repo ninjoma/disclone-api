@@ -1,6 +1,6 @@
 ﻿namespace disclone_api.DTO
 {
-    public class ServerGridDTO
+    public class ServerDTO
     {
         public int Id { get; set; }
         public int OwnerId { get; set; }

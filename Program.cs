@@ -1,5 +1,4 @@
 using AutoMapper;
-using disclone_api.DTOs;
 using disclone_api.Services;
 using disclone_api.utils;
 using Npgsql;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using disclone_api.DTO;
+using System.Text.Json.Serialization;
 
 namespace disclone_api
 {
@@ -21,15 +21,28 @@ namespace disclone_api
         {
             
             var builder = WebApplication.CreateBuilder(args);
+
+            // Allow multiple appsettings environments (local, prod, dev)...
+
+            builder.Configuration
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{builder.Environment}.json", optional: true)
+                .AddEnvironmentVariables();
+
             Settings = builder.Configuration;
+
+
+            // Load Encryption Key and Password from Environment. (Docker Configuration)
             if(Environment.GetEnvironmentVariable("ENCRYPTION_KEY") != null){
                 Settings["EncryptionKey"] = Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
             }
+            
             if(Environment.GetEnvironmentVariable("DB_PASSWORD") != null){
                 Settings["DBPassword"] = Environment.GetEnvironmentVariable("DB_PASSWORD");
             }
 
-            //Mapper
+            // Mapper
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -65,7 +78,7 @@ namespace disclone_api
                     ValidateIssuerSigningKey = true
                 };
             });
-
+            builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -91,6 +104,16 @@ namespace disclone_api
                 {
                     {jwtSecurityScheme , Array.Empty<String>() }
                 });
+
+                // Documentation (Swagger Docs)
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Disclone API",
+                    Description = "Backend del mejor clon de discord, Disclone"
+                });
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "disclone-api.xml");
+                options.IncludeXmlComments(filePath);
             });
             builder.Services.RegisterServices();
             var conStrBuilder = new NpgsqlConnectionStringBuilder(builder.Configuration.GetConnectionString("local"));
@@ -118,7 +141,6 @@ namespace disclone_api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseCors("frontendOrigin");
             // Microsoft Things: https://stackoverflow.com/questions/57998262/why-is-claimtypes-nameidentifier-not-mapping-to-sub
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseAuthorization();

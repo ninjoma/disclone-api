@@ -38,9 +38,9 @@ namespace disclone_api.Services
         #endregion
 
         #region Get
-        public async Task<InvitationGridDTO> GetById(int id, bool isActive = true)
+        public async Task<InvitationDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<InvitationGridDTO>(await _context.Invitation
+            return _mapper.Map<InvitationDTO>(await _context.Invitation
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 

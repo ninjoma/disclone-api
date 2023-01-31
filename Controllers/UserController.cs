@@ -20,121 +20,90 @@ public class UserController : ControllerBase
     private readonly ITokenBuilder _tokenBuilder;
     private readonly IAuthService _AuthSv;
     private readonly ILoggerService _loggerSv;
-    public UserController(DataContext context, ILoggerService loggerSv, IUserService UserSv, ITokenBuilder tokenBuilder, IAuthService AuthSv)
+    private readonly IMemberService _MemberSv;
+    public UserController(DataContext context, ILoggerService loggerSv, IUserService UserSv, ITokenBuilder tokenBuilder, IAuthService AuthSv, IMemberService MemberSv)
     {
         _context = context;
         _loggerSv = loggerSv;
         _UserSv = UserSv;
         _AuthSv = AuthSv;
         _tokenBuilder = tokenBuilder;
+        _MemberSv = MemberSv;
     }
     #endregion
 
-    [HttpGet("getUserInfo")]
+    [HttpGet("me")]
     public async Task<ActionResult> GetUserInfo()
     {
         var loggedUser = await _AuthSv.GetUserByClaim(User);
         return Ok(loggedUser);
     }
 
-    #region Auth
-    [HttpPost("login")]
-    [AllowAnonymous]
-    public IActionResult Login(UserDTO user)
-    {
-        var dbUser = _context.User.FirstOrDefault(u => u.Username == user.UserName);
-
-        if (dbUser == null)
-        {
-            return NotFound("User not found.");
-        }
-
-        var isValid = dbUser.Password == DCrypt.Encrypt(user.Password);
-        if (!isValid)
-        {
-            return BadRequest("Could not authenticate user.");
-        }
-    
-        var token = _tokenBuilder.BuildToken(dbUser.Id);
-
-        return Ok(token);
-    }
-
-    [HttpGet("verify")]
-    public IActionResult VerifyToken()
-    {
-
-        var userid = User
-            .Claims
-            .SingleOrDefault();
-
-
-        if (userid == null)
-        {
-            return Unauthorized();
-        }
-
-        var userExists = _context.User.Any(u => u.Id == Int32.Parse(userid.Value));
-
-        if (!userExists)
-        {
-            return Unauthorized();
-        }
-
-        return NoContent();
-    }
-    #endregion
-
     #region Get
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var result = await _UserSv.GetById(id);
+        if(id != null)
+        {
+            var userbyid = await _UserSv.GetById(id);
+            if (userbyid != null)
+            {
+                return Ok(userbyid);
+            }
+        }
+        return NotFound("Not found");
+    }
+
+    [HttpGet("{username}")]
+    public async Task<ActionResult> GetByName(string username)
+    {
+        if(username != null)
+        {
+            var userbyname = await _UserSv.ListByName(username);
+            if(userbyname != null)
+            {
+                return Ok(userbyname);
+            }
+        }
+        return NotFound("Not found");
+    }
+
+    [HttpGet("{email}")]
+    public async Task<ActionResult> GetByEmail(string email)
+    {
+        if(email != null)
+        {
+            var userbymail = await _context.User.FirstOrDefaultAsync(x => x.Email.Equals(email) && x.IsActive == true);
+            if(userbymail != null){
+                return Ok(userbymail);
+            }
+        }
+        return NotFound("Not found");
+    }
+
+    [HttpGet("{id}/member")]
+    public async Task<ActionResult> ListMemberByUserId(int id)
+    {
+        var result = await _MemberSv.ListByUserId(id);
         if (result != null)
         {
             return Ok(result);
-        }
-        else
-        {
-            return NotFound("Not found");
-        }
-    }
-
-    [HttpGet("UserNameExist/{username}")]
-    public async Task<ActionResult> UserNameExist(string username)
-    {
-        if (await _context.User.FirstOrDefaultAsync(x => x.Username.Equals(username) && x.IsActive == true) != null)
-        {
-            return Ok(true);
         } else
         {
-            return Ok(false);
+            return BadRequest();
         }
     }
 
-    [HttpGet("EmailExist/{email}")]
-    public async Task<ActionResult> EmailExist(string email)
+    [HttpGet("{userId}/server/{serverId}/member")]
+    public async Task<ActionResult> GetByServerIdAndByUserId(int userId, int serverId)
     {
-        if (await _context.User.FirstOrDefaultAsync(x => x.Email.Equals(email) && x.IsActive == true) != null)
-        {
-            return Ok(true);
-        } else
-        {
-            return Ok(false);
-        }
-    }
-
-    [HttpGet("ListByName")]
-    
-    public async Task<ActionResult> ListByName(string name)
-    {
-        var result = await _UserSv.ListByName(name);
+        var result = await _MemberSv.GetByServerIdAndByUserId(userId, serverId);
         if (result != null)
         {
             return Ok(result);
         } else
         {
-            return NotFound("Not found");
+            return BadRequest();
         }
     }
     #endregion
@@ -155,7 +124,6 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
-
     public async Task<ActionResult> EditById(UserDTO newUser)
     {
         var result = await this._UserSv.EditById(newUser);

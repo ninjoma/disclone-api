@@ -36,17 +36,17 @@ namespace disclone_api.Services
         #endregion
 
         #region Get
-        public async Task<MemberGridDTO> GetById(int id, bool isActive = true)
+        public async Task<MemberDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<MemberGridDTO>(await _context.Member
+            return _mapper.Map<MemberDTO>(await _context.Member
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<MemberGridDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
+        public async Task<MemberDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
         {
-            return _mapper.Map<MemberGridDTO>(await _context.Member
+            return _mapper.Map<MemberDTO>(await _context.Member
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .FirstOrDefaultAsync(x => x.UserId.Equals(userId) 
@@ -54,18 +54,18 @@ namespace disclone_api.Services
                 && x.IsActive == isActive));
         }
 
-        public async Task<List<MemberGridDTO>> ListByServerId(int id, bool isActive = true)
+        public async Task<List<MemberDTO>> ListByServerId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<MemberGridDTO>>(await _context.Member
+            return _mapper.Map<List<MemberDTO>>(await _context.Member
                 .Where(x => x.ServerId.Equals(id) && x.IsActive == isActive)
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .ToListAsync());
         }
 
-        public async Task<List<MemberGridDTO>> ListByUserId(int id, bool isActive = true)
+        public async Task<List<MemberDTO>> ListByUserId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<MemberGridDTO>>(await _context.Member
+            return _mapper.Map<List<MemberDTO>>(await _context.Member
                 .Where(x => x.UserId.Equals(id) && x.IsActive == isActive)
                 .Include(x => x.User)
                 .Include(x => x.Server)

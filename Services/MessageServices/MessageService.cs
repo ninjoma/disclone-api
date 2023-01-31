@@ -37,23 +37,23 @@ namespace disclone_api.Services
         #endregion
 
         #region Get
-        public async Task<MessageGridDTO> GetById(int id, bool isActive = true)
+        public async Task<MessageDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<MessageGridDTO>(await _context.Message
+            return _mapper.Map<MessageDTO>(await _context.Message
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<List<MessageGridDTO>> ListByChannelId(int channelId, bool isActive)
+        public async Task<List<MessageDTO>> ListByChannelId(int channelId, bool isActive)
         {
-            return _mapper.Map<List<MessageGridDTO>>(await _context.Message
+            return _mapper.Map<List<MessageDTO>>(await _context.Message
                 .Where(x => x.ChannelId.Equals(channelId) && x.IsActive == isActive)
                 .Include(x => x.User).OrderBy(x => x.CreationDate)
                 .ToListAsync());
         }
 
-        public async Task<List<MessageGridDTO>> ListByUserId(int userId, bool isActive)
+        public async Task<List<MessageDTO>> ListByUserId(int userId, bool isActive)
         {
-            return _mapper.Map<List<MessageGridDTO>>(await _context.Message
+            return _mapper.Map<List<MessageDTO>>(await _context.Message
                 .Where(x => x.UserId.Equals(userId) && isActive == true)
                 .Include(x => x.User)
                 .ToListAsync());

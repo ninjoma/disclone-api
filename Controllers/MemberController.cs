@@ -28,7 +28,7 @@ namespace disclone_api.Controllers
         #endregion
 
 
-        [HttpGet("fetchServers")]
+        [HttpGet("me")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> fetchServers()
         {
@@ -40,7 +40,7 @@ namespace disclone_api.Controllers
             return BadRequest();
         }
 
-        [HttpGet("joinServer/{id}")]
+        [HttpGet("me/server/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> joinServer(int id)
         {
@@ -57,7 +57,7 @@ namespace disclone_api.Controllers
         }
 
         #region Get
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
             var result = await _MemberSv.GetById(id);
@@ -69,50 +69,10 @@ namespace disclone_api.Controllers
                 return BadRequest();
             }
         }
-
-        [HttpGet("GetByServerIdAndByUserId/{userId}/{serverId}")]
-        public async Task<ActionResult> GetByServerIdAndByUserId(int userId, int serverId)
-        {
-            var result = await _MemberSv.GetByServerIdAndByUserId(userId, serverId);
-            if (result != null)
-            {
-                return Ok(result);
-            } else
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpGet("ListByserverId/{id}")]
-        public async Task<ActionResult> ListByserverId(int id)
-        {
-            var result = await _MemberSv.ListByServerId(id);
-            if (result != null)
-            {
-                return Ok(result);
-            } else
-            {
-                return BadRequest();
-            }
-        }
-
-
-        [HttpGet("ListByUserId/{id}")]
-        public async Task<ActionResult> ListByUserId(int id)
-        {
-            var result = await _MemberSv.ListByUserId(id);
-            if (result != null)
-            {
-                return Ok(result);
-            } else
-            {
-                return BadRequest();
-            }
-        }
         #endregion
 
         #region Set
-        [HttpPost("/{id}")]
+        [HttpPost("{id}")]
         public async Task<ActionResult> EditById(MemberDTO member)
         {
             var result = await _MemberSv.EditById(member);
@@ -127,7 +87,7 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteById(int id)
         {
             var result = await _MemberSv.DeleteById(id);

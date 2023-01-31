@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using disclone_api.DTO;
+using disclone_api.Repositories;
 
 namespace disclone_api.Services
 {
@@ -16,6 +17,7 @@ namespace disclone_api.Services
             collection.AddTransient<IAuthService, AuthService>();
             collection.AddTransient<IMessageService, MessageService>();
             collection.AddTransient<ILoggerService, LoggerService>();
+            collection.AddScoped(typeof(IRepository<>), typeof(Repository<,>));
         }
     }
 }

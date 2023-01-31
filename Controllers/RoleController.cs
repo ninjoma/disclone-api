@@ -30,7 +30,7 @@ namespace disclone_api.Controllers {
                 Color = color,
                 Permits = permissions,
                 CreationDate = DateTime.Now.ToUniversalTime(),
-                isActive = true
+                IsActive = true
             };
             _context.Role.Add(newRole);
             _context.SaveChanges();

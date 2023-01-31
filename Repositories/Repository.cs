@@ -1,9 +1,10 @@
 using AutoMapper;
+using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace disclone_api.Repositories
 {
-    public class Repository<T, V> : IRepository<T> where T : class where V : class
+    public class Repository<T, V> : IRepository<T> where T : class where V : Entity
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -60,12 +61,12 @@ namespace disclone_api.Repositories
             return _mapper.Map<T>(entity);
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T> GetById(int id, bool isActive = true)
         {
             return _mapper.Map<T>(await dbSet.FindAsync(id));
         }
 
-        public async Task<IEnumerable<T>> List()
+        public async Task<IEnumerable<T>> List(bool isActive = true)
         {
             return _mapper.Map<IEnumerable<T>>(await dbSet.ToListAsync());
         }

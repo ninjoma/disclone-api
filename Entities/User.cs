@@ -6,10 +6,8 @@ namespace disclone_api.Entities
 {
     [Index(nameof(Username), IsUnique = true)]
     [Index(nameof(Email), IsUnique = true)]
-    public class User
+    public class User : Entity
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string? Username { get; set; }
         [Required]
@@ -18,8 +16,6 @@ namespace disclone_api.Entities
         public string? Password { get; set; }
         public string? Image { get; set; }
         public DateTime CreationDate { get; set; }
-        [Required]
-        public bool IsActive { get; set; }
 
         [ForeignKey("UserId")]
         public virtual ICollection<Member>? Members { get; set; }

@@ -45,13 +45,18 @@ namespace disclone_api.Controllers
         public async Task<ActionResult> joinServer(int id)
         {
             var loggedUser = await _AuthSv.GetUserByClaim(User);
-            if((await _MemberSv.ListByServerId(id)).Count < 1){
+            
+            if(await _MemberSv.ListByServerId(id) == null){
                 return BadRequest();
             }
-            var memberDTO = new MemberDTO();
-            memberDTO.UserId = loggedUser.Id;
-            memberDTO.ServerId = id;
-            memberDTO.IsActive = true;
+
+            var memberDTO = new MemberDTO{
+                UserId = loggedUser.Id,
+                ServerId = id,
+                Nickname = loggedUser.Username,
+                IsActive = true
+            };
+
             await _MemberSv.Add(memberDTO);
             return Ok();
         }

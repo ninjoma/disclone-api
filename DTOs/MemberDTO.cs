@@ -8,6 +8,10 @@
         public string? Nickname { get; set; }
         public DateTime JoinDate { get; set; }
         public bool IsActive { get; set; }
+    }
+
+    public class MemberDetailDTO : MemberDTO
+    {
         public virtual UserDTO? User { get; set; }
         public virtual ServerDTO? Server { get; set; }
     }

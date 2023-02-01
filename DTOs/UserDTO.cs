@@ -40,6 +40,10 @@
         /// </summary>
         /// <example>true</example>
         public bool IsActive { get; set; }
+    }
+
+    public class UserDetailDTO : UserDTO
+    {
         public virtual List<MemberDTO>? Members { get; set; }
         public virtual List<InvitationDTO>? Invitations { get; set; }
         public virtual List<MessageDTO>? Messages { get; set; }

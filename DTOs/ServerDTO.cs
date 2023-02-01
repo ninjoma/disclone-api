@@ -7,6 +7,10 @@
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public bool IsActive { get; set; }
+    }
+
+    public class ServerDetailDTO : ServerDTO
+    {
         public virtual List<MemberDTO>? Members { get; set; }
         public virtual List<InvitationDTO>? Invitations { get; set; }
     }

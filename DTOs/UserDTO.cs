@@ -1,10 +1,7 @@
 ﻿namespace disclone_api.DTO
 {
-    public class UserDTO
+    public class UserDTO : BaseDTO
     {
-
-        public int Id { get; set; }
-
         /// <summary>
         /// Nombre de Usuario
         /// </summary>
@@ -39,7 +36,6 @@
         /// Si el usuario es usable por las operaciones del frontend o no.
         /// </summary>
         /// <example>true</example>
-        public bool IsActive { get; set; }
         public virtual List<MemberDTO>? Members { get; set; }
         public virtual List<InvitationDTO>? Invitations { get; set; }
         public virtual List<MessageDTO>? Messages { get; set; }

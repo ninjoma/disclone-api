@@ -8,6 +8,11 @@ namespace disclone_api.DTO
         public string Name { get; set; }
         public ChannelTypeEnum Type { get; set; }
         public DateTime CreationDate { get; set; }
+
+    }
+    
+    public class ChannelDetailDTO : ChannelDTO 
+    {
         public virtual ServerDTO? Server { get; set; }
         public virtual List<MessageDTO>? Messages { get; set; }
     }

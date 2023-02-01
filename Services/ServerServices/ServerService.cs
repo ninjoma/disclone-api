@@ -39,9 +39,9 @@ namespace disclone_api.Services
         #endregion
 
         #region Get
-        public async Task<ServerDTO> GetById(int id, bool isActive = true)
+        public async Task<ServerDetailDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<ServerDTO>(await _context.Server.Include(x => x.Members).FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
+            return _mapper.Map<ServerDetailDTO>(await _context.Server.Include(x => x.Members).FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
         public async Task<List<ServerDTO>> ListByName(string name, bool isActive = true)

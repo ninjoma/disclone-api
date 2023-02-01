@@ -36,6 +36,10 @@
         /// Si el usuario es usable por las operaciones del frontend o no.
         /// </summary>
         /// <example>true</example>
+    }
+
+    public class UserDetailDTO : UserDTO
+    {
         public virtual List<MemberDTO>? Members { get; set; }
         public virtual List<InvitationDTO>? Invitations { get; set; }
         public virtual List<MessageDTO>? Messages { get; set; }

@@ -53,9 +53,9 @@ namespace disclone_api.Services
         #endregion
 
         #region Get
-        public async Task<UserDTO> GetById(int id, bool isActive = true)
+        public async Task<UserDetailDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<UserDTO>(await _context.User
+            return _mapper.Map<UserDetailDTO>(await _context.User
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 

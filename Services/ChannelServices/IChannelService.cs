@@ -2,7 +2,7 @@
 
 namespace disclone_api.Services
 {
-    public interface IChannelService : IMainService<ChannelDTO>
+    public interface IChannelService : IMainService<ChannelDTO, ChannelDetailDTO>
     {
         public Task<List<ChannelDTO>> ListByServer(int channelId, bool isActive = true);
 

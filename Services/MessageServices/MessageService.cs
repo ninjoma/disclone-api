@@ -37,9 +37,9 @@ namespace disclone_api.Services
         #endregion
 
         #region Get
-        public async Task<MessageDTO> GetById(int id, bool isActive = true)
+        public async Task<MessageDetailDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<MessageDTO>(await _context.Message
+            return _mapper.Map<MessageDetailDTO>(await _context.Message
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 

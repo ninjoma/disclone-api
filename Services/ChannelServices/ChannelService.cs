@@ -36,9 +36,9 @@ namespace disclone_api.Services
         #endregion
 
         #region Get
-        public async Task<ChannelDTO> GetById(int id, bool isActive = true)
+        public async Task<ChannelDetailDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<ChannelDTO>(await _context.Channel
+            return _mapper.Map<ChannelDetailDTO>(await _context.Channel
                 .Include(x => x.Server)
                 .Include(x => x.Messages)
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));

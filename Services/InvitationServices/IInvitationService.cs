@@ -2,7 +2,7 @@
 
 namespace disclone_api.Services
 {
-    public interface IInvitationService : IMainService<InvitationDTO>
+    public interface IInvitationService : IMainService<InvitationDTO, InvitationDetailDTO>
     {
         Task<List<InvitationDTO>> ListByUserId(int id, bool isActive = true);
         Task<InvitationDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true);

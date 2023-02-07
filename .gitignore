@@ -4,3 +4,4 @@ bin/
 .vscode/
 logs/
 appsettings.local.json
+docker-compose.override.yaml

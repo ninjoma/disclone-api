@@ -2,6 +2,10 @@
 using disclone_api.DTO;
 using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
+using disclone_api.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace disclone_api.Services
 {
@@ -10,10 +14,13 @@ namespace disclone_api.Services
         #region Constructor
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public MessageService(DataContext context, IMapper mapper)
+
+        private readonly IHubContext<EventHub> _hubContext;
+        public MessageService(DataContext context, IMapper mapper, IHubContext<EventHub> hubContext)
         {
             _context = context;
             _mapper = mapper;
+            _hubContext = hubContext;
         }
         #endregion
 
@@ -25,6 +32,10 @@ namespace disclone_api.Services
             var result = _mapper.Map<Message>(message);
             await _context.Message.AddAsync(result);
             await _context.SaveChangesAsync();
+            var response = new {
+                channelId = message.ChannelId
+            };
+            await _hubContext.Clients.All.SendAsync("onEvent", "MESSAGE_SENT", JsonSerializer.Serialize(response));
             return _mapper.Map<MessageDTO>(result);
         }
         public async Task<MessageDTO> EditById(MessageDTO message)

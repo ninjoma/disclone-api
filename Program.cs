@@ -13,6 +13,7 @@ using System.Reflection;
 using disclone_api.DTO;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using disclone_api.Hubs;
 
 namespace disclone_api
 {
@@ -112,6 +113,7 @@ namespace disclone_api
                     Title = "Disclone API",
                     Description = "Backend del mejor clon de discord, Disclone"
                 });
+                options.AddSignalRSwaggerGen();
                 var filePath = Path.Combine(System.AppContext.BaseDirectory, "disclone-api.xml");
                 options.IncludeXmlComments(filePath);
             });
@@ -136,6 +138,7 @@ namespace disclone_api
             builder.Services.AddScoped<ITokenBuilder, TokenBuilder>();
 
             builder.Services.AddLogging(x => x.AddFile("logs/log.txt")).BuildServiceProvider();
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -157,8 +160,12 @@ namespace disclone_api
             // Microsoft Things: https://stackoverflow.com/questions/57998262/why-is-claimtypes-nameidentifier-not-mapping-to-sub
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseAuthorization();
+            
             app.MapControllers();
             app.UseCors("frontendOrigin");
+
+            app.MapHub<EventHub>("/hub");
+
             app.Run();
 
         }

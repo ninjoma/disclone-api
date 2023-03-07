@@ -116,6 +116,9 @@ namespace disclone_api
                 options.IncludeXmlComments(filePath);
             });
             builder.Services.RegisterServices();
+        
+
+
             var conStrBuilder = new NpgsqlConnectionStringBuilder(builder.Configuration.GetConnectionString("local"));
             conStrBuilder.Password = Settings["DBPassword"];
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conStrBuilder.ConnectionString));
@@ -136,7 +139,17 @@ namespace disclone_api
 
             var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
+            // Run migrations
+            using(var scope = app.Services.CreateScope()) {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<DataContext>();
+                if(context.Database.GetPendingMigrations().Any()){
+                    context.Database.Migrate();
+                }
+            }
+
+
+            if (app.Environment.IsDevelopment() || Environment.GetEnvironmentVariable("USE_SWAGGER") == "true")
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

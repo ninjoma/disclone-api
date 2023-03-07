@@ -8,14 +8,15 @@ services:
     environment:
       - ENCRYPTION_KEY=supermegasecret_
       - DB_PASSWORD=supermegapassword
+      - USE_SWAGGER=true
     volumes:
       - ./logs:/App/logs
-    profiles: ["prod"]
-  postgres:
+    profiles: ["api", "all"]
+  postgresdb:
     image: postgres:latest
     environment:
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_PASSWORD=supermegasecret_
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
       - "5432:5432"
-    profiles: ["local"]
+    profiles: ["db", "all"]

@@ -32,10 +32,12 @@ namespace disclone_api.Services
             var result = _mapper.Map<Message>(message);
             await _context.Message.AddAsync(result);
             await _context.SaveChangesAsync();
+            
             var response = new {
                 channelId = message.ChannelId
             };
             await _hubContext.Clients.All.SendAsync("onEvent", "MESSAGE_SENT", JsonSerializer.Serialize(response));
+            
             return _mapper.Map<MessageDTO>(result);
         }
         public async Task<MessageDTO> EditById(MessageDTO message)

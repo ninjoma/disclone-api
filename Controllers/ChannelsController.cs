@@ -30,6 +30,22 @@ namespace disclone_api.Controllers
         }
         #endregion
 
+
+        [HttpPost("/servers/{id}/channels")]
+        public async Task<IActionResult> Add(int id, ChannelDTO channel)
+        {
+            channel.ServerId = id;
+            var result = await _ChannelSv.Add(channel);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         #region Get
         /// <summary>
         /// Recupera un canal de chat o texto

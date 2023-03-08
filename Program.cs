@@ -131,7 +131,7 @@ namespace disclone_api
                 options.AddPolicy(name: "frontendOrigin",
                     policy  =>
                     {
-                        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+                        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                     });
             });
             

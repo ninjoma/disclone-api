@@ -33,6 +33,8 @@ namespace disclone_api
 
             Settings = builder.Configuration;
 
+            
+
             // Load Encryption Key and Password from Environment. (Docker Configuration)
             if(Environment.GetEnvironmentVariable("ENCRYPTION_KEY") != null){
                 Settings["EncryptionKey"] = Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
@@ -128,6 +130,8 @@ namespace disclone_api
             } else {
                 connStr = builder.Configuration.GetConnectionString("local");
             }
+            Console.WriteLine("EncryptionKey: " + Settings["EncryptionKey"]);
+            Console.WriteLine("DBPassword: " + Settings["DBPassword"]);
             Console.WriteLine("Connection String found: " + connStr);
             var conStrBuilder = new NpgsqlConnectionStringBuilder(connStr);
             Console.WriteLine("conStrBuilder.ConnectionString: " + conStrBuilder.ConnectionString);

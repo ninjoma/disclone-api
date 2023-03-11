@@ -12,15 +12,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+      DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
+      USE_SWAGGER: ${{ secrets.USE_SWAGGER }}
     services:
-          postgres:
-            image: postgres:latest
-            env:
-              POSTGRES_USER: postgres
-              POSTGRES_PASSWORD: supermegapassword
-              POSTGRES_HOST_AUTH_METHOD: trust
-            ports:
-              - 5432:5432
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
     steps:
       - uses: actions/checkout@v2
 

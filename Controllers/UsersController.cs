@@ -32,14 +32,29 @@ public class UsersController : ControllerBase
     }
     #endregion
 
+    /// <summary>
+    /// Recupera los datos del usuario actualmente logueado.
+    /// </summary>
+    /// <response code="200">Devuelve las propiedades del usuario que está actualmente logueado.</response>
+    /// <response code="400">No se dispone de la suficiente información en la petición para poder 
+    /// determinar el usuario del cliente que ha realizado la petición.</response>
     [HttpGet("me")]
     public async Task<ActionResult> GetUserInfo()
     {
         var loggedUser = await _AuthSv.GetUserByClaim(User);
-        return Ok(loggedUser);
+        if(loggedUser != null){
+            return Ok(loggedUser);
+        } else {
+            return BadRequest();
+        }
     }
 
     #region Get
+    /// <summary>
+    /// Recupera los datos de un usuario en base a su Id.
+    /// </summary>
+    /// <response code="200">Devuelve las propiedades del usuario.</response>
+    /// <response code="400">El usuario pedido en la petición no existe.</response>
     [HttpGet("{id:int}")]
     public async Task<ActionResult> GetById(int id)
     {
@@ -54,6 +69,11 @@ public class UsersController : ControllerBase
         return NotFound("Not found");
     }
 
+    /// <summary>
+    /// Recupera un usuario en base a su 'nickname' o apodo online.
+    /// </summary>
+    /// <response code="200">Devuelve el usuario que coincide con el parámetro.</response>
+    /// <response code="400">El usuario pedido en la petición no existe.</response>
     [HttpGet("{username}")]
     public async Task<ActionResult> GetByName(string username)
     {
@@ -68,6 +88,11 @@ public class UsersController : ControllerBase
         return NotFound("Not found");
     }
 
+    /// <summary>
+    /// Recupera un usuario en base a su correo electrónico.
+    /// </summary>
+    /// <response code="200">Devuelve el usuario que coincide con el parámetro.</response>
+    /// <response code="400">El usuario pedido en la petición no existe.</response>
     [HttpGet("{email}")]
     public async Task<ActionResult> GetByEmail(string email)
     {
@@ -81,6 +106,11 @@ public class UsersController : ControllerBase
         return NotFound("Not found");
     }
 
+    /// <summary>
+    /// Recupera todos los miembros del usuario pedido.
+    /// </summary>
+    /// <response code="200">Devuelve una lista con todos las entidades miembro (propiedad de servidor) del usuario</response>
+    /// <response code="400">El usuario pedido en la petición no existe.</response>
     [HttpGet("{id}/members")]
     public async Task<ActionResult> ListMemberByUserId(int id)
     {
@@ -94,6 +124,11 @@ public class UsersController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Devuelve los miembros de un servidor en base a un usuario perteneciente al mismo.
+    /// </summary>
+    /// <response code="200">Devuelve una lista con miembros que pertenecen al servidor en el que está al usuario</response>
+    /// <response code="400">El usuario o el servidor pedidos en la petición no existen.</response>
     [HttpGet("{userId}/servers/{serverId}/members")]
     public async Task<ActionResult> GetByServerIdAndByUserId(int userId, int serverId)
     {
@@ -109,6 +144,11 @@ public class UsersController : ControllerBase
     #endregion
 
     #region Set
+    /// <summary>
+    /// Crea un nuevo usuario.
+    /// </summary>
+    /// <response code="200">El usuario ha sido creado satisfactoriamente.</response>
+    /// <response code="400">Los datos suministrados están mal formados.</response>
     [HttpPost("{id}")]
     public async Task<ActionResult> Add(UserDTO newUser)
     {
@@ -123,6 +163,11 @@ public class UsersController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Actualiza los datos de un usuario.
+    /// </summary>
+    /// <response code="200">Los datos del usuario han sido actualizados satisfactoriamente.</response>
+    /// <response code="400">Los datos suministrados para actualizar al usuario están mal formados.</response>
     [HttpPut("{id}")]
     public async Task<ActionResult> EditById(UserDTO newUser)
     {
@@ -139,6 +184,11 @@ public class UsersController : ControllerBase
     #endregion
 
     #region Delete
+    /// <summary>
+    /// Elimina un usuario.
+    /// </summary>
+    /// <response code="200">El usuario ha sido eliminado satisfactoriamente.</response>
+    /// <response code="400">Los datos suministrados para eliminar al usuario están mal formados..</response>
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteById(int id)
     {

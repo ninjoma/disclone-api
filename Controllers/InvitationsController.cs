@@ -20,6 +20,12 @@ public class InvitationsController : ControllerBase
     }
     #endregion
 
+
+    /// <summary>
+    /// Recupera los detalles de una invitación.
+    /// </summary>
+    /// <response code="200">La invitación existe.</response>
+    /// <response code="400">La invitación pedida no existe.</response>
     #region Get
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
@@ -49,6 +55,12 @@ public class InvitationsController : ControllerBase
         }
     }*/
 
+
+    /// <summary>
+    /// Recupera el servidor asociado con esa invitación
+    /// </summary>
+    /// <response code="200">Devuelve servidor asociado con la invitación.</response>
+    /// <response code="400">La invitación pedida no existe.</response>
     [HttpGet("{id}/servers")]
     public async Task<ActionResult> ListByServerId(int id)
     {
@@ -63,6 +75,11 @@ public class InvitationsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Recupera los usuarios relacionados con esa invitación
+    /// </summary>
+    /// <response code="200">Devuelve el usuario asociado con la invitación.</response>
+    /// <response code="400">La invitación pedida no existe.</response>
     [HttpGet("{id}/users")]
     public async Task<ActionResult> ListByUserId(int id)
     {
@@ -78,6 +95,11 @@ public class InvitationsController : ControllerBase
     }
     #endregion
 
+    /// <summary>
+    /// Crea una invitación a partir de los datos suministrados.
+    /// </summary>
+    /// <response code="200">La invitación ha sido creada satisfactoriamente.</response>
+    /// <response code="400">La invitación no se ha podido crear por un error en la declaración.</response>
     #region Set
     [HttpPost("")]
     public async Task<ActionResult> Add(InvitationDTO invitation)
@@ -92,6 +114,11 @@ public class InvitationsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Edita una invitación.
+    /// </summary>
+    /// <response code="200">La invitación ha sido editada satisfactoriamente.</response>
+    /// <response code="400">La invitación no se ha podido crear por un error en los datos de la petición.</response>
     [HttpPost("{id}")]
     public async Task<ActionResult> EditById(InvitationDTO invitation)
     {
@@ -106,6 +133,11 @@ public class InvitationsController : ControllerBase
     }
     #endregion
 
+    /// <summary>
+    /// Elimina la invitación.
+    /// </summary>
+    /// <response code="200">La invitación ha sido eliminada satifactoriamente.</response>
+    /// <response code="400">Hay errores en la petición para eliminar la invitación.</response>
     #region Delete
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteById(int id)

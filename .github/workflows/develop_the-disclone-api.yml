@@ -18,7 +18,7 @@ jobs:
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       USE_SWAGGER: ${{ vars.USE_SWAGGER }}
     services:
-      postgres:
+      postgresdb:
         image: postgres:latest
         env:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}

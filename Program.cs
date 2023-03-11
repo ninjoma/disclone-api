@@ -128,8 +128,9 @@ namespace disclone_api
             } else {
                 connStr = builder.Configuration.GetConnectionString("local");
             }
-
+            Console.WriteLine("Connection String found: " + connStr);
             var conStrBuilder = new NpgsqlConnectionStringBuilder(connStr);
+            Console.WriteLine("conStrBuilder.ConnectionString: " + conStrBuilder.ConnectionString);
             conStrBuilder.Password = Settings["DBPassword"];
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conStrBuilder.ConnectionString));
             

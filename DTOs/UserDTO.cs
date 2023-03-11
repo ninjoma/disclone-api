@@ -34,9 +34,22 @@
 
     public class UserDetailDTO : UserDTO
     {
+        /// <summary>
+        /// Lista de las entidades miembro que pertenecen al usuario.
+        /// </summary>
         public virtual List<MemberDTO>? Members { get; set; }
+
+        /// <summary>
+        /// Lista de las entidades invitación que pertenecen al usuario.
+        /// </summary>
         public virtual List<InvitationDTO>? Invitations { get; set; }
+        /// <summary>
+        /// Lista de las entidades mensaje que el usuario ha enviado.
+        /// </summary>
         public virtual List<MessageDTO>? Messages { get; set; }
+        /// <summary>
+        /// Lista de servidores en los que el usuario se encuentra actualmente.
+        /// </summary>
         public virtual List<ServerDTO>? Servers { get; set; }
     }
 }

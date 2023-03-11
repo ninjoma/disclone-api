@@ -12,10 +12,12 @@ namespace disclone_api.DTO
         /// <summary>
         /// Nombre del canal.
         /// </summary>
+        /// <example>Channel Name</example>
         public string Name { get; set; }
         /// <summary>
         /// Tipo de canal.
         /// </summary>
+        /// <example>1</example>
         public ChannelTypeEnum Type { get; set; }
         /// <summary>
         /// Fecha de creación del canal.

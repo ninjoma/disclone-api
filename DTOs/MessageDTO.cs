@@ -13,6 +13,7 @@
         /// <summary>
         /// Contenido del mensaje.
         /// </summary>
+        /// <example>Sample text</example>
         public string? Content { get; set; }
         /// <summary>
         /// Fecha en la que se creó el mensaje.

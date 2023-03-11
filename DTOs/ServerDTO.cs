@@ -10,6 +10,7 @@
         /// <summary>
         /// Nombre del servidor.
         /// </summary>
+        /// <example>Sample Server Name</example>
         public string Name { get; set; }
 
         /// <summary>

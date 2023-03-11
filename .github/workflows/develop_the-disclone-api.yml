@@ -15,6 +15,7 @@ jobs:
     env:
       ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
       DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       USE_SWAGGER: ${{ vars.USE_SWAGGER }}
     services:
       postgres:

@@ -7,6 +7,7 @@ namespace disclone_api.DTO
         /// <summary>
         /// Identificador del servidor que contiene el canal.
         /// </summary>
+        /// <example>0</example>
         public int ServerId { get; set; }
 
         /// <summary>

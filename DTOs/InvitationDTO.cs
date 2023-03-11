@@ -5,10 +5,12 @@
         /// <summary>
         /// Identificador del servidor en el que se envió la invitación.
         /// </summary>
+        /// <example>0</example>
         public int ServerId { get; set; }
         /// <summary>
         /// Identificador del usuario que recibe la petición.
         /// </summary>
+        /// <example>0</example>
         public int Receiver { get; set; }
         /// <summary>
         /// Url que cuando un usuario pulsa, entra automáticamente al servidor asociado con la invitación.
@@ -17,6 +19,7 @@
         /// <summary>
         /// Fecha de creación de la invitación.
         /// </summary>
+        /// <example> </example>
         public DateTime? CreationDate { get; set; }
         /// <summary>
         /// Fecha de expiración de la invitación.

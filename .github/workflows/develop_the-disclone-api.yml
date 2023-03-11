@@ -12,12 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
-      DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      USE_SWAGGER: ${{ vars.USE_SWAGGER }}
-      APP_ENVIRONMENT: 'Production'
     steps:
       - uses: actions/checkout@v2
 

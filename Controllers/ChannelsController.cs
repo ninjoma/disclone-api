@@ -100,7 +100,7 @@ namespace disclone_api.Controllers
         /// <summary>
         /// Eliminar un canal por su id
         /// </summary>
-        /// <response code="200">El canal ha sido eliminado satfactoriamente.<i/response>
+        /// <response code="200">El canal ha sido eliminado satfactoriamente.</response>
         /// <response code="400">El canal no existe.</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(int id)

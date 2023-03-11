@@ -27,7 +27,11 @@ namespace disclone_api.Controllers
         }
         #endregion
 
-
+        /// <summary>
+        /// Devuelve las entidades que demuestran la pertenencia a los servidores (miembros)
+        /// </summary>
+        /// <response code="200">Devuelve la lista de miembros del usuario.</response>
+        /// <response code="400">Error en la petición.</response>
         [HttpGet("me")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> fetchServers()
@@ -40,6 +44,11 @@ namespace disclone_api.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Une al usuario a un servidor
+        /// </summary>
+        /// <response code="200">El usuario se ha unido al servidor satisfactoriamente.</response>
+        /// <response code="400">Error en la petición.</response>
         [HttpGet("me/servers/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> joinServer(int id)
@@ -62,6 +71,11 @@ namespace disclone_api.Controllers
         }
 
         #region Get
+        /// <summary>
+        /// Recupera una entidad miembro (Demuestra propiedad de usuario en servidor)
+        /// </summary>
+        /// <response code="200">Devuelve información sobre el miembro por el ID suministrado.</response>
+        /// <response code="400">No se ha podido encontrar la entidad miembro por su ID.</response>
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
@@ -77,6 +91,11 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Set
+        /// <summary>
+        /// Editar una entidad miembro.
+        /// </summary>
+        /// <response code="200">La entidad miembro se ha editado satisfactoriamente.</response>
+        /// <response code="400">No se ha podido encontrar la entidad miembro por su ID.</response>
         [HttpPost("{id}")]
         public async Task<ActionResult> EditById(MemberDTO member)
         {
@@ -92,6 +111,11 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
+        /// <summary>
+        /// Eliminar una entidad miembro.
+        /// </summary>
+        /// <response code="200">La entidad miembro se ha eliminado satisfactoriamente.</response>
+        /// <response code="400">No se ha podido encontrar la entidad miembro por su ID.</response>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteById(int id)
         {

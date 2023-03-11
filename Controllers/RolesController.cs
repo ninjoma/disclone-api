@@ -15,6 +15,12 @@ namespace disclone_api.Controllers {
 
         private readonly ILogger<RolesController> _logger;
 
+
+        /// <summary>
+        /// Recupera los detalles sobre un rol.
+        /// </summary>
+        /// <response code="200">Recupera las propiedades de un rol.</response>
+        /// <response code="400">No se ha podido recuperar el rol descrito en la petición.</response>
         [HttpGet("{id}")]
         public Role? Get(int id)
         {

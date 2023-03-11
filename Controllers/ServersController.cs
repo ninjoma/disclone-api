@@ -33,7 +33,11 @@ namespace disclone_api.Controllers
         }
         #endregion
 
-
+        /// <summary>
+        /// Recupera todos los servidores que le pertenecen al usuario.
+        /// </summary>
+        /// <response code="200">Devuelve una lista llena de todos los servidores en los que está el usuario.</response>
+        /// <response code="400">El usuario no existe o no se ha logueado correctamente. (Su token es inválido)</response>
         [HttpPost("me")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> createServer(ServerDTO newServer)
@@ -69,6 +73,11 @@ namespace disclone_api.Controllers
         }
 
         #region Get
+        /// <summary>
+        /// Recupera el servidor en base a su ID.
+        /// </summary>
+        /// <response code="200">Devuelve las propiedades del servidor pedido.</response>
+        /// <response code="400">El servidor demandado por la petición no existe.</response>
         [HttpGet("{id:int}")]
         public async Task<ActionResult> GetById(int id)
         {
@@ -84,7 +93,12 @@ namespace disclone_api.Controllers
             }
         }
 
-        [HttpGet("")]
+        /// <summary>
+        /// Recupera una lista de servidores en base al nombre.
+        /// </summary>
+        /// <response code="200">Devuelve una lista de servidores.</response>
+        /// <response code="400">No existe ningún servidor que contenga ese nombre.</response>
+        [HttpGet("{name}")]
         public async Task<ActionResult> ListByName(string name)
         {
             Console.WriteLine(name);
@@ -99,6 +113,11 @@ namespace disclone_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Recupera todos los canales de un servidor.
+        /// </summary>
+        /// <response code="200">Devuelve una lista con todos los canales de un servidor.</response>
+        /// <response code="400">No existe el servidor suministrado por la petición.</response>
         [HttpGet("{serverId}/channels")]
         public async Task<IActionResult> ListByServer(int serverId)
         {
@@ -113,6 +132,11 @@ namespace disclone_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Lista a todos los miembros de un servidor.
+        /// </summary>
+        /// <response code="200">Devuelve una lista de miembros que pertenecen al servidor.</response>
+        /// <response code="400">No existe el servidor descrito por la petición.</response>
         [HttpGet("{serverId}/members")]
         public async Task<ActionResult> ListByserverId(int serverId)
         {
@@ -128,6 +152,11 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Set
+        /// <summary>
+        /// Crea un servidor en base a los datos de la petición.
+        /// </summary>
+        /// <response code="200">El servidor ha sido creado satisfactoriamente.</response>
+        /// <response code="400">El servidor pedido en la petición no existe.</response>
         [HttpPost("")]
         public async Task<ActionResult> Add(ServerDTO newServer)
         {
@@ -141,7 +170,12 @@ namespace disclone_api.Controllers
                 return BadRequest();
             }
         }
-
+        
+        /// <summary>
+        /// Edita los datos de un servidor.
+        /// </summary>
+        /// <response code="200">El servidor ha sido editado satisfactoriamente.</response>
+        /// <response code="400">El servidor pedido en la petición no existe.</response>
         [HttpPut("{id}")]
         public async Task<ActionResult> EditById(ServerDTO newServer)
         {
@@ -159,6 +193,11 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Delete
+        /// <summary>
+        /// Elimina los datos de un servidor.
+        /// </summary>
+        /// <response code="200">El servidor ha sido eliminado satisfactoriamente.</response>
+        /// <response code="400">El servidor pedido en la petición no existe.</response>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteById(int id)
         {

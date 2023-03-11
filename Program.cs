@@ -42,6 +42,10 @@ namespace disclone_api
                 Settings["DBPassword"] = Environment.GetEnvironmentVariable("DB_PASSWORD");
             }
 
+            if(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") != null){
+                Settings["DB_CONNECTION_STRING"] = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            }
+
             // Mapper
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -116,10 +120,16 @@ namespace disclone_api
                 options.IncludeXmlComments(filePath);
             });
             builder.Services.RegisterServices();
-        
 
+            // Support for environment based connection strings
+            var connStr = "";
+            if(Settings["DB_CONNECTION_STRING"] != null){
+                connStr = Settings["DB_CONNECTION_STRING"];
+            } else {
+                connStr = builder.Configuration.GetConnectionString("local");
+            }
 
-            var conStrBuilder = new NpgsqlConnectionStringBuilder(builder.Configuration.GetConnectionString("local"));
+            var conStrBuilder = new NpgsqlConnectionStringBuilder(connStr);
             conStrBuilder.Password = Settings["DBPassword"];
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conStrBuilder.ConnectionString));
             

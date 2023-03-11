@@ -5,14 +5,17 @@
         /// <summary>
         /// Identificador del usuario que es miembro.
         /// </summary>
+        /// <example>0</example>
         public int UserId { get; set; }
         /// <summary>
         /// Identificador del servidor al que pertenece el miembro.
         /// </summary>
+        /// <example>0</example>
         public int ServerId { get; set; }
         /// <summary>
         /// Apodo del miembro en el servidor.
         /// </summary>
+        /// <example>Sample Name</example>
         public string? Nickname { get; set; }
         /// <summary>
         /// Fecha en la que el usuario se unió al servidor.

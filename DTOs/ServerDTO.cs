@@ -5,6 +5,7 @@
         /// <summary>
         /// Identificador del usuario que creó el servidor.
         /// </summary>
+        /// <example>0</example>
         public int OwnerId { get; set; }
 
         /// <summary>

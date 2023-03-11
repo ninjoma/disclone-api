@@ -5,10 +5,12 @@
         /// <summary>
         /// Identificador del usuario que al que pertenece el mensaje.
         /// </summary>
+        /// <example>0</example>
         public int UserId { get; set; }
         /// <summary>
         /// Identificador del canal donde se envió el mensaje.
         /// </summary>
+        /// <example>0</example>
         public int ChannelId { get; set; }
         /// <summary>
         /// Contenido del mensaje.

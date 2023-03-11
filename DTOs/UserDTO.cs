@@ -29,13 +29,7 @@
         /// <summary>
         /// Fecha de creación del usuario. Autogenerado por el servidor.
         /// </summary>
-        /// <example>2/2/2022</example>
         public DateTime CreationDate { get; set; }
-
-        /// <summary>
-        /// Si el usuario es usable por las operaciones del frontend o no.
-        /// </summary>
-        /// <example>true</example>
     }
 
     public class UserDetailDTO : UserDTO

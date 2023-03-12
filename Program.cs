@@ -26,8 +26,6 @@ namespace disclone_api
             builder.WebHost.UseSentry(o =>
                 {
                     o.Dsn = "https://b6aab43f0e2a42f982c85be97beaba29@log.disclone.online/1";
-                    // When configuring for the first time, to see what the SDK is doing:
-                    o.Debug = true;
                     o.TracesSampleRate = 1.0;
                 }
             );

@@ -26,7 +26,7 @@ namespace disclone_api
 
             builder.WebHost.UseSentry(o =>
                 {
-                    o.Dsn = "https://b6aab43f0e2a42f982c85be97beaba29@log.disclone.online/1";
+                    o.Dsn = "https://45554c0222a94b118c6d7ca101b3c04d@o4504822339010560.ingest.sentry.io/4504822340845568";
                     o.TracesSampleRate = 1.0;
                 }
             );

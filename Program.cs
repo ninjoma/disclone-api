@@ -13,6 +13,7 @@ using System.Reflection;
 using disclone_api.DTO;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using Sentry;
 
 namespace disclone_api
 {
@@ -20,8 +21,16 @@ namespace disclone_api
     {
         static void Main(string[] args)
         {
-            
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.WebHost.UseSentry(o =>
+                {
+                    o.Dsn = "https://b6aab43f0e2a42f982c85be97beaba29@log.disclone.online/1";
+                    // When configuring for the first time, to see what the SDK is doing:
+                    o.Debug = true;
+                    o.TracesSampleRate = 1.0;
+                }
+            );
 
             // Allow multiple appsettings environments (local, prod, dev)...
 
@@ -137,7 +146,8 @@ namespace disclone_api
 
             builder.Services.AddLogging(x => x.AddFile("logs/log.txt")).BuildServiceProvider();
 
-            var app = builder.Build();
+            var app = builder.Build();  
+            app.UseSentryTracing();
 
             // Run migrations
             using(var scope = app.Services.CreateScope()) {

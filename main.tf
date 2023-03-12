@@ -15,6 +15,20 @@ provider "azurerm" {
   features {}
 }
 
+variable "db_username" {
+  type = string
+}
+variable "db_password" {
+  type = string
+}
+
+variable "use_swagger" {
+  type = string
+}
+
+variable "encryption_key" {
+  type = string
+}
 
 provider "aws" {
   shared_credentials_files = [".aws/creds/credentials"]

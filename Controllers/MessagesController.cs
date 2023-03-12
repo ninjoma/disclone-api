@@ -29,7 +29,12 @@ namespace disclone_api.Controllers
         }
         #endregion
 
-        [HttpGet("{id}/channels")] // getMessagesFromChannel/{id}
+        /// <summary>
+        /// Devuelve el canal al que pertenece el mensaje.
+        /// </summary>
+        /// <response code="200">Devuelve el canal del mensaje y sus propiedades.</response>
+        /// <response code="400">No se ha podido recuperar el canal por el que se envió el mensaje.</response>
+        [HttpGet("{id}/channels")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> getMessagesFromChannel(int id)
         {
@@ -49,6 +54,11 @@ namespace disclone_api.Controllers
         }
 
         #region Set
+        /// <summary>
+        /// Envia un mensaje por un canal de texto de un servidor.
+        /// </summary>
+        /// <response code="200">El mensaje ha sido enviado satisfactoriamente.</response>
+        /// <response code="400">No se ha podido enviar el mensaje en el canal descrito en la petición.</response>
         [HttpPost("")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> sendMessage(MessageDTO message)
@@ -67,6 +77,11 @@ namespace disclone_api.Controllers
         #endregion
 
         #region Get
+        /// <summary>
+        /// Devuelve una entidad mensaje en base a su ID.
+        /// </summary>
+        /// <response code="200">El mensaje ha sido recuperado satisfactoriamente.</response>
+        /// <response code="400">El mensaje que se ha intentado recuperar no existe.</response>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -81,6 +96,7 @@ namespace disclone_api.Controllers
         }
 
         [HttpGet("")]
+        
         public async Task<IActionResult> ListByChannelId(int id)
         {
             var result = await _MessageSv.ListByChannelId(id);
@@ -93,6 +109,11 @@ namespace disclone_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Recupera todos los mensajes de un usuario
+        /// </summary>
+        /// <response code="200">Devuelve una lista con todos los mensajes de un usuario.</response>
+        /// <response code="400">El usuario suministrado en la petición no existe.</response>
         [HttpGet("users/{id}/messages")]
         public async Task<IActionResult> ListByUserId(int id)
         {
@@ -102,12 +123,17 @@ namespace disclone_api.Controllers
                 return Ok(result);
             } else
             {
-                return BadRequest();
+                return NotFound();
             }
         }
         #endregion
 
         #region Delete
+        /// <summary>
+        /// Elimina un mensaje
+        /// </summary>
+        /// <response code="200">La entidad mensaje ha sido eliminada satisfactoriamente.</response>
+        /// <response code="400">No existe un mensaje con esa ID.</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(int id)
         {

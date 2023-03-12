@@ -14,6 +14,7 @@ using disclone_api.DTO;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Sentry;
+using disclone_api.Hubs;
 
 namespace disclone_api
 {
@@ -40,6 +41,8 @@ namespace disclone_api
 
             Settings = builder.Configuration;
 
+            
+
             // Load Encryption Key and Password from Environment. (Docker Configuration)
             if(Environment.GetEnvironmentVariable("ENCRYPTION_KEY") != null){
                 Settings["EncryptionKey"] = Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
@@ -47,6 +50,10 @@ namespace disclone_api
             
             if(Environment.GetEnvironmentVariable("DB_PASSWORD") != null){
                 Settings["DBPassword"] = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            }
+
+            if(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") != null){
+                Settings["DB_CONNECTION_STRING"] = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
             }
 
             // Mapper
@@ -119,14 +126,24 @@ namespace disclone_api
                     Title = "Disclone API",
                     Description = "Backend del mejor clon de discord, Disclone"
                 });
+                options.AddSignalRSwaggerGen();
                 var filePath = Path.Combine(System.AppContext.BaseDirectory, "disclone-api.xml");
                 options.IncludeXmlComments(filePath);
             });
             builder.Services.RegisterServices();
-        
 
-
-            var conStrBuilder = new NpgsqlConnectionStringBuilder(builder.Configuration.GetConnectionString("local"));
+            // Support for environment based connection strings
+            var connStr = "";
+            if(Settings["DB_CONNECTION_STRING"] != null){
+                connStr = Settings["DB_CONNECTION_STRING"];
+            } else {
+                connStr = builder.Configuration.GetConnectionString("local");
+            }
+            Console.WriteLine("EncryptionKey: " + Settings["EncryptionKey"]);
+            Console.WriteLine("DBPassword: " + Settings["DBPassword"]);
+            Console.WriteLine("Connection String found: " + connStr);
+            var conStrBuilder = new NpgsqlConnectionStringBuilder(connStr);
+            Console.WriteLine("conStrBuilder.ConnectionString: " + conStrBuilder.ConnectionString);
             conStrBuilder.Password = Settings["DBPassword"];
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conStrBuilder.ConnectionString));
             
@@ -136,13 +153,14 @@ namespace disclone_api
                 options.AddPolicy(name: "frontendOrigin",
                     policy  =>
                     {
-                        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+                        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                     });
             });
             
             builder.Services.AddScoped<ITokenBuilder, TokenBuilder>();
 
             builder.Services.AddLogging(x => x.AddFile("logs/log.txt")).BuildServiceProvider();
+            builder.Services.AddSignalR();
 
             var app = builder.Build();  
             app.UseSentryTracing();
@@ -165,8 +183,12 @@ namespace disclone_api
             // Microsoft Things: https://stackoverflow.com/questions/57998262/why-is-claimtypes-nameidentifier-not-mapping-to-sub
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseAuthorization();
+            
             app.MapControllers();
             app.UseCors("frontendOrigin");
+
+            app.MapHub<EventHub>("/hub");
+
             app.Run();
 
         }

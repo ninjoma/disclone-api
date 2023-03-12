@@ -30,6 +30,22 @@ namespace disclone_api.Controllers
         }
         #endregion
 
+
+        [HttpPost("/servers/{id}/channels")]
+        public async Task<IActionResult> Add(int id, ChannelDTO channel)
+        {
+            channel.ServerId = id;
+            var result = await _ChannelSv.Add(channel);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         #region Get
         /// <summary>
         /// Recupera un canal de chat o texto
@@ -100,7 +116,7 @@ namespace disclone_api.Controllers
         /// <summary>
         /// Eliminar un canal por su id
         /// </summary>
-        /// <response code="200">El canal ha sido eliminado satfactoriamente.<i/response>
+        /// <response code="200">El canal ha sido eliminado satfactoriamente.</response>
         /// <response code="400">El canal no existe.</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(int id)

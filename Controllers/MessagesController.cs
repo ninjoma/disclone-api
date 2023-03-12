@@ -95,7 +95,25 @@ namespace disclone_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Filtra un mensaje en base a su contenido un campo
+        /// </summary>
+        /// <response code="200">El mensaje ha sido recuperado satisfactoriamente.</response>
+        /// <response code="400">El mensaje que se ha intentado filtrar no existe.</response>
         [HttpGet("")]
+        public async Task<IActionResult> FilterByContent([FromQuery] string Content, [FromQuery] string orderby = "CreationDate")
+        {
+            var result = await _MessageSv.FilterByContent(Content, orderby);
+            if (result != null)
+            {
+                return Ok(result);
+            } else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("/channel/messages/{id}")]
         
         public async Task<IActionResult> ListByChannelId(int id)
         {

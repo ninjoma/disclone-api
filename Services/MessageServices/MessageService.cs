@@ -6,6 +6,7 @@ using disclone_api.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace disclone_api.Services
 {
@@ -51,6 +52,38 @@ namespace disclone_api.Services
         {
             return _mapper.Map<MessageDetailDTO>(await _context.Message
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
+        }
+        
+        public async Task<List<MessageDTO>> FilterByContent([FromQuery] string Content = "", [FromQuery] string orderby = "CreationDate")
+        {
+            IQueryable<Message> query = null;
+            if(!string.IsNullOrEmpty(Content)){
+                query = _context.Message.Where(x => x.Content.ToLower().Contains(Content.ToLower()));
+            } else {
+                query = _context.Message;
+            }
+            
+
+            switch (orderby.ToLower())
+            {
+                case "creationdate":
+                    query = query.OrderByDescending(x => x.CreationDate);
+                    break;
+                case "id":
+                    query = query.OrderBy(x => x.Id);
+                    break;
+                case "content":
+                    query = query.OrderBy(x => x.Content);
+                    break;
+                case "userid":
+                    query = query.OrderBy(x => x.UserId);
+                    break;
+                default:
+                    query = query.OrderByDescending(x => x.CreationDate);
+                    break;
+            }
+
+            return _mapper.Map<List<MessageDTO>>(await query.ToListAsync());
         }
 
         public async Task<List<MessageDTO>> ListByChannelId(int channelId, bool isActive)

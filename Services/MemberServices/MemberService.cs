@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.MemberDTOs;
+using disclone_api.DTO;
 using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace disclone_api.Services.MemberServices
+namespace disclone_api.Services
 {
     public class MemberService : IMemberService
     {
@@ -19,25 +19,14 @@ namespace disclone_api.Services.MemberServices
         #endregion
 
         #region Set
-        public async Task<MemberDTO> AddEditAsync(MemberDTO member)
-        {
-            if (member.Id != 0)
-            {
-                return await UpdateMemberAsync(member);
-            }
-            else
-            {
-                return await CreateMemberAsync(member);
-            }
-        }
-        public async Task<MemberDTO> CreateMemberAsync(MemberDTO member)
+        public async Task<MemberDTO> Add(MemberDTO member)
         {
             var newMember = _mapper.Map<Member>(member);
             await _context.Member.AddAsync(newMember);
             await _context.SaveChangesAsync();
             return _mapper.Map<MemberDTO>(newMember);
         }
-        public async Task<MemberDTO> UpdateMemberAsync(MemberDTO member)
+        public async Task<MemberDTO> EditById(MemberDTO member)
         {
             var oldMember = await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(member.Id));
             _mapper.Map<MemberDTO, Member>(member,oldMember);
@@ -47,17 +36,17 @@ namespace disclone_api.Services.MemberServices
         #endregion
 
         #region Get
-        public async Task<MemberGridDTO> GetById(int id, bool isActive = true)
+        public async Task<MemberDetailDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<MemberGridDTO>(await _context.Member
+            return _mapper.Map<MemberDetailDTO>(await _context.Member
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<MemberGridDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
+        public async Task<MemberDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
         {
-            return _mapper.Map<MemberGridDTO>(await _context.Member
+            return _mapper.Map<MemberDTO>(await _context.Member
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .FirstOrDefaultAsync(x => x.UserId.Equals(userId) 
@@ -65,18 +54,18 @@ namespace disclone_api.Services.MemberServices
                 && x.IsActive == isActive));
         }
 
-        public async Task<List<MemberGridDTO>> ListByServerId(int id, bool isActive = true)
+        public async Task<List<MemberDTO>> ListByServerId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<MemberGridDTO>>(await _context.Member
+            return _mapper.Map<List<MemberDTO>>(await _context.Member
                 .Where(x => x.ServerId.Equals(id) && x.IsActive == isActive)
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .ToListAsync());
         }
 
-        public async Task<List<MemberGridDTO>> ListByUserId(int id, bool isActive = true)
+        public async Task<List<MemberDTO>> ListByUserId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<MemberGridDTO>>(await _context.Member
+            return _mapper.Map<List<MemberDTO>>(await _context.Member
                 .Where(x => x.UserId.Equals(id) && x.IsActive == isActive)
                 .Include(x => x.User)
                 .Include(x => x.Server)
@@ -85,7 +74,7 @@ namespace disclone_api.Services.MemberServices
         #endregion
 
         #region Delete
-        public async Task<MemberDTO> ToggleInactiveById(int id)
+        public async Task<MemberDTO> DeleteById(int id)
         {
             var member = await _context.Member.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (member.IsActive)

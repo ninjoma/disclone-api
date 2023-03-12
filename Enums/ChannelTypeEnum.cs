@@ -2,5 +2,6 @@
 {
     public enum ChannelTypeEnum
     {
+        Text = 1
     }
 }

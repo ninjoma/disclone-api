@@ -1,34 +1,27 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.ServerDTOs;
+using disclone_api.DTO;
 using Microsoft.EntityFrameworkCore;
 
-namespace disclone_api.Services.ServerServices
+namespace disclone_api.Services
 {
     public class ServerService : IServerService
     {
         #region Constructor
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public ServerService(DataContext context, IMapper mapper)
+
+        private readonly IMemberService _memberSv;
+
+        public ServerService(DataContext context, IMapper mapper, IMemberService memberSv)
         {
             _context = context;
             _mapper = mapper;
+            _memberSv = memberSv;
         }
         #endregion
 
         #region Set
-        public async Task<ServerDTO> AddEditAsync(ServerDTO server)
-        {
-            if (server.Id != 0)
-            {
-                return await UpdateServerAsync(server);
-            }
-            else
-            {
-                return await CreateServerAsync(server);
-            }
-        }
-        public async Task<ServerDTO> CreateServerAsync(ServerDTO server)
+        public async Task<ServerDTO> Add(ServerDTO server)
         {
             var newServer = _mapper.Map<Server>(server);
             await _context.Server.AddAsync(newServer);
@@ -36,7 +29,7 @@ namespace disclone_api.Services.ServerServices
             return _mapper.Map<ServerDTO>(newServer);
         }
 
-        public async Task<ServerDTO> UpdateServerAsync(ServerDTO server)
+        public async Task<ServerDTO> EditById(ServerDTO server)
         {
             var oldServer = await _context.Server.FirstOrDefaultAsync(x => x.Id.Equals(server.Id));
             _mapper.Map<ServerDTO, Server>(server, oldServer);
@@ -46,19 +39,19 @@ namespace disclone_api.Services.ServerServices
         #endregion
 
         #region Get
-        public async Task<ServerGridDTO> GetById(int id, bool isActive = true)
+        public async Task<ServerDetailDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<ServerGridDTO>(await _context.Server.Include(x => x.Members).FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
+            return _mapper.Map<ServerDetailDTO>(await _context.Server.Include(x => x.Members).FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<List<ServerGridDTO>> ListByName(string name, bool isActive = true)
+        public async Task<List<ServerDTO>> ListByName(string name, bool isActive = true)
         {
-            return _mapper.Map<List<ServerGridDTO>>(await _context.Server.Where(x => x.Name.Contains(name) && x.IsActive == isActive).ToListAsync());
+            return _mapper.Map<List<ServerDTO>>(await _context.Server.Where(x => x.Name.Contains(name) && x.IsActive == isActive).ToListAsync());
         }
         #endregion
 
         #region Delete
-        public async Task<ServerDTO> ToggleInactiveById(int id)
+        public async Task<ServerDTO> DeleteById(int id)
         {
             var server = await _context.Server.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (server.IsActive)

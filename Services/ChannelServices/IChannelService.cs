@@ -1,13 +1,10 @@
-﻿using disclone_api.DTOs.ChannelDTOs;
+﻿using disclone_api.DTO;
 
-namespace disclone_api.Services.ChannelServices
+namespace disclone_api.Services
 {
-    public interface IChannelService
+    public interface IChannelService : IMainService<ChannelDTO, ChannelDetailDTO>
     {
-        public Task<ChannelGridDTO> GetByIdAsync(int id, bool isActive = true);
-        public Task<List<ChannelGridDTO>> ListByServer(int channelId, bool isActive = true);
-        Task<ChannelDTO> AddEditAsync(ChannelDTO channel);
-        Task<ChannelDTO> ToggleInactiveById(int id);
+        public Task<List<ChannelDTO>> ListByServer(int channelId, bool isActive = true);
 
     }
 }

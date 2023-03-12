@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.InvitationDTOs;
+using disclone_api.DTO;
 using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace disclone_api.Services.InvitationServices
+namespace disclone_api.Services
 {
     public class InvitationService : IInvitationService
     {
@@ -20,19 +20,7 @@ namespace disclone_api.Services.InvitationServices
         #endregion
 
         #region Set
-        public async Task<InvitationDTO> AddEditAsync(InvitationDTO invitation)
-        {
-            if (invitation.Id != 0)
-            {
-                return await UpdateInvitationAsync(invitation);
-            }
-            else
-            {
-                return await CreateInvitationAsync(invitation);
-            }
-
-        }
-        public async Task<InvitationDTO> UpdateInvitationAsync(InvitationDTO invitation)
+        public async Task<InvitationDTO> EditById(InvitationDTO invitation)
         {
             var oldInvitation = await _context.Invitation.FirstOrDefaultAsync(x => x.Id.Equals(invitation.Id));
             _mapper.Map<InvitationDTO, Invitation>(invitation, oldInvitation);
@@ -40,7 +28,7 @@ namespace disclone_api.Services.InvitationServices
             return _mapper.Map<InvitationDTO>(oldInvitation);
         }
 
-        public async Task<InvitationDTO> CreateInvitationAsync(InvitationDTO invitation)
+        public async Task<InvitationDTO> Add(InvitationDTO invitation)
         {
             var newInvitation = _mapper.Map<Invitation>(invitation);
             await _context.Invitation.AddAsync(newInvitation);
@@ -50,30 +38,30 @@ namespace disclone_api.Services.InvitationServices
         #endregion
 
         #region Get
-        public async Task<InvitationGridDTO> GetById(int id, bool isActive = true)
+        public async Task<InvitationDetailDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<InvitationGridDTO>(await _context.Invitation
+            return _mapper.Map<InvitationDetailDTO>(await _context.Invitation
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<InvitationGridDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
+        public async Task<InvitationDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
         {
-            return _mapper.Map<InvitationGridDTO>(await _context.Invitation
+            return _mapper.Map<InvitationDTO>(await _context.Invitation
                 .FirstOrDefaultAsync(x => x.Receiver.Equals(userId) 
                 && x.ServerId.Equals(serverId) && x.IsActive == isActive));
         }
 
-        public async Task<List<InvitationGridDTO>> ListByServerId(int id, bool isActive = true)
+        public async Task<List<InvitationDTO>> ListByServerId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<InvitationGridDTO>>(await _context.Invitation
+            return _mapper.Map<List<InvitationDTO>>(await _context.Invitation
                 .Where(x => x.ServerId.Equals(id) 
                 && x.IsActive == isActive)
                 .ToListAsync());
         }
 
-        public async Task<List<InvitationGridDTO>> ListByUserId(int id, bool isActive = true)
+        public async Task<List<InvitationDTO>> ListByUserId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<InvitationGridDTO>>(await _context.Invitation
+            return _mapper.Map<List<InvitationDTO>>(await _context.Invitation
                 .Where(x => x.Receiver.Equals(id) 
                 && x.IsActive == isActive)
                 .ToListAsync());
@@ -81,7 +69,7 @@ namespace disclone_api.Services.InvitationServices
         #endregion
 
         #region Delete
-        public async Task<InvitationDTO> ToggleInactiveById(int id)
+        public async Task<InvitationDTO> DeleteById(int id)
         {
             var invitation = await _context.Invitation.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (invitation.IsActive)

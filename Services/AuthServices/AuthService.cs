@@ -1,10 +1,10 @@
 using AutoMapper;
-using disclone_api.DTOs.UserDTOs;
+using disclone_api.DTO;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace disclone_api.Services.AuthServices
+namespace disclone_api.Services
 {
     public class AuthService : IAuthService
     {

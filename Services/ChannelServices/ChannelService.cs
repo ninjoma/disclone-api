@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.ChannelDTOs;
+using disclone_api.DTO;
 using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace disclone_api.Services.ChannelServices
+namespace disclone_api.Services
 {
     public class ChannelService : IChannelService
     {
@@ -19,25 +19,14 @@ namespace disclone_api.Services.ChannelServices
         #endregion
 
         #region Set
-        public async Task<ChannelDTO> AddEditAsync(ChannelDTO channel)
-        {
-            if (channel.Id != 0)
-            {
-                return await UpdateChannelAsync(channel);
-            }
-            else
-            {
-                return await CreateChannelAsync(channel);
-            }
-        }
-        public async Task<ChannelDTO> CreateChannelAsync(ChannelDTO channel)
+        public async Task<ChannelDTO> Add(ChannelDTO channel)
         {
             var newChannel = _mapper.Map<Channel>(channel);
             await _context.Channel.AddAsync(newChannel);
             await _context.SaveChangesAsync();
             return _mapper.Map<ChannelDTO>(newChannel);
         }
-        public async Task<ChannelDTO> UpdateChannelAsync(ChannelDTO channel)
+        public async Task<ChannelDTO> EditById(ChannelDTO channel)
         {
             var oldChannel = await _context.Channel.FirstOrDefaultAsync(x => x.Id.Equals(channel.Id));
             _mapper.Map<ChannelDTO, Channel>(channel, oldChannel);
@@ -47,17 +36,17 @@ namespace disclone_api.Services.ChannelServices
         #endregion
 
         #region Get
-        public async Task<ChannelGridDTO> GetByIdAsync(int id, bool isActive = true)
+        public async Task<ChannelDetailDTO> GetById(int id, bool isActive = true)
         {
-            return _mapper.Map<ChannelGridDTO>(await _context.Channel
+            return _mapper.Map<ChannelDetailDTO>(await _context.Channel
                 .Include(x => x.Server)
                 .Include(x => x.Messages)
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<List<ChannelGridDTO>> ListByServer(int channelId, bool isActive = true)
+        public async Task<List<ChannelDTO>> ListByServer(int channelId, bool isActive = true)
         {
-            return _mapper.Map<List<ChannelGridDTO>>(await _context.Channel
+            return _mapper.Map<List<ChannelDTO>>(await _context.Channel
                 .Include(x => x.Server)
                 .Include(x => x.Messages)
                 .Where(x => x.ServerId.Equals(channelId) && x.IsActive == isActive)
@@ -66,7 +55,7 @@ namespace disclone_api.Services.ChannelServices
         #endregion
 
         #region Delete
-        public async Task<ChannelDTO> ToggleInactiveById(int id)
+        public async Task<ChannelDTO> DeleteById(int id)
         {
             var channel = await _context.Channel.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (channel.IsActive)

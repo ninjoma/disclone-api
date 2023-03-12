@@ -2,11 +2,22 @@ version: '1'
 services:
   discloneapi:
     build: .
-    image: a25610/disclone-api
+    image: a25610/disclone-api:reloaded
     ports:
       - "5610:5610"
     environment:
       - ENCRYPTION_KEY=supermegasecret_
       - DB_PASSWORD=supermegapassword
+      - USE_SWAGGER=true
     volumes:
       - ./logs:/App/logs
+    profiles: ["api", "all"]
+  postgresdb:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=supermegapassword
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "165:165"
+    profiles: ["db", "all"]
+    command: -p 165

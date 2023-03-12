@@ -1,13 +1,7 @@
 ﻿using AutoMapper;
-using disclone_api.DTOs.ChannelDTOs;
-using disclone_api.DTOs.InvitationDTOs;
-using disclone_api.DTOs.MemberDTOs;
-using disclone_api.DTOs.MessageDTOs;
-using disclone_api.DTOs.ServerDTOs;
-using disclone_api.DTOs.UserDTOs;
 using disclone_api.Entities;
 
-namespace disclone_api.DTOs
+namespace disclone_api.DTO
 {
     public class MappingProfile : Profile
     {
@@ -18,7 +12,7 @@ namespace disclone_api.DTOs
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
                 .ReverseMap();
 
-            CreateMap<User, UserGridDTO>()
+            CreateMap<User, UserDetailDTO>()
                 .ReverseMap();
             #endregion
 
@@ -26,7 +20,7 @@ namespace disclone_api.DTOs
             CreateMap<Server, ServerDTO>()
                 .ReverseMap();
 
-            CreateMap<Server, ServerGridDTO>()
+            CreateMap<Server, ServerDetailDTO>()
                 .ReverseMap();
             #endregion
 
@@ -34,7 +28,7 @@ namespace disclone_api.DTOs
             CreateMap<Member, MemberDTO>()
                 .ReverseMap();
 
-            CreateMap<Member, MemberGridDTO>()
+            CreateMap<Member, MemberDetailDTO>()
                 .ReverseMap();
             #endregion
 
@@ -42,7 +36,7 @@ namespace disclone_api.DTOs
             CreateMap<Invitation, InvitationDTO>()
                 .ReverseMap();
 
-            CreateMap<Invitation, MemberGridDTO>()
+            CreateMap<Invitation, InvitationDetailDTO>()
                 .ReverseMap();
             #endregion
 
@@ -50,14 +44,15 @@ namespace disclone_api.DTOs
             CreateMap<Channel, ChannelDTO>()
                 .ReverseMap();
 
-            CreateMap<Channel, ChannelGridDTO>()
+            CreateMap<Channel, ChannelDetailDTO>()
                 .ReverseMap();
             #endregion
 
             #region Message
             CreateMap<Message, MessageDTO>()
                 .ReverseMap();
-            CreateMap<Message, MessageGridDTO>()
+
+            CreateMap<Message, MessageDetailDTO>()
                 .ReverseMap();
             #endregion
         }

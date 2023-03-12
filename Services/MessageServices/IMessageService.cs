@@ -1,13 +1,10 @@
-﻿using disclone_api.DTOs.MessageDTOs;
+﻿using disclone_api.DTO;
 
-namespace disclone_api.Services.MessageServices
+namespace disclone_api.Services
 {
-    public interface IMessageService
+    public interface IMessageService : IMainService<MessageDTO, MessageDetailDTO>
     {
-        Task<MessageGridDTO> GetById(int id, bool isActive = true);
-        Task<List<MessageGridDTO>> ListByChannelId(int channelId, bool isActive = true);
-        Task<List<MessageGridDTO>> ListByUserId(int userId, bool isActive = true);
-        Task<MessageDTO> AddEditAsync(MessageDTO message);
-        Task<MessageDTO> ToggleInactiveById(int id);
+        Task<List<MessageDTO>> ListByChannelId(int channelId, bool isActive = true);
+        Task<List<MessageDTO>> ListByUserId(int userId, bool isActive = true);
     }
 }

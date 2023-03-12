@@ -1,14 +1,11 @@
-﻿using disclone_api.DTOs.UserDTOs;
+﻿using disclone_api.DTO;
 using disclone_api.Entities;
 
-namespace disclone_api.Services.UserServices
+namespace disclone_api.Services
 {
-    public interface IUserService
+    public interface IUserService : IMainService<UserDTO, UserDetailDTO>
     {
-        Task<UserGridDTO> GetById(int id, bool isActive = true);
-        Task<List<UserGridDTO>> ListByName(string name, bool isActive = true);
-        Task<UserDTO> AddEditAsync(UserDTO user);
-        Task<UserDTO> ToggleInactiveById(int id);
+        Task<List<UserDTO>> ListByName(string name, bool isActive = true);
         Task<UserDTO> Register(UserDTO user);
     }
 }

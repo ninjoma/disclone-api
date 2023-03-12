@@ -1,13 +1,10 @@
 ﻿
-using disclone_api.DTOs.ServerDTOs;
+using disclone_api.DTO;
 
-namespace disclone_api.Services.ServerServices
+namespace disclone_api.Services
 {
-    public interface IServerService
+    public interface IServerService : IMainService<ServerDTO,ServerDetailDTO>
     {
-        Task<ServerGridDTO> GetById(int id, bool isActive = true);
-        Task<List<ServerGridDTO>> ListByName(string name, bool isActive = true);
-        Task<ServerDTO> AddEditAsync(ServerDTO server);
-        Task<ServerDTO> ToggleInactiveById(int id);
+        Task<List<ServerDTO>> ListByName(string name, bool isActive = true);
     }
 }

@@ -1,7 +1,7 @@
-using disclone_api.DTOs.UserDTOs;
+using disclone_api.DTO;
 using System.Security.Claims;
 
-namespace disclone_api.Services.AuthServices
+namespace disclone_api.Services
 {
     public interface IAuthService
     {

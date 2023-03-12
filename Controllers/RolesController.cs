@@ -1,29 +1,33 @@
 using disclone_api.Enums;
 using Microsoft.AspNetCore.Mvc;
-using disclone_api.Enums;
-
 
 namespace disclone_api.Controllers {
 
     [ApiController]
     [Route("[controller]")]
-    public class RoleController : ControllerBase
+    public class RolesController : ControllerBase
     {
         private readonly DataContext _context;
-        public RoleController(DataContext context, ILogger<RoleController> logger){
+        public RolesController(DataContext context, ILogger<RolesController> logger){
             _context = context;
             _logger = logger;
         }
 
-        private readonly ILogger<RoleController> _logger;
+        private readonly ILogger<RolesController> _logger;
 
+
+        /// <summary>
+        /// Recupera los detalles sobre un rol.
+        /// </summary>
+        /// <response code="200">Recupera las propiedades de un rol.</response>
+        /// <response code="400">No se ha podido recuperar el rol descrito en la petición.</response>
         [HttpGet("{id}")]
         public Role? Get(int id)
         {
             return _context.Role.Find(id);
         }
 
-        [HttpPost("create/")]
+        [HttpPost("")]
         public void Create(string name, string color, RolePermissionsEnum permissions)
         {
 
@@ -32,7 +36,7 @@ namespace disclone_api.Controllers {
                 Color = color,
                 Permits = permissions,
                 CreationDate = DateTime.Now.ToUniversalTime(),
-                isActive = true
+                IsActive = true
             };
             _context.Role.Add(newRole);
             _context.SaveChanges();

@@ -64,11 +64,12 @@ namespace disclone_api
 
             builder.Services.AddSingleton(mapper);
             builder.Services.AddMvc();
-            builder.Services.AddControllers()
+            builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
             .AddNewtonsoftJson(options => {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                
             });
 
             builder.Services.AddAuthentication(x => 

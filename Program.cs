@@ -30,7 +30,6 @@ namespace disclone_api
                     o.TracesSampleRate = 1.0;
                 }
             );
-
             // Allow multiple appsettings environments (local, prod, dev)...
 
             builder.Configuration

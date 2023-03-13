@@ -55,6 +55,10 @@ namespace disclone_api
                 Settings["DB_CONNECTION_STRING"] = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
             }
 
+            if(Environment.GetEnvironmentVariable("FRONTEND_LOCATION") != null){
+                Settings["FRONTEND_LOCATION"] = Environment.GetEnvironmentVariable("FRONTEND_LOCATION");
+            }
+
             // Mapper
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -147,13 +151,16 @@ namespace disclone_api
             conStrBuilder.Password = Settings["DBPassword"];
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conStrBuilder.ConnectionString));
             
-
+            var origin = "http://localhost:5173";
+            if(Settings["FRONTEND_LOCATION"] != null){
+                origin = Settings["FRONTEND_LOCATION"];
+            }
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: "frontendOrigin",
                     policy  =>
                     {
-                        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                        policy.WithOrigins(origin).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                     });
             });
             

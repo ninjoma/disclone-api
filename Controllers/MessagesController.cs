@@ -66,6 +66,12 @@ namespace disclone_api.Controllers
             var loggedUser = await _AuthSv.GetUserByClaim(User);
             message.UserId = loggedUser.Id;
             message.IsActive = true;
+
+            var channel = await _ChannelSv.GetById(message.ChannelId);
+            if(channel == null){
+                return BadRequest();
+            }
+            
             var result = await _MessageSv.Add(message);
             if(result != null)
             {

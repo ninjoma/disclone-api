@@ -30,7 +30,11 @@ namespace disclone_api.Controllers
         }
         #endregion
 
-
+        /// <summary>
+        /// Añade un canal a un servidor
+        /// </summary>
+        /// <response code="200">Los datos del canal con el ID especificado</response>
+        /// <response code="400">No se puede crear un canal con los datos especificados</response>
         [HttpPost("/servers/{id}/channels")]
         public async Task<IActionResult> Add(int id, ChannelDTO channel)
         {
@@ -42,7 +46,7 @@ namespace disclone_api.Controllers
             }
             else
             {
-                return NotFound();
+                return BadRequest();
             }
         }
 
@@ -51,7 +55,7 @@ namespace disclone_api.Controllers
         /// Recupera un canal de chat o texto
         /// </summary>
         /// <response code="200">Los datos del canal con el ID especificado</response>
-        /// <response code="400">El canal no existe</response>
+        /// <response code="404">El canal no existe</response>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -71,6 +75,7 @@ namespace disclone_api.Controllers
         /// </summary>
         /// <response code="200">Una lista de mensajes de un canal.</response>
         /// <response code="400">El servidor o el canal no existe.</response>
+        /// <response code="404">No existe un mensaje con esa ID.</response>
         [HttpGet("{id}/messages")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> getMessagesFromChannel(int id)
@@ -87,7 +92,7 @@ namespace disclone_api.Controllers
             if(server.Members.Any(current => current.UserId == loggedUser.Id)){
                 return Ok(await _MessageSv.ListByChannelId(id));
             }
-            return BadRequest();
+            return NotFound();
         }
         #endregion
 

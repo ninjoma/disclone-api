@@ -25,7 +25,7 @@ public class InvitationsController : ControllerBase
     /// Recupera los detalles de una invitación.
     /// </summary>
     /// <response code="200">La invitación existe.</response>
-    /// <response code="400">La invitación pedida no existe.</response>
+    /// <response code="404">La invitación pedida no existe.</response>
     #region Get
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
@@ -37,7 +37,7 @@ public class InvitationsController : ControllerBase
             
         } else
         {
-            return BadRequest();
+            return NotFound();
         }
     }
 
@@ -60,7 +60,7 @@ public class InvitationsController : ControllerBase
     /// Recupera el servidor asociado con esa invitación
     /// </summary>
     /// <response code="200">Devuelve servidor asociado con la invitación.</response>
-    /// <response code="400">La invitación pedida no existe.</response>
+    /// <response code="404">La invitación pedida no existe.</response>
     [HttpGet("{id}/servers")]
     public async Task<ActionResult> ListByServerId(int id)
     {
@@ -71,7 +71,7 @@ public class InvitationsController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return NotFound();
         }
     }
 
@@ -79,7 +79,7 @@ public class InvitationsController : ControllerBase
     /// Recupera los usuarios relacionados con esa invitación
     /// </summary>
     /// <response code="200">Devuelve el usuario asociado con la invitación.</response>
-    /// <response code="400">La invitación pedida no existe.</response>
+    /// <response code="404">La invitación pedida no existe.</response>
     [HttpGet("{id}/users")]
     public async Task<ActionResult> ListByUserId(int id)
     {
@@ -90,7 +90,7 @@ public class InvitationsController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return NotFound();
         }
     }
     #endregion

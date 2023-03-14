@@ -36,7 +36,7 @@ public class UsersController : ControllerBase
     /// Recupera los datos del usuario actualmente logueado.
     /// </summary>
     /// <response code="200">Devuelve las propiedades del usuario que está actualmente logueado.</response>
-    /// <response code="400">No se dispone de la suficiente información en la petición para poder 
+    /// <response code="401">No se dispone de la suficiente información en la petición para poder 
     /// determinar el usuario del cliente que ha realizado la petición.</response>
     [HttpGet("me")]
     public async Task<ActionResult> GetUserInfo()
@@ -45,7 +45,7 @@ public class UsersController : ControllerBase
         if(loggedUser != null){
             return Ok(loggedUser);
         } else {
-            return BadRequest();
+            return Unauthorized();
         }
     }
 

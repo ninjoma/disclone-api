@@ -37,6 +37,9 @@ namespace disclone_api.Controllers
         public async Task<ActionResult> fetchServers()
         {
             var loggedUser = await _AuthSv.GetUserByClaim(User);
+            if(loggedUser == null){
+                return Unauthorized();
+            }
             var ServerList = await _MemberSv.ListByUserId(loggedUser.Id);
             if(ServerList != null){
                 return Ok(ServerList);

@@ -77,7 +77,7 @@ namespace disclone_api.Controllers
         /// Recupera el servidor en base a su ID.
         /// </summary>
         /// <response code="200">Devuelve las propiedades del servidor pedido.</response>
-        /// <response code="400">El servidor demandado por la petición no existe.</response>
+        /// <response code="404">El servidor demandado por la petición no existe.</response>
         [HttpGet("{id:int}")]
         public async Task<ActionResult> GetById(int id)
         {
@@ -89,7 +89,7 @@ namespace disclone_api.Controllers
             }
             else
             {
-                return BadRequest();
+                return NotFound();
             }
         }
 
@@ -97,7 +97,7 @@ namespace disclone_api.Controllers
         /// Recupera una lista de servidores en base al nombre.
         /// </summary>
         /// <response code="200">Devuelve una lista de servidores.</response>
-        /// <response code="400">No existe ningún servidor que contenga ese nombre.</response>
+        /// <response code="404">No existe ningún servidor que contenga ese nombre.</response>
         [HttpGet("{name}")]
         public async Task<ActionResult> ListByName(string name)
         {
@@ -109,7 +109,7 @@ namespace disclone_api.Controllers
             }
             else
             {
-                return BadRequest();
+                return NotFound();
             }
         }
 
@@ -117,7 +117,7 @@ namespace disclone_api.Controllers
         /// Recupera todos los canales de un servidor.
         /// </summary>
         /// <response code="200">Devuelve una lista con todos los canales de un servidor.</response>
-        /// <response code="400">No existe el servidor suministrado por la petición.</response>
+        /// <response code="404">No existe el servidor suministrado por la petición.</response>
         [HttpGet("{serverId}/channels")]
         public async Task<IActionResult> ListByServer(int serverId)
         {
@@ -128,7 +128,7 @@ namespace disclone_api.Controllers
             }
             else
             {
-                return BadRequest();
+                return NotFound();
             }
         }
 
@@ -136,7 +136,7 @@ namespace disclone_api.Controllers
         /// Lista a todos los miembros de un servidor.
         /// </summary>
         /// <response code="200">Devuelve una lista de miembros que pertenecen al servidor.</response>
-        /// <response code="400">No existe el servidor descrito por la petición.</response>
+        /// <response code="404">No existe el servidor descrito por la petición.</response>
         [HttpGet("{serverId}/members")]
         public async Task<ActionResult> ListByserverId(int serverId)
         {
@@ -146,7 +146,7 @@ namespace disclone_api.Controllers
                 return Ok(result);
             } else
             {
-                return BadRequest();
+                return NotFound();
             }
         }
         #endregion

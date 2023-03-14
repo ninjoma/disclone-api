@@ -58,7 +58,7 @@ public class AuthController : ControllerBase
     /// <param name="newUser">El usuario representado por el modelo de datos UserDTO.</param>
     /// <response code="200">Usuario Logueado. Devuelve JWT como llave para autentificar las siguientes peticiones del usuario.</response>
     /// <response code="404">El usuario que representa esas credenciales no existe</response>
-    /// <response code="400">Credenciales Incorrectos.</response>
+    /// <response code="401">Credenciales Incorrectos.</response>
     [HttpPost("login")]
     [AllowAnonymous]
     public IActionResult Login(UserDTO user)
@@ -73,7 +73,7 @@ public class AuthController : ControllerBase
         var isValid = dbUser.Password == DCrypt.Encrypt(user.Password);
         if (!isValid)
         {
-            return BadRequest("Could not authenticate user.");
+            return Unauthorized("Could not authenticate user.");
         }
     
         var token = _tokenBuilder.BuildToken(dbUser.Id);

@@ -5,6 +5,6 @@ namespace disclone_api.Services
 {
     public interface IServerService : IMainService<ServerDTO,ServerDetailDTO>
     {
-        Task<List<ServerDTO>> ListByName(string name, bool isActive = true);
+        Task<List<ServerDetailDTO>> ListByName(string name, bool isActive = true);
     }
 }

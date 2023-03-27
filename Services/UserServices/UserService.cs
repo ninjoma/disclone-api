@@ -28,9 +28,13 @@ namespace disclone_api.Services
         public async Task<UserDTO> Add(UserDTO user)
         {
             var newUser = _mapper.Map<User>(user);
-            await _context.User.AddAsync(newUser);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<UserDTO>(newUser);
+            if(_context.User.FirstOrDefaultAsync(x => x.Email.Equals(user.Email)) == null) {
+                await _context.User.AddAsync(newUser);
+                await _context.SaveChangesAsync();
+                return _mapper.Map<UserDTO>(newUser);
+            } else {
+                return null;
+            }
         }
 
         public async Task<UserDTO> EditById(UserDTO user)
@@ -45,10 +49,7 @@ namespace disclone_api.Services
         {
             user.IsActive = true;
             user.Password = DCrypt.Encrypt(user.Password);
-            var newUser = _mapper.Map<User>(user);
-            await _context.User.AddAsync(newUser);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<UserDTO>(newUser);
+            return await Add(user);
         }
         #endregion
 
@@ -59,10 +60,10 @@ namespace disclone_api.Services
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<List<UserDTO>> ListByName(string name, bool isActive = true)
+        public async Task<List<UserDetailDTO>> ListByName(string name, bool isActive = true)
         {
             name ??= "";
-            return _mapper.Map<List<UserDTO>>(await _context.User
+            return _mapper.Map<List<UserDetailDTO>>(await _context.User
                 .Where(x => x.Username.Contains(name) && x.IsActive == isActive)
                 .ToListAsync());
         }

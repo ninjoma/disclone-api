@@ -33,9 +33,7 @@ namespace disclone_api.Services
             var result = _mapper.Map<Message>(message);
             await _context.Message.AddAsync(result);
             await _context.SaveChangesAsync();
-        
-            await _hubContext.Clients.All.SendAsync("test", "MESSAGE_SENT");
-            
+            await _hubContext.Clients.All.SendAsync("channel_" + message.ChannelId, "MESSAGE_SENT", message.Id);
             return _mapper.Map<MessageDTO>(result);
         }
         public async Task<MessageDTO> EditById(MessageDTO message)
@@ -86,17 +84,17 @@ namespace disclone_api.Services
             return _mapper.Map<List<MessageDTO>>(await query.ToListAsync());
         }
 
-        public async Task<List<MessageDTO>> ListByChannelId(int channelId, bool isActive)
+        public async Task<List<MessageDetailDTO>> ListByChannelId(int channelId, bool isActive)
         {
-            return _mapper.Map<List<MessageDTO>>(await _context.Message
+            return _mapper.Map<List<MessageDetailDTO>>(await _context.Message
                 .Where(x => x.ChannelId.Equals(channelId) && x.IsActive == isActive)
                 .Include(x => x.User).OrderBy(x => x.CreationDate)
                 .ToListAsync());
         }
 
-        public async Task<List<MessageDTO>> ListByUserId(int userId, bool isActive)
+        public async Task<List<MessageDetailDTO>> ListByUserId(int userId, bool isActive)
         {
-            return _mapper.Map<List<MessageDTO>>(await _context.Message
+            return _mapper.Map<List<MessageDetailDTO>>(await _context.Message
                 .Where(x => x.UserId.Equals(userId) && isActive == true)
                 .Include(x => x.User)
                 .ToListAsync());
@@ -116,6 +114,7 @@ namespace disclone_api.Services
             {
                 message.IsActive = true;
             }
+            await _hubContext.Clients.All.SendAsync("channel_" + message.ChannelId, "MESSAGE_DELETED", message.Id);
             await _context.SaveChangesAsync();
             return _mapper.Map<MessageDTO>(message);
         } 

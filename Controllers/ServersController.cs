@@ -38,7 +38,7 @@ namespace disclone_api.Controllers
         /// </summary>
         /// <response code="200">Devuelve una lista llena de todos los servidores en los que está el usuario.</response>
         /// <response code="400">El usuario no existe o no se ha logueado correctamente. (Su token es inválido)</response>
-        [HttpPost("me")]
+        [HttpGet("me")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> createServer(ServerDTO newServer)
         {
@@ -81,7 +81,6 @@ namespace disclone_api.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult> GetById(int id)
         {
-            Console.WriteLine("GetById");
             var result = await _ServerSv.GetById(id);
             if (result != null)
             {

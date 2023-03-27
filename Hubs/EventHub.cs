@@ -8,7 +8,7 @@ namespace disclone_api.Hubs
     {
         public override Task OnConnectedAsync() {
             
-            Console.WriteLine(Context.User.Identity.Name);
+            var accessToken = Context.GetHttpContext().Request.Query["access_token"];
             return base.OnConnectedAsync();
         }
     }

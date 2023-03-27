@@ -2,6 +2,8 @@
 using disclone_api.DTO;
 using disclone_api.Entities;
 using Microsoft.EntityFrameworkCore;
+using disclone_api.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace disclone_api.Services
 {
@@ -10,10 +12,13 @@ namespace disclone_api.Services
         #region Constructor
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public MemberService(DataContext context, IMapper mapper)
+        private readonly IHubContext<EventHub> _hubContext;
+
+        public MemberService(DataContext context, IMapper mapper, IHubContext<EventHub> hubContext)
         {
             _context = context;
             _mapper = mapper;
+            _hubContext = hubContext;
         }
 
         #endregion
@@ -24,6 +29,7 @@ namespace disclone_api.Services
             var newMember = _mapper.Map<Member>(member);
             await _context.Member.AddAsync(newMember);
             await _context.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("server_" + member.ServerId, "MEMBER_JOINED", member.Id);
             return _mapper.Map<MemberDTO>(newMember);
         }
         public async Task<MemberDTO> EditById(MemberDTO member)
@@ -44,9 +50,9 @@ namespace disclone_api.Services
                 .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<MemberDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
+        public async Task<MemberDetailDTO> GetByServerIdAndByUserId(int userId, int serverId, bool isActive = true)
         {
-            return _mapper.Map<MemberDTO>(await _context.Member
+            return _mapper.Map<MemberDetailDTO>(await _context.Member
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .FirstOrDefaultAsync(x => x.UserId.Equals(userId) 
@@ -54,18 +60,18 @@ namespace disclone_api.Services
                 && x.IsActive == isActive));
         }
 
-        public async Task<List<MemberDTO>> ListByServerId(int id, bool isActive = true)
+        public async Task<List<MemberDetailDTO>> ListByServerId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<MemberDTO>>(await _context.Member
+            return _mapper.Map<List<MemberDetailDTO>>(await _context.Member
                 .Where(x => x.ServerId.Equals(id) && x.IsActive == isActive)
                 .Include(x => x.User)
                 .Include(x => x.Server)
                 .ToListAsync());
         }
 
-        public async Task<List<MemberDTO>> ListByUserId(int id, bool isActive = true)
+        public async Task<List<MemberDetailDTO>> ListByUserId(int id, bool isActive = true)
         {
-            return _mapper.Map<List<MemberDTO>>(await _context.Member
+            return _mapper.Map<List<MemberDetailDTO>>(await _context.Member
                 .Where(x => x.UserId.Equals(id) && x.IsActive == isActive)
                 .Include(x => x.User)
                 .Include(x => x.Server)
@@ -85,6 +91,7 @@ namespace disclone_api.Services
             {
                 member.IsActive = true;
             }
+            await _hubContext.Clients.All.SendAsync("server_" + member.ServerId, "MEMBER_LEFT", member.Id);
             await _context.SaveChangesAsync();
             return _mapper.Map<MemberDTO>(member);
         } 

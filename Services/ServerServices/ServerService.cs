@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using disclone_api.DTO;
 using Microsoft.EntityFrameworkCore;
+using disclone_api.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace disclone_api.Services
 {
@@ -12,11 +14,14 @@ namespace disclone_api.Services
 
         private readonly IMemberService _memberSv;
 
-        public ServerService(DataContext context, IMapper mapper, IMemberService memberSv)
+        private readonly IHubContext<EventHub> _hubContext;
+
+        public ServerService(DataContext context, IMapper mapper, IMemberService memberSv, IHubContext<EventHub> hubContext)
         {
             _context = context;
             _mapper = mapper;
             _memberSv = memberSv;
+            _hubContext = hubContext;
         }
         #endregion
 
@@ -44,9 +49,9 @@ namespace disclone_api.Services
             return _mapper.Map<ServerDetailDTO>(await _context.Server.Include(x => x.Members).FirstOrDefaultAsync(x => x.Id.Equals(id) && x.IsActive == isActive));
         }
 
-        public async Task<List<ServerDTO>> ListByName(string name, bool isActive = true)
+        public async Task<List<ServerDetailDTO>> ListByName(string name, bool isActive = true)
         {
-            return _mapper.Map<List<ServerDTO>>(await _context.Server.Where(x => x.Name.Contains(name) && x.IsActive == isActive).ToListAsync());
+            return _mapper.Map<List<ServerDetailDTO>>(await _context.Server.Where(x => x.Name.Contains(name) && x.IsActive == isActive).ToListAsync());
         }
         #endregion
 
@@ -63,6 +68,7 @@ namespace disclone_api.Services
                 server.IsActive = true;
             }
             await _context.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("server_" + server.Id, "SERVER_DELETED", server.Id);
             return _mapper.Map<ServerDTO>(server);
         } 
         #endregion

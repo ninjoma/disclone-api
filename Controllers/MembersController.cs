@@ -65,7 +65,6 @@ namespace disclone_api.Controllers
                 Nickname = loggedUser.Username,
                 IsActive = true
             };
-
             await _MemberSv.Add(memberDTO);
             return Ok();
         }

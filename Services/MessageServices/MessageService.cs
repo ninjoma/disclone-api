@@ -120,8 +120,7 @@ namespace disclone_api.Services
         public async Task<List<MessageDetailDTO>> ListByChannelId(int channelId, bool isActive)
         {
             return _mapper.Map<List<MessageDetailDTO>>(await _context.Message
-                .Where(x => x.ChannelId.Equals(channelId) && x.IsActive == isActive)
-                .Include(x => x.User).OrderBy(x => x.CreationDate)
+                .Where(x => x.ChannelId.Equals(channelId) && x.IsActive == isActive).OrderBy(x => x.CreationDate)
                 .ToListAsync());
         }
 

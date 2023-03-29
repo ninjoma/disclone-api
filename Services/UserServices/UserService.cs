@@ -27,8 +27,8 @@ namespace disclone_api.Services
         
         public async Task<UserDTO> Add(UserDTO user)
         {
-            var newUser = _mapper.Map<User>(user);
-            if(_context.User.FirstOrDefaultAsync(x => x.Email.Equals(user.Email)) == null) {
+            if(!_context.User.Any(x => x.Email == user.Email || x.Username == user.Username)){
+                var newUser = _mapper.Map<User>(user);
                 await _context.User.AddAsync(newUser);
                 await _context.SaveChangesAsync();
                 return _mapper.Map<UserDTO>(newUser);

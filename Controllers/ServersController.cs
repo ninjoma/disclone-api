@@ -56,6 +56,7 @@ namespace disclone_api.Controllers
                 var memberDTO = new MemberDTO();
                 memberDTO.UserId = loggedUser.Id;
                 memberDTO.ServerId = createdServer.Id;
+                memberDTO.Nickname = loggedUser.Username;
                 memberDTO.IsActive = true;
                 await _MemberSv.Add(memberDTO);
 

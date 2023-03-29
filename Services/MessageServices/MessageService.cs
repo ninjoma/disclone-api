@@ -84,6 +84,38 @@ namespace disclone_api.Services
             return _mapper.Map<List<MessageDTO>>(await query.ToListAsync());
         }
 
+        public async Task<List<MessageDetailDTO>> FilterByChannelContent(int channelId, [FromQuery] string Content = "", [FromQuery] string orderby = "CreationDate")
+        {
+            IQueryable<Message> query = null;
+            if(!string.IsNullOrEmpty(Content)){
+                query = _context.Message.Where(x => x.Content.ToLower().Contains(Content.ToLower()) && x.ChannelId == channelId);
+            } else {
+                query = _context.Message;
+            }
+            
+
+            switch (orderby.ToLower())
+            {
+                case "creationdate":
+                    query = query.OrderByDescending(x => x.CreationDate);
+                    break;
+                case "id":
+                    query = query.OrderBy(x => x.Id);
+                    break;
+                case "content":
+                    query = query.OrderBy(x => x.Content);
+                    break;
+                case "userid":
+                    query = query.OrderBy(x => x.UserId);
+                    break;
+                default:
+                    query = query.OrderByDescending(x => x.CreationDate);
+                    break;
+            }
+
+            return _mapper.Map<List<MessageDetailDTO>>(await query.ToListAsync());
+        }
+
         public async Task<List<MessageDetailDTO>> ListByChannelId(int channelId, bool isActive)
         {
             return _mapper.Map<List<MessageDetailDTO>>(await _context.Message

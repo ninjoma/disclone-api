@@ -78,7 +78,7 @@ namespace disclone_api.Controllers
         /// <response code="404">No existe un mensaje con esa ID.</response>
         [HttpGet("{id}/messages")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> getMessagesFromChannel(int id)
+        public async Task<IActionResult> getMessagesFromChannel(int id, [FromQuery] string Content, [FromQuery] string orderby = "CreationDate")
         {
             var loggedUser = await _AuthSv.GetUserByClaim(User);
             var channel = await _ChannelSv.GetById(id);
@@ -90,7 +90,7 @@ namespace disclone_api.Controllers
                 return BadRequest();
             }
             if(server.Members.Any(current => current.UserId == loggedUser.Id)){
-                return Ok(await _MessageSv.ListByChannelId(id));
+                return Ok(await _MessageSv.FilterByChannelContent(id, Content, orderby));
             }
             return NotFound();
         }

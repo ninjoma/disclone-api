@@ -35,22 +35,9 @@ namespace disclone_api.Controllers
         /// <response code="200">Devuelve el canal del mensaje y sus propiedades.</response>
         /// <response code="400">No se ha podido recuperar el canal por el que se envió el mensaje.</response>
         [HttpGet("{id}/channels")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> getMessagesFromChannel(int id)
         {
-            var loggedUser = await _AuthSv.GetUserByClaim(User);
-            var channel = await _ChannelSv.GetById(id);
-            if(channel == null){
-                return BadRequest();
-            }
-            var server = await _ServerSv.GetById(channel.ServerId);
-            if(server == null){
-                return BadRequest();
-            }
-            if(server.Members.Any(current => current.UserId == loggedUser.Id)){
-                return Ok(await _MessageSv.ListByChannelId(id));
-            }
-            return BadRequest();
+            return Ok(await _MessageSv.ListByChannelId(id));
         }
 
         #region Set
@@ -139,7 +126,6 @@ namespace disclone_api.Controllers
         }
 
         [HttpGet("/channel/messages/{id}")]
-        
         public async Task<IActionResult> ListByChannelId(int id)
         {
             var result = await _MessageSv.ListByChannelId(id);

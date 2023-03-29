@@ -102,6 +102,24 @@ namespace disclone_api.Controllers
         }
 
         /// <summary>
+        /// Edita un canal por su id
+        /// </summary>
+        /// <response code="200">El canal ha sido editado satifactoriamente.</response>
+        /// <response code="400">El canal no existe.</response>
+        [HttpPut("")]
+        public async Task<IActionResult> EditById(MessageDTO message)
+        {
+            var result = await _MessageSv.EditById(message);
+            if (result != null)
+            {
+                return Ok(result);
+            } else
+            {
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
         /// Filtra un mensaje en base a su contenido un campo
         /// </summary>
         /// <response code="200">El mensaje ha sido recuperado satisfactoriamente.</response>

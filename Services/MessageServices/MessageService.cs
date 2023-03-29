@@ -39,6 +39,7 @@ namespace disclone_api.Services
         public async Task<MessageDTO> EditById(MessageDTO message)
         {
             var oldMessage = await _context.Message.FirstOrDefaultAsync(x => x.Id.Equals(message.Id) && x.IsActive == true);
+            message.CreationDate = oldMessage.CreationDate;
             _mapper.Map<MessageDTO, Message>(message, oldMessage);
             await _context.SaveChangesAsync();
             return _mapper.Map<MessageDTO>(oldMessage);

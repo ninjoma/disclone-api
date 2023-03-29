@@ -121,6 +121,7 @@ namespace disclone_api.Services
         {
             return _mapper.Map<List<MessageDetailDTO>>(await _context.Message
                 .Where(x => x.ChannelId.Equals(channelId) && x.IsActive == isActive).OrderBy(x => x.CreationDate)
+                .Include(x => x.User)
                 .ToListAsync());
         }
 

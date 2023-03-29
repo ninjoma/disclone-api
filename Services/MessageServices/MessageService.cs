@@ -87,17 +87,17 @@ namespace disclone_api.Services
         public async Task<List<MessageDetailDTO>> FilterByChannelContent(int channelId, [FromQuery] string Content = "", [FromQuery] string orderby = "CreationDate")
         {
             IQueryable<Message> query = null;
+            
             if(!string.IsNullOrEmpty(Content)){
-                query = _context.Message.Where(x => x.Content.ToLower().Contains(Content.ToLower()) && x.ChannelId == channelId);
+                query = _context.Message.Where(x => x.Content.ToLower().Contains(Content.ToLower()) && x.ChannelId == channelId && x.IsActive == true);
             } else {
-                query = _context.Message;
+                query = _context.Message.Where(x => x.IsActive == true && x.ChannelId == channelId);
             }
             
-
             switch (orderby.ToLower())
             {
                 case "creationdate":
-                    query = query.OrderByDescending(x => x.CreationDate);
+                    query = query.OrderBy(x => x.CreationDate);
                     break;
                 case "id":
                     query = query.OrderBy(x => x.Id);
@@ -109,7 +109,7 @@ namespace disclone_api.Services
                     query = query.OrderBy(x => x.UserId);
                     break;
                 default:
-                    query = query.OrderByDescending(x => x.CreationDate);
+                    query = query.OrderBy(x => x.CreationDate);
                     break;
             }
 

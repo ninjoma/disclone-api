@@ -90,9 +90,9 @@ namespace disclone_api.Services
             IQueryable<Message> query = null;
             
             if(!string.IsNullOrEmpty(Content)){
-                query = _context.Message.Where(x => x.Content.ToLower().Contains(Content.ToLower()) && x.ChannelId == channelId && x.IsActive == true);
+                query = _context.Message.Where(x => x.Content.ToLower().Contains(Content.ToLower()) && x.ChannelId == channelId && x.IsActive == true).Include(x => x.User);
             } else {
-                query = _context.Message.Where(x => x.IsActive == true && x.ChannelId == channelId);
+                query = _context.Message.Where(x => x.IsActive == true && x.ChannelId == channelId).Include(x => x.User);
             }
             
             switch (orderby.ToLower())

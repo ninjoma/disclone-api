@@ -34,11 +34,11 @@ namespace disclone_api.Controllers
         #endregion
 
         /// <summary>
-        /// Recupera todos los servidores que le pertenecen al usuario.
+        /// Crea un servidor nuevo en base al usuario.
         /// </summary>
         /// <response code="200">Devuelve una lista llena de todos los servidores en los que está el usuario.</response>
         /// <response code="400">El usuario no existe o no se ha logueado correctamente. (Su token es inválido)</response>
-        [HttpGet("me")]
+        [HttpPost("me")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> createServer(ServerDTO newServer)
         {

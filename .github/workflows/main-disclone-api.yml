@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - the-disclone-api
+name: Build and deploy ASP.Net Core app to Azure Web App - main-disclone-api
 
 on:
   push:
@@ -11,8 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    env:
+    runs-on: windows-latest
       ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
       DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
@@ -40,7 +39,7 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
@@ -58,5 +57,5 @@ jobs:
         with:
           app-name: 'main-disclone-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8C9EAD4AA55B46B5BDDE6A440A0ACB19 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_475DEA6D24714CA7B218E56093AA326E }}
           package: .

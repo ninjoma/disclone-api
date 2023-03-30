@@ -125,25 +125,12 @@ namespace disclone_api.Controllers
             }
         }
 
-        [HttpGet("/channel/messages/{id}")]
-        public async Task<IActionResult> ListByChannelId(int id)
-        {
-            var result = await _MessageSv.ListByChannelId(id);
-            if (result != null)
-            {
-                return Ok(result);
-            } else
-            {
-                return BadRequest();
-            }
-        }
-
         /// <summary>
         /// Recupera todos los mensajes de un usuario
         /// </summary>
         /// <response code="200">Devuelve una lista con todos los mensajes de un usuario.</response>
         /// <response code="400">El usuario suministrado en la petición no existe.</response>
-        [HttpGet("users/{id}/messages")]
+        [HttpGet("/users/{id}/messages")]
         public async Task<IActionResult> ListByUserId(int id)
         {
             var result = await _MessageSv.ListByUserId(id);
